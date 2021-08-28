@@ -2,6 +2,9 @@ import express from "express";
 import Fachada from "../control/Fachada";
 import Cliente from "../model/entidade/cliente.model";
 import { TipoEndereco } from "../model/entidade/tipoEndereco";
+import { TipoLogradouro } from "../model/entidade/tipoLogradouro";
+import { TipoResidencia } from "../model/entidade/tipoResidencia";
+import { Estado } from "../model/entidade/estado";
 
 export const ClienteRouter = express.Router();
 
@@ -22,11 +25,11 @@ ClienteRouter.post("/", async (req, res) => {
     logradouro: end.logradouro,
     numero: end.numero,
     tipoEndereco: TipoEndereco[end.tipo_endereco],
-    tipoResidencia: end.tipo_residencia, 
-    tipoLogradouro: end.tipo_logradouro, 
+    tipoResidencia: TipoResidencia[end.tipo_residencia], 
+    tipoLogradouro: TipoLogradouro[end.tipo_logradouro], 
     bairro: end.bairro,
     cidade: end.cidade,
-    uf: end.uf,
+    uf: Estado[end.uf],
     pais: end.pais,
     complemento: end.complemento,   
   }

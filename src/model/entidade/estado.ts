@@ -1,5 +1,5 @@
 export enum Estado {
-    AC,
+    AC = 1,
     AL,
     AP,
     AM,

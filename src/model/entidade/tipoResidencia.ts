@@ -1,5 +1,5 @@
 export enum TipoResidencia{
-    Casa,
+    Casa = 1,
     Apartamento,
       
 }

@@ -1,5 +1,5 @@
 export enum TipoLogradouro{
-    Avenida,
+    Avenida = 1,
     Rua,
     
 }

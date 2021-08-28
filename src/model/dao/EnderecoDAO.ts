@@ -8,8 +8,9 @@ export default class EnderecoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         console.log("VAMO VER O QUE CHEGA", entidade)
         const endereco = entidade as Endereco;
-        
-        // let clientes = await db.query('INSERT INTO enderecos(id, nome, cep, logradouro, numero, complemento, bairro, cidade, uf, pais, tipo_residencia, tipo_logradouro, tipo_endereco) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        let idEndereco = await db.query('INSERT INTO enderecos(nome, cep, logradouro, numero, complemento, bairro, cidade, uf, pais, tipo_residencia, tipo_logradouro, tipo_endereco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id', [endereco.nome, endereco.cep, endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.uf, endereco.pais, endereco.tipoResidencia, endereco.tipoLogradouro, endereco.tipoEndereco] );
+        console.log("valor retornado", idEndereco)
+        entidade.id = idEndereco.rows[0].id;
         return entidade as Endereco;
     }
     alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
