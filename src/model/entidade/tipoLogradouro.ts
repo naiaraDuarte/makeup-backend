@@ -1,4 +1,4 @@
-enum TipoLogradouro{
+export enum TipoLogradouro{
     Avenida,
     Rua,
     

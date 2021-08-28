@@ -1,4 +1,4 @@
-enum Pais {
+export enum Pais {
     Brasil,
     EstadosUnidos,
 

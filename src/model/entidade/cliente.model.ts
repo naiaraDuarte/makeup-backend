@@ -1,4 +1,6 @@
+import Endereco from "./endereco";
 import EntidadeDominio from "./entidade.model";
+import { TipoTelefone } from "./tipoTelefone";
 
 export default class Cliente extends EntidadeDominio {
     nome!: string;
@@ -9,5 +11,5 @@ export default class Cliente extends EntidadeDominio {
     sexo!: string;
     email!: string;
     senha!: string;
-
+    endereco!: Array<Endereco>
 }

@@ -1,4 +1,9 @@
 import EntidadeDominio from "./entidade.model";
+import { Estado } from "./estado";
+import { Pais } from "./pais";
+import { TipoEndereco } from "./tipoEndereco";
+import { TipoLogradouro } from "./tipoLogradouro";
+import { TipoResidencia } from "./tipoResidencia";
 
 export default class Endereco extends EntidadeDominio {
     nome!: string;
@@ -10,9 +15,7 @@ export default class Endereco extends EntidadeDominio {
     tipoLogradouro!: TipoLogradouro;
     bairro!: string;
     cidade!: string;
-    estado!: Estado;
+    uf!: Estado;
     pais!: Pais;
     complemento!: string;   
-
-
 }

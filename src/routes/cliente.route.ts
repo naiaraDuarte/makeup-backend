@@ -1,21 +1,36 @@
 import express from "express";
 import Fachada from "../control/Fachada";
-import ClienteDAO from "../model/dao/ClienteDAO";
 import Cliente from "../model/entidade/cliente.model";
+import { TipoEndereco } from "../model/entidade/tipoEndereco";
 
 export const ClienteRouter = express.Router();
 
 let fachada = new Fachada();
 
 ClienteRouter.get("/", async (req, res) => {
-  const clienteDAO = new ClienteDAO();
   let listaCliente: Array<Cliente> = (await fachada.consultar(
     new Cliente()
   )) as Array<Cliente>;
   res.json({ message: "OK", dados: listaCliente });
 });
 
-ClienteRouter.post("/:id", async (req, res) => {
+ClienteRouter.post("/", async (req, res) => {
+  let end = req.body.endereco;
+  const endereco = {
+    nome: end.nome,
+    cep: end.cep,
+    logradouro: end.logradouro,
+    numero: end.numero,
+    tipoEndereco: TipoEndereco[end.tipo_endereco],
+    tipoResidencia: end.tipo_residencia, 
+    tipoLogradouro: end.tipo_logradouro, 
+    bairro: end.bairro,
+    cidade: end.cidade,
+    uf: end.uf,
+    pais: end.pais,
+    complemento: end.complemento,   
+  }
+
   const cliente = {
     nome: req.body.nome,
     dataNasc: req.body.data_nasc,
@@ -25,6 +40,7 @@ ClienteRouter.post("/:id", async (req, res) => {
     sexo: req.body.sexo,
     email: req.body.email,
     senha: req.body.senha,
+    endereco: endereco
   };
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: String = await fachada.cadastrar(conversao as Cliente);

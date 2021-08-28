@@ -1,4 +1,4 @@
-enum TipoResidencia{
+export enum TipoResidencia{
     Casa,
     Apartamento,
       

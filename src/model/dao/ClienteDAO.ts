@@ -2,13 +2,23 @@ import IDAO from './IDAO';
 import EntidadeDominio from '../entidade/entidade.model';
 import { db } from '../../db.config';
 import Cliente from '../entidade/cliente.model';
+import EnderecoDAO from './EnderecoDAO';
+import Endereco from '../entidade/endereco';
 
 export default class ClienteDAO implements IDAO {
    
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
        const cliente = entidade as Cliente;
+       let enderecoDAO = new EnderecoDAO();
        let clientes = await db.query('INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [cliente.nome, cliente.dataNasc, cliente.cpf, cliente.tipoTelefone, cliente.telefone, cliente.sexo, cliente.email, cliente.senha]);
+       
+      // let endereco = cliente.endereco as unknown as Endereco;
+
+       let endereco = Object.assign(new Endereco(), cliente.endereco);
+       let idEndereco = enderecoDAO.salvar(endereco as Endereco);
+
        return entidade as Cliente;
+
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const cliente = entidade as Cliente;

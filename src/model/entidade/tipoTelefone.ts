@@ -1,4 +1,5 @@
-enum TipoTelefone{
+export enum TipoTelefone{
   Celular, 
   Fixo,  
+  
 }
