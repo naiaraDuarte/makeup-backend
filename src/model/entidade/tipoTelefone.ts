@@ -1,3 +1,4 @@
-interface TipoTelefone{
-    
+enum TipoTelefone{
+  Celular, 
+  Fixo,  
 }

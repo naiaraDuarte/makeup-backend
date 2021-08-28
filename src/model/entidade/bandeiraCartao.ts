@@ -1,3 +1,6 @@
-interface BandeiraCartao{
-    
+enum BandeiraCartao{
+    MasterCard,
+    Visa,
+    Elo,
+  
 }

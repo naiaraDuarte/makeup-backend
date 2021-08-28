@@ -1,3 +1,5 @@
-interface TipoLogradouro{
+enum TipoLogradouro{
+    Avenida,
+    Rua,
     
 }

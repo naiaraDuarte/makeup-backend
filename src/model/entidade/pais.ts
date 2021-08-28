@@ -1,0 +1,5 @@
+enum Pais {
+    Brasil,
+    EstadosUnidos,
+
+}

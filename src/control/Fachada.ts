@@ -3,12 +3,16 @@ import IFachada from "./IFachada";
 import IDAO from "../model/dao/IDAO";
 import ClienteDAO from "../model/dao/ClienteDAO";
 import Cliente from "../model/entidade/cliente.model";
+import ValidarDadosObrigatorios from "../model/strategy/validarDadosObrigatorios";
+import IStrategy from "../model/strategy/IStrategy";
 
 export default class Fachada implements IFachada {
   daos: Map<string, IDAO>;
+  rns: Map<string, IStrategy>;
 
   constructor() {
     this.daos = new Map<string, IDAO>();
+    this.rns = new Map<string, IStrategy>();
     this.definirDAOS();
     this.definirRNS();
   }
@@ -16,7 +20,9 @@ export default class Fachada implements IFachada {
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
   }
-  definirRNS() {}
+  definirRNS() {
+    this.rns.set("ValidarDadosObrigatorios", new ValidarDadosObrigatorios)
+  }
 
   async cadastrar(entidade: EntidadeDominio): Promise<string> {
     let nomeClasse: string = entidade.constructor.name;

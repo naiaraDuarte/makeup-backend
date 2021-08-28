@@ -1,3 +1,5 @@
-interface TipoResidencia{
-    
+enum TipoResidencia{
+    Casa,
+    Apartamento,
+      
 }
