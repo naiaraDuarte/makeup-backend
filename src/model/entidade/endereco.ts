@@ -17,5 +17,6 @@ export default class Endereco extends EntidadeDominio {
     cidade!: string;
     uf!: Estado;
     pais!: Pais;
-    complemento!: string;   
+    complemento!: string; 
+    idCliente!: Number
 }
