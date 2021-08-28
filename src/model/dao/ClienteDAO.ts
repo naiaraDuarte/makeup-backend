@@ -15,7 +15,7 @@ export default class ClienteDAO implements IDAO {
        let idEndereco = await enderecoDAO.salvar(endereco as Endereco);
        entidade.id = idCliente.rows[0].id;
 
-       let teste = await db.query('INSERT INTO clientes_enderecos (fk_cliente, fk_endereco) VALUES ($1, $2)', [entidade.id, idEndereco.id]);
+       await db.query('INSERT INTO clientes_enderecos (fk_cliente, fk_endereco) VALUES ($1, $2)', [entidade.id, idEndereco.id]);
 
        return entidade as Cliente;
 
@@ -37,17 +37,6 @@ export default class ClienteDAO implements IDAO {
         result = await clientes.then((dados) => {
             return result = dados.rows.map((cliente) => {
                  return cliente as Cliente
-                // return  {
-                //     id: cliente.id_cliente,
-                //     nome: cliente.nome_cliente,
-                //     dataNasc: cliente.data_nasc_cliente,
-                //     cpf: cliente.cpf_cliente,
-                //     tipoTelefone: cliente.tipo_telefone_cliente,
-                //     telefone: cliente.telefone,
-                //     sexo: cliente.sexo_cliente,
-                //     email: cliente.email_cliente,
-                //     senha: cliente.senha_cliente
-                // } as Cliente;
             });
         });
         
