@@ -78,11 +78,3 @@ ClienteRouter.delete("/:id", async (req, res) => {
 
   res.json({ message: "OK", dados: listaCliente });
 });
-
-ClienteRouter.post("/login", async (req, res) => {
-  res.json({ message: "Deu certo mané" });
-});
-
-ClienteRouter.post("/cadastro", async (req, res) => {
-  res.json({ message: "Deu certo mané" });
-});
