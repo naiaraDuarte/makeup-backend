@@ -31,10 +31,10 @@ export default class Fachada implements IFachada {
     let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
     return retorno as EntidadeDominio;
   }
-  async alterar(entidade: EntidadeDominio): Promise<string> {
+  async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let nomeClasse: string = entidade.constructor.name;
-    this.daos.get(nomeClasse)?.alterar(entidade);
-    return "";
+    let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
+    return retorno as EntidadeDominio;
   }
   excluir(entidade: EntidadeDominio): boolean {
     let nomeClasse: string = entidade.constructor.name;

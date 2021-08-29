@@ -36,7 +36,7 @@ ClienteRouter.post("/", async (req, res) => {
       complemento: end.complemento,
     });
   });
-  
+
   const cliente = {
     nome: req.body.nome,
     dataNasc: req.body.data_nasc,
@@ -69,7 +69,7 @@ ClienteRouter.put("/:id", async (req, res) => {
     senha: req.body.senha,
   };
   let conversao = Object.assign(new Cliente(), cliente);
-  let listaCliente: String = await fachada.alterar(conversao as Cliente);
+  let listaCliente: any = await fachada.alterar(conversao as Cliente);
 
   res.json({ message: "OK", dados: listaCliente });
 });
