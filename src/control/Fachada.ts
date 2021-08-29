@@ -23,10 +23,16 @@ export default class Fachada implements IFachada {
     this.daos.set("Endereco", new EnderecoDAO());
   }
   definirRNS() {
-    this.rns.set("ValidarDadosObrigatorios", new ValidarDadosObrigatorios)
+    this.rns.set("ValidarCliente", new ValidarDadosObrigatorios())
+  }
+
+  async processarStrategys(entidade: EntidadeDominio) {
+    let nomeClasse: string = entidade.constructor.name; //Cliente
+    this.rns.get("Validar" + nomeClasse)?.processar(entidade)
   }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+    let msg = this.processarStrategys(entidade);
     let nomeClasse: string = entidade.constructor.name;
     let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
     return retorno as EntidadeDominio;

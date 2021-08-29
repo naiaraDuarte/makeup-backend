@@ -1,7 +1,7 @@
 import Cliente from "../entidade/cliente.model";
 import IStrategy from "./IStrategy";
 
-export default class ValidarDadosObrigatorios implements IStrategy{
+export default class ValidarDadosObrigatorios{
     processar(entidade: any): String {
       
         // let conversao = Object.assign(new Cliente(), cliente);
@@ -15,7 +15,7 @@ export default class ValidarDadosObrigatorios implements IStrategy{
         // } else if (nome.trim().equals("") || titulacao.trim().equals("") || telefone.trim().equals("") || sexo.trim().equals("")) {
         //     return "Todos os dados são obrigatorios";
         // }
-        console.log("dentro da validação")
+        console.log("dentro da validação", entidade)
         return "validou";
     }
     

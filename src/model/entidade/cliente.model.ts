@@ -1,5 +1,6 @@
 import Endereco from "./endereco";
 import EntidadeDominio from "./entidade.model";
+import { Sexo } from "./sexo";
 import { TipoTelefone } from "./tipoTelefone";
 
 export default class Cliente extends EntidadeDominio {
@@ -8,7 +9,7 @@ export default class Cliente extends EntidadeDominio {
     cpf!: string;
     tipoTelefone!: TipoTelefone;
     telefone!: string;
-    sexo!: string;
+    sexo!: Sexo;
     email!: string;
     senha!: string;
     endereco!: Array<Endereco>
