@@ -5,10 +5,10 @@ import Endereco from '../entidade/endereco';
 
 export default class EnderecoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-        console.log("ENTIDADE", entidade);
         const endereco = entidade as Endereco;
         let idEndereco = await db.query('INSERT INTO enderecos(nome, cep, logradouro, numero, complemento, bairro, cidade, uf, pais, tipo_residencia, tipo_logradouro, tipo_endereco, fk_cliente) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id', [endereco.nome, endereco.cep, endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.uf, endereco.pais, endereco.tipoResidencia, endereco.tipoLogradouro, endereco.tipoEndereco, endereco.idCliente] );
         entidade.id = idEndereco.rows[0].id;
+        console.log("ENTIDADE", entidade);
         return entidade as Endereco;
     }
     alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {

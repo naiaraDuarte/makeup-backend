@@ -13,8 +13,9 @@ export default class ClienteDAO implements IDAO {
        let idCliente = await db.query('INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', [cliente.nome, cliente.dataNasc, cliente.cpf, cliente.tipoTelefone, cliente.telefone, cliente.sexo, cliente.email, cliente.senha]);
        let endereco = Object.assign(new Endereco(), cliente.endereco);
        endereco.idCliente = idCliente.rows[0].id;
-       await enderecoDAO.salvar(endereco as Endereco);
-
+       let novoEndereco = Object.assign(new Endereco(), await enderecoDAO.salvar(endereco as Endereco));
+       cliente.endereco[0] = novoEndereco;
+       entidade.id = idCliente.rows[0].id;
        return entidade as Cliente;
 
     }

@@ -24,10 +24,10 @@ export default class Fachada implements IFachada {
     this.rns.set("ValidarDadosObrigatorios", new ValidarDadosObrigatorios)
   }
 
-  async cadastrar(entidade: EntidadeDominio): Promise<string> {
+  async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let nomeClasse: string = entidade.constructor.name;
-    this.daos.get(nomeClasse)?.salvar(entidade);
-    return "";
+    let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
+    return retorno as Cliente;
   }
   async alterar(entidade: EntidadeDominio): Promise<string> {
     let nomeClasse: string = entidade.constructor.name;

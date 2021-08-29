@@ -33,7 +33,7 @@ EnderecoRouter.post("/:id", async (req, res) => {
     }
 
     let conversao = Object.assign(new Endereco(), endereco);
-    let listaCliente: String = await fachada.cadastrar(conversao as Endereco);
+    let listaCliente: any = await fachada.cadastrar(conversao as Endereco);
   
     res.json({ message: "OK", dados: listaCliente });
   });

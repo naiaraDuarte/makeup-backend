@@ -46,7 +46,8 @@ ClienteRouter.post("/", async (req, res) => {
     endereco: endereco
   };
   let conversao = Object.assign(new Cliente(), cliente);
-  let listaCliente: String = await fachada.cadastrar(conversao as Cliente);
+  let listaCliente: any = await fachada.cadastrar(conversao as Cliente);
+  listaCliente = listaCliente as Cliente;
 
   res.json({ message: "OK", dados: listaCliente });
 });
