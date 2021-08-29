@@ -5,4 +5,5 @@ export default interface IFachada {
     alterar(entidade: EntidadeDominio) : any;
     excluir(entidade: EntidadeDominio) : boolean;
     consultar(entidade: EntidadeDominio) : any;
+    consultarComId(entidade: EntidadeDominio) : any;
 }

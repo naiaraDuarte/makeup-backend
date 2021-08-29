@@ -28,7 +28,10 @@ export default class ClienteDAO implements IDAO {
       let endereco = Object.assign(new Endereco(), cliente.endereco[i]);
       endereco.idCliente = idCliente.rows[0].id;
 
-      cliente.endereco[i] = Object.assign(new Endereco(),await enderecoDAO.salvar(endereco as Endereco));
+      cliente.endereco[i] = Object.assign(
+        new Endereco(),
+        await enderecoDAO.salvar(endereco as Endereco)
+      );
     }
     return entidade as Cliente;
   }
@@ -70,7 +73,30 @@ export default class ClienteDAO implements IDAO {
 
     return result;
   }
-  consultar2(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    throw new Error("Method not implemented.");
+
+  async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+    const cliente = entidade as Cliente;
+    let clientes = db.query("SELECT * FROM clientes WHERE id = $1", [
+      cliente.id,
+    ]);
+    let result: any;
+    let enderecos: any = [];
+    let clienteCompleto: any;
+
+    result = await clientes.then((dados) => {
+      return (result = dados.rows.map((cliente) => {
+        return cliente as Cliente;
+      }));
+    });
+    
+    let enderecoDAO = new EnderecoDAO();
+    let endereco = Object.assign(new Endereco());
+    endereco.idCliente = result[0].id;
+
+    result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
+
+    clienteCompleto = result;
+
+    return result;
   }
 }

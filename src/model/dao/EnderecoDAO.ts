@@ -30,7 +30,9 @@ export default class EnderecoDAO implements IDAO {
   }
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const endereco = entidade as Endereco;
-    await db.query('UPDATE public.enderecos SET nome=$1, cep=$2, logradouro=$3, numero=$4, complemento=$5, bairro=$6, cidade=$7, uf=$8, pais=$9, tipo_residencia=$10, tipo_logradouro=$11, tipo_endereco=$12, fk_cliente=$13 WHERE id= $14', [
+    await db.query(
+      "UPDATE enderecos SET nome=$1, cep=$2, logradouro=$3, numero=$4, complemento=$5, bairro=$6, cidade=$7, uf=$8, pais=$9, tipo_residencia=$10, tipo_logradouro=$11, tipo_endereco=$12, fk_cliente=$13 WHERE id= $14",
+      [
         endereco.nome,
         endereco.cep,
         endereco.logradouro,
@@ -44,21 +46,30 @@ export default class EnderecoDAO implements IDAO {
         endereco.tipoLogradouro,
         endereco.tipoEndereco,
         endereco.idCliente,
-        endereco.id
-      ]);
+        endereco.id,
+      ]
+    );
     return entidade as Endereco;
   }
   excluir(entidade: EntidadeDominio): boolean {
     const endereco = entidade as Endereco;
-    db.query("DELETE FROM enderecos WHERE id=$1", [
-        endereco.id,
-    ]);
+    db.query("DELETE FROM enderecos WHERE id=$1", [endereco.id]);
     return true;
   }
   consultar(): Promise<EntidadeDominio[]> {
     throw new Error("Method not implemented.");
   }
-  consultar2(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    throw new Error("Method not implemented.");
+  async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+    const endereco = entidade as Endereco;
+    let end = db.query("SELECT * FROM enderecos WHERE fk_cliente = $1", [endereco.idCliente]);
+    let result: Array<EntidadeDominio> = [];
+
+    result = await end.then((dados) => {
+      return (result = dados.rows.map((cliente) => {
+        return cliente as Endereco;
+      }));
+    });
+
+    return result;
   }
 }

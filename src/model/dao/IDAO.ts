@@ -5,6 +5,5 @@ export default interface IDAO {
     alterar(entidade: EntidadeDominio) : Promise<EntidadeDominio>;
     excluir(entidade: EntidadeDominio) : boolean;
     consultar() : Promise<Array<EntidadeDominio>>;
-    consultar2(entidade: EntidadeDominio) : Promise<EntidadeDominio>;
-
+    consultarComId(entidade: EntidadeDominio) : Promise<Array<EntidadeDominio>>;
 }

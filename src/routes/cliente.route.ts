@@ -74,12 +74,12 @@ ClienteRouter.put("/:id", async (req, res) => {
   res.json({ message: "OK", dados: listaCliente });
 });
 
-ClienteRouter.delete("/:id", async (req, res) => {
+ClienteRouter.get("/:id", async (req, res) => {
   const cliente = {
     id: req.params.id,
   };
   let conversao = Object.assign(new Cliente(), cliente);
-  let listaCliente: boolean = await fachada.excluir(conversao as Cliente);
+  let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
 
-  res.json({ message: "OK", dados: listaCliente });
+  res.json({ message: "OK", listaCliente, endereco: listaCliente.endereco});
 });
