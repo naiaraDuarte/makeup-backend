@@ -1,22 +1,34 @@
 import Cliente from "../entidade/cliente.model";
+import EntidadeDominio from "../entidade/entidade.model";
 import IStrategy from "./IStrategy";
 
-export default class ValidarDadosObrigatorios{
-    processar(entidade: any): String {
-      
-        // let conversao = Object.assign(new Cliente(), cliente);
+export default class ValidarDadosObrigatorios implements IStrategy {
+    processar(entidade: EntidadeDominio): string {
+        const cliente = entidade as Cliente;
+        console.log("dentro da validaçãoDados");
 
-        //     String nome = cliente.getNome();
-        //     String titulacao = professor.getTitulacao();
-        //     String telefone = professor.getTelefone();
-        //     String sexo = professor.getSexo();
-        // if (nome == null || titulacao == null || telefone == null || sexo == null) {
-        //     return "Todos os dados são obrigatorios";
-        // } else if (nome.trim().equals("") || titulacao.trim().equals("") || telefone.trim().equals("") || sexo.trim().equals("")) {
-        //     return "Todos os dados são obrigatorios";
-        // }
-        console.log("dentro da validação", entidade)
-        return "validou";
+
+        let nome = cliente.nome;
+        let dataNasc = cliente.dataNasc;
+        let cpf = cliente.cpf;
+        let tipoTelefone = cliente.tipoTelefone;
+        let telefone = cliente.telefone;
+        let sexo = cliente.sexo;
+        let email = cliente.email;
+        let senha = cliente.senha;
+
+        if (nome == "" ||
+            dataNasc == null ||
+            cpf == "" ||
+            tipoTelefone == null ||
+            telefone == "" ||
+            email == "" ||
+            senha == "" ||
+            sexo == null) {
+            return "Todos os dados são obrigatorios! ";
+        }
+        return "";
+
     }
-    
+
 }
