@@ -18,22 +18,25 @@ ClienteRouter.get("/", async (req, res) => {
 });
 
 ClienteRouter.post("/", async (req, res) => {
-  let end = req.body.endereco;
-  const endereco = {
-    nome: end.nome,
-    cep: end.cep,
-    logradouro: end.logradouro,
-    numero: end.numero,
-    tipoEndereco: TipoEndereco[end.tipo_endereco],
-    tipoResidencia: TipoResidencia[end.tipo_residencia], 
-    tipoLogradouro: TipoLogradouro[end.tipo_logradouro], 
-    bairro: end.bairro,
-    cidade: end.cidade,
-    uf: Estado[end.uf],
-    pais: end.pais,
-    complemento: end.complemento,   
-  }
-
+  let endereco = req.body.endereco;
+  let arrayEndereco: any = [];
+  endereco.forEach((end: any) => {
+    arrayEndereco.push({
+      nome: end.nome,
+      cep: end.cep,
+      logradouro: end.logradouro,
+      numero: end.numero,
+      tipoEndereco: TipoEndereco[end.tipo_endereco],
+      tipoResidencia: TipoResidencia[end.tipo_residencia],
+      tipoLogradouro: TipoLogradouro[end.tipo_logradouro],
+      bairro: end.bairro,
+      cidade: end.cidade,
+      uf: Estado[end.uf],
+      pais: end.pais,
+      complemento: end.complemento,
+    });
+  });
+  
   const cliente = {
     nome: req.body.nome,
     dataNasc: req.body.data_nasc,
@@ -43,8 +46,9 @@ ClienteRouter.post("/", async (req, res) => {
     sexo: req.body.sexo,
     email: req.body.email,
     senha: req.body.senha,
-    endereco: endereco
+    endereco: arrayEndereco,
   };
+
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.cadastrar(conversao as Cliente);
   listaCliente = listaCliente as Cliente;

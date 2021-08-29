@@ -11,5 +11,5 @@ export default class Cliente extends EntidadeDominio {
     sexo!: string;
     email!: string;
     senha!: string;
-    endereco!: Endereco
+    endereco!: Array<Endereco>
 }
