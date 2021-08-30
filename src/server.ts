@@ -4,7 +4,7 @@ import { EnderecoRouter } from './routes/endereco.route';
 const cors = require('cors');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.use('/', express.urlencoded({extended: true}));
 app.use('/', express.json());

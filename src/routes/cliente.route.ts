@@ -81,5 +81,5 @@ ClienteRouter.get("/:id", async (req, res) => {
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
 
-  res.json({ message: "OK", listaCliente, endereco: listaCliente.endereco});
+  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco });
 });

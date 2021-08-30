@@ -19,9 +19,6 @@ export default class Fachada implements IFachada {
     this.definirDAOS();
     this.definirRNS();
   }
-  consultarComId(entidade: EntidadeDominio) {
-    throw new Error("Method not implemented.");
-  }
 
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
@@ -77,5 +74,10 @@ export default class Fachada implements IFachada {
   async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
     let nomeClasse: string = entidade.constructor.name;
     return (await this.daos.get(nomeClasse)?.consultar()) ?? [];
+  }
+
+  async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
+    let nomeClasse: string = entidade.constructor.name;
+    return (await this.daos.get(nomeClasse)?.consultarComId(entidade)) ?? [];
   }
 }
