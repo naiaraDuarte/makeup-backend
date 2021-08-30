@@ -38,7 +38,6 @@ export default class ClienteDAO implements IDAO {
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
-    console.log("FDP", cliente);
     if (Object.keys(cliente).length > 2) {
       await db.query(
         "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8 WHERE id=$9",

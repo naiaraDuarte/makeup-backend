@@ -7,7 +7,6 @@ import IStrategy from "../model/strategy/IStrategy";
 import EnderecoDAO from "../model/dao/EnderecoDAO";
 import ValidarCPF from "../model/strategy/validarCPF";
 
-
 export default class Fachada implements IFachada {
   daos: Map<string, IDAO>;
   rns: Map<string, IStrategy>;
@@ -32,34 +31,32 @@ export default class Fachada implements IFachada {
 
     // this.rns_cliente.push(ValidarDadosObrigatorios);
     // this.rns_cliente.push(ValidarCPF);
-
   }
 
   async processarStrategys(entidade: EntidadeDominio) {
     let final_msg: string = "";
-    this.rns_cliente.forEach((strategy: any) => {
-      let cliente = this.rns.get(strategy)
-      let msgn = cliente?.processar(entidade);
+    if (entidade.constructor.name == "Cliente") {
+      this.rns_cliente.forEach((strategy: any) => {
+        let cliente = this.rns.get(strategy);
+        let msgn = cliente?.processar(entidade);
 
-      if (msgn != null) {        
-        final_msg += msgn;
-      }
-    });
-        return final_msg;
+        if (msgn != null) {
+          final_msg += msgn;
+        }
+      });
+    }
+
+    return final_msg;
   }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let msg = this.processarStrategys(entidade);
-    console.log("mensagem", msg);
-    //if (await msg == "") {
-      console.log("dentro do salvar");
+    if ((await msg) == "") {
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
-   // }
-    console.log("fora salvar");
+    }
     return entidade;
-
   }
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let nomeClasse: string = entidade.constructor.name;
