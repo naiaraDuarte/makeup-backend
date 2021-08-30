@@ -1,11 +1,13 @@
+import { BandeiraCartao } from "./bandeiraCartao";
 import EntidadeDominio from "./entidade.model";
 
 export default class CartaoCredito extends EntidadeDominio {
-    nomeTitular!: string;
+    nome!: string;
     numero!: string;
     cvv!: string;
-    dataValidade!: Date;
+    data_validade!: Date;
     bandeira!:BandeiraCartao;
+    idCliente!: Number
 
    
 }

@@ -5,6 +5,7 @@ import { TipoEndereco } from "../model/entidade/tipoEndereco";
 import { TipoLogradouro } from "../model/entidade/tipoLogradouro";
 import { TipoResidencia } from "../model/entidade/tipoResidencia";
 import { Estado } from "../model/entidade/estado";
+import {BandeiraCartao} from "../model/entidade/bandeiraCartao";
 
 export const ClienteRouter = express.Router();
 
@@ -18,6 +19,19 @@ ClienteRouter.get("/", async (req, res) => {
 });
 
 ClienteRouter.post("/", async (req, res) => {
+  let cartao = req.body.cartao;
+  let arrayCartao: any = [];
+  cartao.forEach((credito: any) => {
+    arrayCartao.push({
+      nome: credito.nome,
+      numero: credito.numero,
+      cvv: credito.cvv,
+      data_validade: credito.data_validade,
+      bandeira: BandeiraCartao[credito.bandeira],
+    });
+  });
+  console.log("cartao na rota", cartao);
+
   let endereco = req.body.endereco;
   let arrayEndereco: any = [];
   endereco.forEach((end: any) => {
@@ -47,6 +61,7 @@ ClienteRouter.post("/", async (req, res) => {
     email: req.body.email,
     senha: req.body.senha,
     endereco: arrayEndereco,
+    cartao: arrayCartao,
   };
 
   let conversao = Object.assign(new Cliente(), cliente);
