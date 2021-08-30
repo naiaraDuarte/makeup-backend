@@ -1,4 +1,4 @@
-import CartaoCredito from "./cartaoCredito.model";
+import Cartao from "./cartao.model";
 import Endereco from "./endereco";
 import EntidadeDominio from "./entidade.model";
 import { Sexo } from "./sexo";
@@ -14,5 +14,5 @@ export default class Cliente extends EntidadeDominio {
     email!: string;
     senha!: string;
     endereco!: Array<Endereco>;
-    cartao!: Array<CartaoCredito>
+    cartao!: Array<Cartao>
 }

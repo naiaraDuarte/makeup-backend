@@ -18,20 +18,7 @@ ClienteRouter.get("/", async (req, res) => {
   res.json({ message: "OK", dados: listaCliente });
 });
 
-ClienteRouter.post("/", async (req, res) => {
-  let cartao = req.body.cartao;
-  let arrayCartao: any = [];
-  cartao.forEach((credito: any) => {
-    arrayCartao.push({
-      nome: credito.nome,
-      numero: credito.numero,
-      cvv: credito.cvv,
-      data_validade: credito.data_validade,
-      bandeira: BandeiraCartao[credito.bandeira],
-    });
-  });
-  console.log("cartao na rota", cartao);
-
+ClienteRouter.post("/", async (req, res) => {  
   let endereco = req.body.endereco;
   let arrayEndereco: any = [];
   endereco.forEach((end: any) => {
@@ -61,7 +48,7 @@ ClienteRouter.post("/", async (req, res) => {
     email: req.body.email,
     senha: req.body.senha,
     endereco: arrayEndereco,
-    cartao: arrayCartao,
+    // cartao: arrayCartao,
   };
 
   let conversao = Object.assign(new Cliente(), cliente);

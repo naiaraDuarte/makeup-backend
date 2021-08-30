@@ -4,13 +4,11 @@ import { db } from "../../db.config";
 import Cliente from "../entidade/cliente.model";
 import EnderecoDAO from "./EnderecoDAO";
 import Endereco from "../entidade/endereco";
-import CartaoDAO from "./CartaoDAO";
-import CartaoCredito from "../entidade/cartaoCredito.model";
+
 
 export default class ClienteDAO implements IDAO {
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
-    console.log("cliente", cliente);
     let idCliente = await db.query(
       "INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
       [
@@ -36,17 +34,7 @@ export default class ClienteDAO implements IDAO {
         await enderecoDAO.salvar(endereco as Endereco)
       );
     }
-    console.log("cartao no dao", cliente.cartao);
-    let cartaoDAO = new CartaoDAO();
-    for (let i = 0; i < cliente.cartao.length; i++) {
-      let cartao = Object.assign(new CartaoCredito(), cliente.cartao[i]);
-      cartao.idCliente = idCliente.rows[0].id;
-
-      cliente.cartao[i] = Object.assign(
-        new CartaoCredito(),
-        await cartaoDAO.salvar(cartao as CartaoCredito)
-      );
-    }
+       
     return entidade as Cliente;
   }
 
