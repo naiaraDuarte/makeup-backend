@@ -51,12 +51,12 @@ export default class Fachada implements IFachada {
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let msg = this.processarStrategys(entidade);
     console.log("mensagem", msg);
-    if (await msg == "") {
+    //if (await msg == "") {
       console.log("dentro do salvar");
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
-    }
+   // }
     console.log("fora salvar");
     return entidade;
 

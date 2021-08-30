@@ -33,9 +33,9 @@ EnderecoRouter.post("/:id", async (req, res) => {
   };
 
   let conversao = Object.assign(new Endereco(), endereco);
-  let listaCliente: any = await fachada.cadastrar(conversao as Endereco);
+  let listaEndereco: any = await fachada.cadastrar(conversao as Endereco);
 
-  res.json({ message: "OK", dados: listaCliente });
+  res.json({ message: "OK", endereco: listaEndereco });
 });
 
 EnderecoRouter.put("/:idCliente", async (req, res) => {
@@ -67,6 +67,7 @@ EnderecoRouter.delete("/:id", async (req, res) => {
   const endereco = {
     id: req.params.id,
   };
+  console.log("enderecoID", endereco);
   let conversao = Object.assign(new Endereco(), endereco);
   let listaCliente: boolean = await fachada.excluir(conversao as Endereco);
 

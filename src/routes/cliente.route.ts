@@ -74,6 +74,29 @@ ClienteRouter.put("/:id", async (req, res) => {
   res.json({ message: "OK", dados: listaCliente });
 });
 
+
+ClienteRouter.patch("/:id", async(req, res) => {
+  let cliente = {};
+  
+  if (req.body.email) {
+    cliente = {
+      id: req.params.id,
+      email: req.body.email
+    }
+  }else if(req.body.senha){
+    cliente = {
+      id: req.params.id,
+      senha: req.body.senha
+    }
+  }
+
+  let conversao = Object.assign(new Cliente(), cliente);
+  let listaCliente: any = await fachada.alterar(conversao as Cliente);
+
+  res.json({ message: "OK", dados: listaCliente });
+  
+})
+
 ClienteRouter.get("/:id", async (req, res) => {
   const cliente = {
     id: req.params.id,
