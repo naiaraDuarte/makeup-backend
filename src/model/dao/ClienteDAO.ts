@@ -5,6 +5,7 @@ import Cliente from "../entidade/cliente.model";
 import EnderecoDAO from "./EnderecoDAO";
 import Endereco from "../entidade/endereco";
 
+
 export default class ClienteDAO implements IDAO {
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
@@ -33,6 +34,7 @@ export default class ClienteDAO implements IDAO {
         await enderecoDAO.salvar(endereco as Endereco)
       );
     }
+       
     return entidade as Cliente;
   }
 

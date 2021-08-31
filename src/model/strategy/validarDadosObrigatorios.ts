@@ -5,9 +5,7 @@ import IStrategy from "./IStrategy";
 export default class ValidarDadosObrigatorios implements IStrategy {
     processar(entidade: EntidadeDominio): string {
         const cliente = entidade as Cliente;
-        console.log("dentro da validaçãoDados");
-
-
+        
         let nome = cliente.nome;
         let dataNasc = cliente.dataNasc;
         let cpf = cliente.cpf;
