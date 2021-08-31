@@ -11,6 +11,13 @@ export const ClienteRouter = express.Router();
 
 let fachada = new Fachada();
 
+ClienteRouter.get("/login", async (req, res) => {
+  // let listaCliente: Array<Cliente> = (await fachada.consultar(
+  //   new Cliente()
+  // )) as Array<Cliente>;
+  // res.json({ message: "OK", dados: listaCliente });
+});
+
 ClienteRouter.get("/", async (req, res) => {
   let listaCliente: Array<Cliente> = (await fachada.consultar(
     new Cliente()

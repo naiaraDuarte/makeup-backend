@@ -15,7 +15,8 @@ EnderecoRouter.get("/", async (req, res) => {
 });
 
 EnderecoRouter.post("/:id", async (req, res) => {
-  let end = req.body;
+  let end = req.body
+
   const endereco = {
     nome: end.nome,
     cep: end.cep,
@@ -40,6 +41,7 @@ EnderecoRouter.post("/:id", async (req, res) => {
 
 EnderecoRouter.put("/:idCliente", async (req, res) => {
   let end = req.body;
+  console.log("AAAAAAAAAAA", end)
   const endereco = {
     id: end.id,
     nome: end.nome,

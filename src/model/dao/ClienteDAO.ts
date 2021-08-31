@@ -103,9 +103,6 @@ export default class ClienteDAO implements IDAO {
     let enderecoDAO = new EnderecoDAO();
     let endereco = Object.assign(new Endereco());
     endereco.idCliente = result[0].id;
-
-    console.log("AAAAAAAAAAA", result);
-
     result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
 
     clienteCompleto = result;

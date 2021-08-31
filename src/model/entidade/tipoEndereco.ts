@@ -1,5 +1,5 @@
 export enum TipoEndereco {
-    Cobranca = 1,
+    Cobrança = 1,
     Entrega,
     Cobranca_Entrega,
 }
