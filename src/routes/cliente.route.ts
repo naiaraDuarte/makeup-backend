@@ -61,7 +61,8 @@ ClienteRouter.post("/", async (req, res) => {
     email: req.body.email,
     senha: req.body.senha,
     endereco: arrayEndereco,
-    // cartao: arrayCartao,
+    apelido:req.body.apelido,
+    
   };
 
   let conversao = Object.assign(new Cliente(), cliente);
@@ -82,6 +83,7 @@ ClienteRouter.put("/:id", async (req, res) => {
     sexo: req.body.sexo,
     email: req.body.email,
     senha: req.body.senha,
+    apelido: req.body.apelido,
   };
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
@@ -119,5 +121,5 @@ ClienteRouter.get("/:id", async (req, res) => {
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
 
-  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco });
+  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao});
 });

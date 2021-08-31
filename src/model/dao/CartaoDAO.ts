@@ -4,9 +4,6 @@ import { db } from '../../db.config';
 import Cartao from '../entidade/cartao.model';
 
 export default class CartaoDAO implements IDAO {
-    consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
-        throw new Error('Method not implemented.');
-    }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const cartao = entidade as Cartao;
         console.log("dentro dao cartao", cartao);
@@ -52,7 +49,17 @@ export default class CartaoDAO implements IDAO {
     consultar(): Promise<EntidadeDominio[]> {
         throw new Error('Method not implemented.');
     }
-    consultar2(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-        throw new Error('Method not implemented.');
-    }
+    async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const cartao = entidade as Cartao;
+        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1", [cartao.idCliente]);
+        let result: Array<EntidadeDominio> = [];
+    
+        result = await cart.then((dados) => {
+          return (result = dados.rows.map((cliente) => {
+            return cliente as Cartao;
+          }));
+        });
+    
+        return result;
+      }
 }

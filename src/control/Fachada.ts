@@ -8,11 +8,15 @@ import EnderecoDAO from "../model/dao/EnderecoDAO";
 import ValidarCPF from "../model/strategy/validarCPF";
 import { isRegularExpressionLiteral } from "typescript";
 import CartaoDAO from "../model/dao/CartaoDAO";
+import ValidarCartao from "../model/strategy/validarCartao";
+import { runInThisContext } from "vm";
 
 export default class Fachada implements IFachada {
   daos: Map<string, IDAO>;
   rns: Map<string, IStrategy>;
   rns_cliente: any = [];
+  rns_cartao: any = [];
+  // rns_endereco: any = [];
   
   constructor() {
     this.daos = new Map<string, IDAO>();
@@ -22,6 +26,7 @@ export default class Fachada implements IFachada {
   }
   
 
+
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
     this.daos.set("Endereco", new EnderecoDAO());
@@ -30,8 +35,12 @@ export default class Fachada implements IFachada {
   definirRNS() {
     this.rns.set("ValidarCliente", new ValidarDadosObrigatorios());
     this.rns.set("ValidarCpf", new ValidarCPF());
+    this.rns.set("ValidarCartao", new ValidarCartao());
 
-    this.rns_cliente = ["ValidarCliente", "ValidarCpf"];
+    this.rns_cliente = ["ValidarCliente", "ValidarCpf",];
+    this.rns_cartao=["ValidarCartao"];
+
+    
   }
 
    async processarStrategys(entidade: EntidadeDominio) {

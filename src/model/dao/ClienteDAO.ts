@@ -4,6 +4,8 @@ import { db } from "../../db.config";
 import Cliente from "../entidade/cliente.model";
 import EnderecoDAO from "./EnderecoDAO";
 import Endereco from "../entidade/endereco";
+import Cartao from "../entidade/cartao.model";
+import CartaoDAO from "./CartaoDAO";
 
 
 export default class ClienteDAO implements IDAO {
@@ -42,7 +44,7 @@ export default class ClienteDAO implements IDAO {
     const cliente = entidade as Cliente;
     if (Object.keys(cliente).length > 2) {
       await db.query(
-        "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8 WHERE id=$9",
+        "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8, apelido=$9 WHERE id=$10",
         [
           cliente.nome,
           cliente.dataNasc,
@@ -53,6 +55,7 @@ export default class ClienteDAO implements IDAO {
           cliente.email,
           cliente.senha,
           cliente.id,
+          cliente.apelido,
         ]
       );
     }else{
@@ -104,6 +107,11 @@ export default class ClienteDAO implements IDAO {
     let endereco = Object.assign(new Endereco());
     endereco.idCliente = result[0].id;
     result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
+
+    let cartaoDAO = new CartaoDAO();
+    let cartao = Object.assign(new Cartao());
+    cartao.idCliente = result[0].id;
+    result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
 
     clienteCompleto = result;
 
