@@ -18,7 +18,7 @@ CartaoRouter.post("/:id", async (req, res) => {
         nome: cartao.nome,
         numero: cartao.numero,
         cvv: cartao.cvv,
-        data_validade: cartao.data_validade,
+        data_validade: cartao.data_validade.trim(),
         bandeira: BandeiraCartao[cartao.bandeira]
     };
     let conversao = Object.assign(new Cartao(), cartaoCredito);

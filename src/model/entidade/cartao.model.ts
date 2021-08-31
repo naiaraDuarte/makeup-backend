@@ -5,7 +5,7 @@ export default class Cartao extends EntidadeDominio {
     nome!: string;
     numero!: string;
     cvv!: string;
-    data_validade!: Date;
+    data_validade!: string;
     bandeira!:BandeiraCartao;
     idCliente!: Number
 
