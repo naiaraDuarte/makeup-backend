@@ -65,7 +65,6 @@ export default class Fachada implements IFachada {
     
     if ((await msg) == "") {
       let nomeClasse: string = entidade.constructor.name;
-      console.log('Fachada', nomeClasse)
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
     }

@@ -12,7 +12,6 @@ export default class ValidarCartao implements IStrategy {
         let dataValidade = cartao.data_validade;
 
         if (nome == "" || numero == "" || cvv == "" || dataValidade == "") {
-            console.log("dentro da validação")
             return "dados do cartao são obrigatorios";            
         }
         return "";

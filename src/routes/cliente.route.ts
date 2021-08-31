@@ -61,9 +61,11 @@ ClienteRouter.post("/", async (req, res) => {
     email: req.body.email,
     senha: req.body.senha,
     endereco: arrayEndereco,
-    apelido:req.body.apelido,
+    apelido: req.body.apelido,
     
   };
+
+  
 
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.cadastrar(conversao as Cliente);
@@ -85,6 +87,8 @@ ClienteRouter.put("/:id", async (req, res) => {
     senha: req.body.senha,
     apelido: req.body.apelido,
   };
+
+  
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
 
