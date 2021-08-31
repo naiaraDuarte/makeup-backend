@@ -6,4 +6,5 @@ export default interface IFachada {
     excluir(entidade: EntidadeDominio) : boolean;
     consultar(entidade: EntidadeDominio) : any;
     consultarComId(entidade: EntidadeDominio) : any;
+    consultarLogin(entidade: EntidadeDominio) : any;
 }

@@ -11,11 +11,17 @@ export const ClienteRouter = express.Router();
 
 let fachada = new Fachada();
 
-ClienteRouter.get("/login", async (req, res) => {
-  // let listaCliente: Array<Cliente> = (await fachada.consultar(
-  //   new Cliente()
-  // )) as Array<Cliente>;
-  // res.json({ message: "OK", dados: listaCliente });
+ClienteRouter.post("/login", async (req, res) => {  
+  const cliente = {
+    email: req.body.email,
+    senha: req.body.senha,
+  };
+
+  let conversao = Object.assign(new Cliente(), cliente);
+  let listaCliente: any = await fachada.consultarLogin(conversao as Cliente);
+  listaCliente = listaCliente as Cliente;
+
+  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco });
 });
 
 ClienteRouter.get("/", async (req, res) => {

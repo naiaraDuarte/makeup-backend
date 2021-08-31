@@ -109,4 +109,29 @@ export default class ClienteDAO implements IDAO {
 
     return result;
   }
+  async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>>{
+    const cliente = entidade as Cliente;
+    let clientes = db.query("SELECT * FROM clientes WHERE email = $1 and senha = $2", [
+      cliente.email,
+      cliente.senha
+    ]);
+    console.log("Chegou aqui")
+    let result: any;
+    let clienteCompleto: any;
+
+    result = await clientes.then((dados) => {
+      return (result = dados.rows.map((cliente) => {
+        return cliente as Cliente;
+      }));
+    });
+    
+    let enderecoDAO = new EnderecoDAO();
+    let endereco = Object.assign(new Endereco());
+    endereco.idCliente = result[0].id;
+    result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
+
+    clienteCompleto = result;
+
+    return result;
+  }
 }

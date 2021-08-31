@@ -20,6 +20,7 @@ export default class Fachada implements IFachada {
     this.definirDAOS();
     this.definirRNS();
   }
+  
 
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
@@ -79,5 +80,10 @@ export default class Fachada implements IFachada {
   async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
     let nomeClasse: string = entidade.constructor.name;
     return (await this.daos.get(nomeClasse)?.consultarComId(entidade)) ?? [];
+  }
+
+  async consultarLogin(entidade: EntidadeDominio): Promise<EntidadeDominio[]>{
+    const cliente = new ClienteDAO()
+    return await cliente.consultarLogin(entidade) ?? [];
   }
 }
