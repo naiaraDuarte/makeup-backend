@@ -16,7 +16,7 @@ EnderecoRouter.get("/", async (req, res) => {
 
 EnderecoRouter.post("/:id", async (req, res) => {
   let end = req.body
-
+  console.log("BAGAÇA", req.body)
   const endereco = {
     nome: end.nome,
     cep: end.cep,
