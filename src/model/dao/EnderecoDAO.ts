@@ -30,6 +30,7 @@ export default class EnderecoDAO implements IDAO {
   }
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const endereco = entidade as Endereco;
+    console.log("ALteraaação", endereco);
     await db.query(
       "UPDATE enderecos SET nome=$1, cep=$2, logradouro=$3, numero=$4, complemento=$5, bairro=$6, cidade=$7, uf=$8, pais=$9, tipo_residencia=$10, tipo_logradouro=$11, tipo_endereco=$12, fk_cliente=$13 WHERE id= $14",
       [
@@ -49,6 +50,7 @@ export default class EnderecoDAO implements IDAO {
         endereco.id,
       ]
     );
+    console.log("AAAAAAA")
     return entidade as Endereco;
   }
   excluir(entidade: EntidadeDominio): boolean {
