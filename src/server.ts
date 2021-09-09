@@ -21,7 +21,6 @@ app.use((req, res, next) => {
     next();
 })
 
-
 app.use('/cliente', ClienteRouter);
 app.use('/endereco', EnderecoRouter);
 app.use('/cartao', CartaoRouter);

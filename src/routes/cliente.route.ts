@@ -21,7 +21,7 @@ ClienteRouter.post("/login", async (req, res) => {
   let listaCliente: any = await fachada.consultarLogin(conversao as Cliente);
   listaCliente = listaCliente as Cliente;
 
-  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco });
+  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao});
 });
 
 ClienteRouter.get("/", async (req, res) => {

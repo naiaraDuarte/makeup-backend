@@ -114,8 +114,6 @@ export default class ClienteDAO implements IDAO {
     cartao.idCliente = result[0].id;
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
 
-    clienteCompleto = result;
-
     return result;
   }
   async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>>{
@@ -138,8 +136,11 @@ export default class ClienteDAO implements IDAO {
     endereco.idCliente = result[0].id;
     result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
 
-    clienteCompleto = result;
-
+    let cartaoDAO = new CartaoDAO();
+    let cartao = Object.assign(new Cartao());
+    cartao.idCliente = result[0].id;
+    result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
+    
     return result;
   }
 }

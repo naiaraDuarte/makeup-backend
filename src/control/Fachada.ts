@@ -25,8 +25,6 @@ export default class Fachada implements IFachada {
     this.definirRNS();
   }
   
-
-
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
     this.daos.set("Endereco", new EnderecoDAO());
@@ -39,8 +37,6 @@ export default class Fachada implements IFachada {
 
     this.rns_cliente = ["ValidarCliente", "ValidarCpf",];
     this.rns_cartao=["ValidarCartao"];
-
-    
   }
 
    async processarStrategys(entidade: EntidadeDominio) {
