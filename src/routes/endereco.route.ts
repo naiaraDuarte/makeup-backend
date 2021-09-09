@@ -16,6 +16,7 @@ EnderecoRouter.get("/", async (req, res) => {
 
 EnderecoRouter.post("/:id", async (req, res) => {
   let end = req.body
+  
   const endereco = {
     nome: end.nome,
     cep: end.cep,
@@ -40,6 +41,7 @@ EnderecoRouter.post("/:id", async (req, res) => {
 
 EnderecoRouter.put("/:idCliente", async (req, res) => {
   let end = req.body;
+  
   const endereco = {
     id: end.id,
     nome: end.nome,
@@ -67,6 +69,7 @@ EnderecoRouter.delete("/:id", async (req, res) => {
   const endereco = {
     id: req.params.id,
   };
+  
   let conversao = Object.assign(new Endereco(), endereco);
   let listaCliente: boolean = await fachada.excluir(conversao as Endereco);
 

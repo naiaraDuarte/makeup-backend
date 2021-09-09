@@ -116,6 +116,19 @@ export default class ClienteDAO implements IDAO {
 
     return result;
   }
+  async consultarCpf(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>>{
+    const cliente = entidade as Cliente;
+    let clientes = await db.query("SELECT * FROM clientes WHERE cpf = $1", [
+      cliente.cpf,    
+      ]);
+      console.log("clientes dao", clientes)
+      let result: any;       
+
+      return result;
+   
+  
+  }
+
   async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>>{
     const cliente = entidade as Cliente;
     let clientes = db.query("SELECT * FROM clientes WHERE email = $1 and senha = $2", [

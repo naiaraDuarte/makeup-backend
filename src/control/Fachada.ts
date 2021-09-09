@@ -6,59 +6,68 @@ import ValidarDadosObrigatorios from "../model/strategy/validarDadosObrigatorios
 import IStrategy from "../model/strategy/IStrategy";
 import EnderecoDAO from "../model/dao/EnderecoDAO";
 import ValidarCPF from "../model/strategy/validarCPF";
-import { isRegularExpressionLiteral } from "typescript";
 import CartaoDAO from "../model/dao/CartaoDAO";
 import ValidarCartao from "../model/strategy/validarCartao";
-import { runInThisContext } from "vm";
+// import ValidarExistencia from "../model/strategy/validarExistencia";
+
 
 export default class Fachada implements IFachada {
   daos: Map<string, IDAO>;
-  rns: Map<string, IStrategy>;
-  rns_cliente: any = [];
-  rns_cartao: any = [];
-  // rns_endereco: any = [];
-  
+  rns: Map<string, IStrategy[]>;
+  // rns_cliente: any = [];
+  // rns_cartao: any = [];
+  // // rns_endereco: any = [];
+
   constructor() {
     this.daos = new Map<string, IDAO>();
-    this.rns = new Map<string, IStrategy>();
+    this.rns = new Map<string, IStrategy[]>();
     this.definirDAOS();
     this.definirRNS();
   }
-  
+
+
+
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
     this.daos.set("Endereco", new EnderecoDAO());
     this.daos.set("Cartao", new CartaoDAO());
   }
-  definirRNS() {
-    this.rns.set("ValidarCliente", new ValidarDadosObrigatorios());
-    this.rns.set("ValidarCpf", new ValidarCPF());
-    this.rns.set("ValidarCartao", new ValidarCartao());
 
-    this.rns_cliente = ["ValidarCliente", "ValidarCpf",];
-    this.rns_cartao=["ValidarCartao"];
+  definirRNS() {
+    let validarCpf = new ValidarCPF();
+    let validarDadosObrigatorios = new ValidarDadosObrigatorios();
+    let validarCartao = new ValidarCartao();
+    // let validarExistencia = new ValidarExistencia();
+
+
+    this.rns.set("Cliente", 
+    [
+      validarCpf,
+      validarDadosObrigatorios, 
+      ]);
+    this.rns.set("Cartao",[validarCartao])
+ 
+    
   }
 
-   async processarStrategys(entidade: EntidadeDominio) {
+  async processarStrategys(entidade: EntidadeDominio) {
     let final_msg: string = "";
     let nomeClasse: string = entidade.constructor.name;
-    if (nomeClasse == "Cliente") {
-      this.rns_cliente.forEach((strategy: any) => {
-        let cliente = this.rns.get(strategy);
-        let msgn = cliente?.processar(entidade);
 
-        if (msgn != null) {
-          final_msg += msgn;
-        }
-      });
-    }
-
+    this.rns.get(nomeClasse)?.forEach(e => {
+      let msgn = e?.processar(entidade);
+      if (msgn != null) {
+        final_msg += msgn;
+      }
+    })
+    console.log(final_msg);
     return final_msg;
+   
   }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let msg = this.processarStrategys(entidade);
-    
+
     if ((await msg) == "") {
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
@@ -66,6 +75,7 @@ export default class Fachada implements IFachada {
     }
     return entidade;
   }
+
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let nomeClasse: string = entidade.constructor.name;
     let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
@@ -86,7 +96,7 @@ export default class Fachada implements IFachada {
     return (await this.daos.get(nomeClasse)?.consultarComId(entidade)) ?? [];
   }
 
-  async consultarLogin(entidade: EntidadeDominio): Promise<EntidadeDominio[]>{
+  async consultarLogin(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
     const cliente = new ClienteDAO()
     return await cliente.consultarLogin(entidade) ?? [];
   }
