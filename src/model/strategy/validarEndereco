@@ -1,5 +1,0 @@
-export default class ValidarEndereco implements IStrategy {
-    processar(entidade: EntidadeDominio): string {
-    }
-    
-}

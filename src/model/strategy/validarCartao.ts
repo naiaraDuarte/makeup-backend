@@ -5,18 +5,24 @@ import IStrategy from "./IStrategy";
 export default class ValidarCartao implements IStrategy {
     processar(entidade: EntidadeDominio): string {
         const cartao = entidade as Cartao;
+        let numero = cartao.numero;        
+        let validarCartao = require('validador-cartao-credito'); 
+        
+        if (numero.length == 16){               
+            if(validarCartao(numero)){
+                console.log("cartao valido");
+                return ""
+            }
+        }      
+        return "Numero do cartao invalido"
 
-        console.log("dentro cartao strategy");
-        let nome = cartao.nome;
-        let numero = cartao.numero;
-        let cvv = cartao.cvv;
-        let dataValidade = cartao.data_validade;
-
-        if (nome == "" || numero == "" || cvv == "" || dataValidade == "") {
-            console.log("dentro if");
-            return "dados do cartao são obrigatorios";            
-        }
-        return "";
-    }
+        
+         
+            // console.log("validar", validarCartao);
+            // return "";
+        
+        return "Cartao invalido";
+        
+    }   
 
 }

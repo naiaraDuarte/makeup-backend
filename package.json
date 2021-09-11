@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "hashmap": "^2.4.0",
     "node-correios": "^3.0.2",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "validador-cartao-credito": "^1.0.4"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.1",

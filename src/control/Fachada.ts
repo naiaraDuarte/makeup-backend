@@ -8,6 +8,10 @@ import EnderecoDAO from "../model/dao/EnderecoDAO";
 import ValidarCPF from "../model/strategy/validarCPF";
 import CartaoDAO from "../model/dao/CartaoDAO";
 import ValidarCartao from "../model/strategy/validarCartao";
+import ProdutoDAO from "../model/dao/ProdutoDAO";
+import CriptografarSenha from "../model/strategy/criptografarSenha";
+import Cliente from "../model/entidade/cliente.model";
+import criptografarSenha from "../model/strategy/criptografarSenha";
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
 
@@ -31,23 +35,23 @@ export default class Fachada implements IFachada {
     this.daos.set("Cliente", new ClienteDAO());
     this.daos.set("Endereco", new EnderecoDAO());
     this.daos.set("Cartao", new CartaoDAO());
+    this.daos.set("Produto", new ProdutoDAO());
   }
 
   definirRNS() {
     let validarCpf = new ValidarCPF();
     let validarDadosObrigatorios = new ValidarDadosObrigatorios();
     let validarCartao = new ValidarCartao();
+    let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
-
 
     this.rns.set("Cliente", 
     [
       validarCpf,
       validarDadosObrigatorios, 
+      criptografarSenha
       ]);
-    this.rns.set("Cartao",[validarCartao])
- 
-    
+    this.rns.set("Cartao",[validarCartao])    
   }
 
   async processarStrategys(entidade: EntidadeDominio) {
@@ -87,8 +91,9 @@ export default class Fachada implements IFachada {
     return true;
   }
   async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
-    let nomeClasse: string = entidade.constructor.name;
+    let nomeClasse: string = entidade.constructor.name;    
     return (await this.daos.get(nomeClasse)?.consultar()) ?? [];
+
   }
 
   async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
