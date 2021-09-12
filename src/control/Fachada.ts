@@ -42,14 +42,14 @@ export default class Fachada implements IFachada {
     let validarCpf = new ValidarCPF();
     let validarDadosObrigatorios = new ValidarDadosObrigatorios();
     let validarCartao = new ValidarCartao();
-    let criptografarSenha = new CriptografarSenha();
+    // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
 
     this.rns.set("Cliente", 
     [
       validarCpf,
       validarDadosObrigatorios, 
-      criptografarSenha
+      // criptografarSenha
       ]);
     this.rns.set("Cartao",[validarCartao])    
   }

@@ -152,6 +152,7 @@ export default class ClienteDAO implements IDAO {
       cliente.email,
       cliente.senha
     ]);
+    
     let result: any;
     let clienteCompleto: any;
 
