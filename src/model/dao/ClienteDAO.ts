@@ -81,15 +81,7 @@ export default class ClienteDAO implements IDAO {
     let result: Array<EntidadeDominio> = [];
 
     result = await clientes.then((dados) => {
-      return (result = dados.rows.map((cliente) => {
-        const crypto =require ('crypto');
-        const alg = 'aes-256-ctr';
-        const psw = 'abcdabcd';
-        
-        let senha = cliente.senha;
-        const decipher = crypto.createDecipher(alg, psw);
-        const crypted = decipher.update(senha,'hex', 'utf-8');
-        cliente.senha = crypted;         
+      return (result = dados.rows.map((cliente) => {         
 
         return cliente as Cliente;
       }));
@@ -108,14 +100,7 @@ export default class ClienteDAO implements IDAO {
     let clienteCompleto: any;
 
     result = await clientes.then((dados) => {
-      return (result = dados.rows.map((cliente) => {
-        const crypto = require ('crypto');
-        const alg = 'aes-256-ctr';
-        const psw = 'abcdabcd';        
-        let senha = cliente.senha;
-        const decipher = crypto.createDecipher(alg, psw);
-        const crypted = decipher.update(senha,'hex', 'utf-8');
-        cliente.senha = crypted;         
+      return (result = dados.rows.map((cliente) => {         
 
         return cliente as Cliente;
       }));
