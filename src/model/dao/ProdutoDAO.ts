@@ -38,9 +38,11 @@ export default class ProdutoDAO implements IDAO {
         return entidade as Produto;
 
     }
-    excluir(entidade: entidadeModel): boolean {
-        throw new Error("Method not implemented.");
-    }
+    excluir(entidade: EntidadeDominio): boolean {
+    const produto= entidade as Produto;
+    db.query("DELETE FROM produtos WHERE id=$1", [produto.id]);
+    return true;
+  }
     async consultar(): Promise<entidadeModel[]> {
         let produtos = db.query("SELECT * FROM produtos");
         let result: Array<EntidadeDominio> = [];
@@ -55,8 +57,8 @@ export default class ProdutoDAO implements IDAO {
     }
 
     async consultarComId(entidade: EntidadeDominio): Promise < Array < EntidadeDominio >> {
-    // const produto = entidade as Produto;
-    let pdt = db.query("SELECT * FROM produtos WHERE id = $1");
+    const produto = entidade as Produto;    
+    let pdt = db.query("SELECT * FROM produtos WHERE id = $1", [produto.id]);
     let result: Array < EntidadeDominio > =[];
 
     result = await pdt.then((dados) => {

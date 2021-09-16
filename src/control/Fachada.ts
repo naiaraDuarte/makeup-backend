@@ -9,9 +9,8 @@ import ValidarCPF from "../model/strategy/validarCPF";
 import CartaoDAO from "../model/dao/CartaoDAO";
 import ValidarCartao from "../model/strategy/validarCartao";
 import ProdutoDAO from "../model/dao/ProdutoDAO";
-import CriptografarSenha from "../model/strategy/criptografarSenha";
-import Cliente from "../model/entidade/cliente.model";
-import criptografarSenha from "../model/strategy/criptografarSenha";
+import CupomDAO from "../model/dao/CupomDAO";
+
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
 
@@ -36,6 +35,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Endereco", new EnderecoDAO());
     this.daos.set("Cartao", new CartaoDAO());
     this.daos.set("Produto", new ProdutoDAO());
+    this.daos.set("Cupom", new CupomDAO());
   }
 
   definirRNS() {

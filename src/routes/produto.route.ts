@@ -43,4 +43,24 @@ ProdutoRouter.put("/:id", async (req, res) => {
     res.json({ message: "OK", dados: listaProduto });
 });
 
+ProdutoRouter.delete("/:id", async (req, res) => {
+  const produto = {
+    id: req.params.id,
+  };
+  
+  let conversao = Object.assign(new Produto(), produto);
+  let prod: boolean = await fachada.excluir(conversao as Produto);
+
+  res.json({ message: "OK", dados: prod });
+});
+
+ProdutoRouter.get("/:id", async (req, res) => {
+  const produto = {
+    id: req.params.id,
+  };
+  let conversao = Object.assign(new Produto(), produto);
+  let listaProduto: any = await fachada.consultarComId(conversao as Produto);
+
+  res.json({ message: "OK", produto: listaProduto});
+});
 
