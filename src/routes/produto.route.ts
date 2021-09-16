@@ -54,6 +54,32 @@ ProdutoRouter.delete("/:id", async (req, res) => {
   res.json({ message: "OK", dados: prod });
 });
 
+ProdutoRouter.post("/", async (req, res) => {
+  let pdt= req.body
+  const produto = {
+    cod: pdt.cod,
+    nome: pdt.nome,
+    marca: pdt.marca,
+    tipo: pdt.tipo,
+    peso: pdt.peso,
+    altura: pdt.altura,
+    comprimento: pdt.comprimento,
+    quantidade:pdt.quantidade,
+    imagem: pdt.imagem,
+    largura: pdt.largura,
+    diametro: pdt.diametro,
+    categoria: pdt.categoria,
+    custo: pdt.custo,
+    descricao: pdt.descricao, 
+  };
+
+  let conversao = Object.assign(new Produto(), produto);
+  let listaProduto: any = await fachada.cadastrar(conversao as Produto);
+
+  res.json({ message: "OK", produto: listaProduto });
+});
+
+
 ProdutoRouter.get("/:id", async (req, res) => {
   const produto = {
     id: req.params.id,
