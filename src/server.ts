@@ -5,6 +5,7 @@ import { EnderecoRouter } from './routes/endereco.route';
 import { CalculaFreteRouter } from './routes/calculaFrete.route';
 import { ProdutoRouter } from './routes/produto.route';
 import { CupomRouter } from './routes/cupom.route';
+import { PedidoRouter } from './routes/pedido.route';
 
 const cors = require('cors');
 
@@ -29,6 +30,7 @@ app.use('/cartao', CartaoRouter);
 app.use('/frete', CalculaFreteRouter);
 app.use('/produto', ProdutoRouter);
 app.use('/cupom', CupomRouter);
+app.use('/pedido', PedidoRouter);
 
 app.listen(port, () => {
     console.log(`Listening on: http://localhost:${port}`);

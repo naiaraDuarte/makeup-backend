@@ -10,6 +10,7 @@ import CartaoDAO from "../model/dao/CartaoDAO";
 import ValidarCartao from "../model/strategy/validarCartao";
 import ProdutoDAO from "../model/dao/ProdutoDAO";
 import CupomDAO from "../model/dao/CupomDAO";
+import PedidoDAO from "../model/dao/PedidoDAO";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -36,6 +37,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Cartao", new CartaoDAO());
     this.daos.set("Produto", new ProdutoDAO());
     this.daos.set("Cupom", new CupomDAO());
+    this.daos.set("Pedido", new PedidoDAO);
   }
 
   definirRNS() {
