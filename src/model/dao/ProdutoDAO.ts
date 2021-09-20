@@ -68,7 +68,7 @@ export default class ProdutoDAO implements IDAO {
         return true;
     }
     async consultar(): Promise<entidadeModel[]> {
-        let produtos = db.query("SELECT * FROM produtos");
+        let produtos = db.query("select * from produtos ORDER BY random()");
         let result: Array<EntidadeDominio> = [];
 
         result = await produtos.then((dados) => {
