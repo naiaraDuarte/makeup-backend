@@ -17,15 +17,14 @@ export default class PagamentoDAO implements IDAO {
         throw new Error('Method not implemented.');
     }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-        console.log("dao pagamento");
             const pagamento = entidade as Pagamento;
+            console.log("dao pagamento", pagamento);
             let idPagamento = await db.query(
-                "INSERT INTO pagamentos (fk_cliente, fk_cupom, fk_cartao, fk_cashback) VALUES ($1, $2, $3, $4) RETURNING id",
+                "INSERT INTO pagamentos (fk_cupom, fk_cartao, fk_cashback) VALUES ($1, $2, $3) RETURNING id",
                 [
-                    pagamento.cliente,
                     pagamento.cupom,
-                    pagamento.cartao,
-                    pagamento.cashback  
+                    pagamento.cashback,
+                    pagamento.cartao
     
                 ]
     
