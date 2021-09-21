@@ -18,13 +18,13 @@ export default class PagamentoDAO implements IDAO {
     }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
             const pagamento = entidade as Pagamento;
-            console.log("dao pagamento", pagamento);
+            
             let idPagamento = await db.query(
-                "INSERT INTO pagamentos (fk_cupom, fk_cartao, fk_cashback) VALUES ($1, $2, $3) RETURNING id",
+                "INSERT INTO pagamentos (fk_cupom, fk_cashback) VALUES ($1, $2) RETURNING id",
                 [
                     pagamento.cupom,
-                    pagamento.cashback,
-                    pagamento.cartao
+                    pagamento.cashback
+                    
     
                 ]
     

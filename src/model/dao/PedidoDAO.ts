@@ -1,11 +1,11 @@
 import { db } from "../../db.config";
-import Endereco from "../entidade/endereco";
 import entidadeModel from "../entidade/entidade.model";
 import pagamento from "../entidade/pagamento";
 import Pagamento from "../entidade/pagamento";
+import PagamentoCartao from "../entidade/pagamentoCartao";
 import Pedido from "../entidade/pedido";
-import ClienteDAO from "./ClienteDAO";
 import IDAO from "./IDAO";
+import PagamentoCartaoDAO from "./PagamentoCartaoDAO";
 import PagamentoDAO from "./PagamentoDAO";
 
 export default class PedidoDAO implements IDAO {
@@ -18,6 +18,16 @@ export default class PedidoDAO implements IDAO {
         console.log("pagamentoooii", pedido.pagamento)
         let pagamento = await pagamentoDao.salvar(pedido.pagamento); 
         console.log("pvar18", pedido);
+
+        let pgmtoCartao = new PagamentoCartaoDAO();
+        
+        pedido.pagamento.cartoes.forEach(cart => {
+            let pgmentoCartao = {
+                cartao: cart,
+                pagamento: pagamento
+            }
+            pgmtoCartao.salvar(pgmentoCartao as PagamentoCartao);                        
+        });
         
         
                

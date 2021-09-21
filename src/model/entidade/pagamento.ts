@@ -7,7 +7,7 @@ import EntidadeDominio from "./entidade.model";
 
 export default class Pagamento extends EntidadeDominio{
     cliente!: Cliente;
-    cartao!: Array<Cartao>;
+    cartoes!: Array<Cartao>;
     cupom!: Cupom;
     cashback!: Cashback;    
 
