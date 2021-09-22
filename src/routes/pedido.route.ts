@@ -45,7 +45,8 @@ PedidoRouter.post("/", async (req, res) => {
   const pedido = {
     cliente: ped.cliente.id,
     endereco: ped.endereco.id,
-    pagamento: pagamento
+    pagamento: pagamento,
+    produtos: arrayProduto
 
   };
   console.log("pagamento", pagamento)
