@@ -123,7 +123,6 @@ export default class ClienteDAO implements IDAO {
     let clientes = await db.query("SELECT * FROM clientes WHERE cpf = $1", [
       cliente.cpf,    
       ]);
-      console.log("clientes dao", clientes)
       let result: any;       
 
       return result;

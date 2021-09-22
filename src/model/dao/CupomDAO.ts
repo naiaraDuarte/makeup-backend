@@ -37,12 +37,12 @@ export default class CupomDAO implements IDAO {
             ]
 
         );
-        console.log("foraaaa");
+        
         return entidade as Cupom;
 
     }
     excluir(entidade: EntidadeDominio): boolean {
-        console.log("dao cupom");
+        
         const cupom = entidade as Cupom;
         db.query("DELETE FROM cupons WHERE id=$1", [cupom.id]);
         return true;

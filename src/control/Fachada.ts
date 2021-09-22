@@ -11,6 +11,7 @@ import ValidarCartao from "../model/strategy/validarCartao";
 import ProdutoDAO from "../model/dao/ProdutoDAO";
 import CupomDAO from "../model/dao/CupomDAO";
 import PedidoDAO from "../model/dao/PedidoDAO";
+import ValidarEstoque from "../model/strategy/validarEstoque"
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -37,13 +38,18 @@ export default class Fachada implements IFachada {
     this.daos.set("Cartao", new CartaoDAO());
     this.daos.set("Produto", new ProdutoDAO());
     this.daos.set("Cupom", new CupomDAO());
-    this.daos.set("Pedido", new PedidoDAO);
+    this.daos.set("Pedido", new PedidoDAO());
   }
 
   definirRNS() {
     let validarCpf = new ValidarCPF();
     let validarDadosObrigatorios = new ValidarDadosObrigatorios();
     let validarCartao = new ValidarCartao();
+    let validarEstoque = new ValidarEstoque();
+
+    
+
+
     // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
 
@@ -53,7 +59,10 @@ export default class Fachada implements IFachada {
       validarDadosObrigatorios, 
       // criptografarSenha
       ]);
-    this.rns.set("Cartao",[validarCartao])    
+    this.rns.set("Cartao",[validarCartao]);
+    this.rns.set("Pedido", [validarEstoque]);
+     
+
   }
 
   async processarStrategys(entidade: EntidadeDominio) {

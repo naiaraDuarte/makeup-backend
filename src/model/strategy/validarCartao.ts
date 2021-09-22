@@ -10,18 +10,14 @@ export default class ValidarCartao implements IStrategy {
         
         if (numero.length == 16){               
             if(validarCartao(numero)){
-                console.log("cartao valido");
+            
                 return ""
             }
         }      
-        return "Numero do cartao invalido"
-
+        return "Numero do cartao invalido" 
+            
         
-         
-            // console.log("validar", validarCartao);
-            // return "";
-        
-        return "Cartao invalido";
+      
         
     }   
 

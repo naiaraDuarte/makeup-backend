@@ -1,6 +1,5 @@
 import Endereco from "../entidade/endereco";
 import EntidadeDominio from "../entidade/entidade.model";
-import { TipoLogradouro } from "../entidade/tipoLogradouro";
 import IStrategy from "./IStrategy";
 
 export default class ValidarEndereco implements IStrategy {

@@ -6,7 +6,6 @@ import EntidadeDominio from "../entidade/entidade.model";
 
 export default class ProdutoDAO implements IDAO {
     async salvar(entidade: entidadeModel): Promise<entidadeModel> {
-        console.log("dao");
         const produto = entidade as Produto;
         let idProduto = await db.query(
             "INSERT INTO produtos (cod, nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id",
@@ -34,7 +33,6 @@ export default class ProdutoDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const produto = entidade as Produto;
-        console.log("dentro dao kkkkkkkk", produto);
         await db.query(
             "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14 WHERE id=$15",
 
@@ -58,7 +56,7 @@ export default class ProdutoDAO implements IDAO {
             ]
 
         );
-        console.log("foraaaa")
+       
         return entidade as Produto;
 
     }

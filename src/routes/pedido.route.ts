@@ -38,8 +38,6 @@ PedidoRouter.post("/", async (req, res) => {
     cashback: cash.id
 
   }
-  console.log("dd", arrayCartoes);
-
 
   let ped = req.body
   const pedido = {
@@ -49,8 +47,7 @@ PedidoRouter.post("/", async (req, res) => {
     produtos: arrayProduto
 
   };
-  console.log("pagamento", pagamento)
-
+ 
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 
