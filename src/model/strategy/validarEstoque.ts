@@ -13,30 +13,17 @@ export default class ValidarEstoque implements IStrategy {
         pedido.produtos.forEach(async pdt => {
             let produtoDAO = new ProdutoDAO();
             let qntdeEstoque = await produtoDAO.consultarComId(pdt);   
-            // let conversao = Object.assign(new Produto(), qntdeEstoque);
-            let produto = qntdeEstoque[0];
-            let qtdeEstoque = Object.assign(new Produto(), produto);
+            let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);
             console.log("estoque atual", qtdeEstoque.quantidade);
             console.log ('vendido', pdt.quantidade);
             
-            if (pdt.quantidade > qtdeEstoque.quantidade)
+            if (pdt.quantidade < qtdeEstoque.quantidade)
             //como comparar isso??
                 return "produto sem estoque"
-            else if (pdt.quantidade <= qtdeEstoque.quantidade){
+            else if (pdt.quantidade > qtdeEstoque.quantidade){
                 //adicionar função pra atualizar o estoque                
                 return ""
-            }
-
-
-              
-
-        // pedido.produtos.forEach(async pdt => {
-        //     let produtoDAO = new ProdutoDAO();
-        //     let produtoEstoque = await produtoDAO.consultarComId(pdt);
-            
-        //     let qntde = pdt.quantidade;
-
-       
+            }     
             
         });       
         

@@ -12,6 +12,7 @@ import ProdutoDAO from "../model/dao/ProdutoDAO";
 import CupomDAO from "../model/dao/CupomDAO";
 import PedidoDAO from "../model/dao/PedidoDAO";
 import ValidarEstoque from "../model/strategy/validarEstoque"
+import ValidarValorCartao from "../model/strategy/validarValorCartao";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -46,10 +47,8 @@ export default class Fachada implements IFachada {
     let validarDadosObrigatorios = new ValidarDadosObrigatorios();
     let validarCartao = new ValidarCartao();
     let validarEstoque = new ValidarEstoque();
-
+    let validarValorCartao = new ValidarValorCartao();
     
-
-
     // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
 
@@ -60,7 +59,7 @@ export default class Fachada implements IFachada {
       // criptografarSenha
       ]);
     this.rns.set("Cartao",[validarCartao]);
-    this.rns.set("Pedido", [validarEstoque]);
+    this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
      
 
   }
