@@ -11,7 +11,7 @@ export default class CashbackDAO implements IDAO {
             "INSERT INTO cashback (valor, fk_cliente) VALUES ($1, $2) RETURNING id",
             [
                 cashback.valor,
-                cashback.IdCliente
+                cashback.idCliente
 
             ]
         );
@@ -19,8 +19,17 @@ export default class CashbackDAO implements IDAO {
         return entidade as Cashback
     }
 
-    alterar(entidade: entidadeModel): Promise<entidadeModel> {
-        throw new Error("Method not implemented.");
+    async alterar(entidade: entidadeModel): Promise<entidadeModel> {
+        const cashback = entidade as Cashback
+        console.log ("alterar", cashback.idCliente)
+        await db.query("UPDATE cashback SET valor=$1, fk_cliente=$2 WHERE id=$3",
+        [
+            cashback.valor,
+            cashback.idCliente,
+            cashback.id
+
+        ]);
+        return entidade as Cashback
     }
     excluir(entidade: entidadeModel): boolean {
         throw new Error("Method not implemented.");
