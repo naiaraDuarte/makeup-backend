@@ -32,8 +32,7 @@ PedidoRouter.post("/", async (req, res) => {
   let cup = req.body.cupom;
   let cash = req.body.cashback
 
-  console.log ("cupom", cup)
-  const pagamento = {
+ const pagamento = {
     cartoes: arrayCartoes,
     cupom: cup,
     cashback: cash

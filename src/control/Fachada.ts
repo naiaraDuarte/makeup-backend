@@ -13,6 +13,7 @@ import CupomDAO from "../model/dao/CupomDAO";
 import PedidoDAO from "../model/dao/PedidoDAO";
 import ValidarEstoque from "../model/strategy/validarEstoque"
 import ValidarValorCartao from "../model/strategy/validarValorCartao";
+import CashbackDAO from "../model/dao/CashbackDAO";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -40,6 +41,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Produto", new ProdutoDAO());
     this.daos.set("Cupom", new CupomDAO());
     this.daos.set("Pedido", new PedidoDAO());
+    this.daos.set("Cashback", new CashbackDAO());
   }
 
   definirRNS() {
@@ -69,7 +71,8 @@ export default class Fachada implements IFachada {
     let nomeClasse: string = entidade.constructor.name;
 
     this.rns.get(nomeClasse)?.forEach(e => {
-      let msgn = e?.processar(entidade);
+      let msgn =  e?.processar(entidade);
+      
       if (msgn != null) {
         final_msg += msgn;
       }

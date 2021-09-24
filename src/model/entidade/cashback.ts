@@ -4,6 +4,4 @@ export default class Cashback extends EntidadeDominio{
     IdCliente!: Number;
     valor!: Number;
 
-
-
 }

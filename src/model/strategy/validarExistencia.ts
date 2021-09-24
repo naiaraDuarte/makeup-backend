@@ -1,25 +1,26 @@
 import ClienteDAO from "../dao/ClienteDAO";
-// import Cliente from "../entidade/cliente.model";
-// import EntidadeDominio from "../entidade/entidade.model";
-// import IStrategy from "./IStrategy";
+import Cliente from "../entidade/cliente.model";
+import EntidadeDominio from "../entidade/entidade.model";
+import IStrategy from "./IStrategy";
 
 // export default class ValidarExistencia implements IStrategy {
-//     processar(entidade: EntidadeDominio): string {                            
+//     processar(entidade: EntidadeDominio): string {    
+//         const cliente = entidade as Cliente                        
                   
 //                 let dao = new ClienteDAO();
-//                 let entidades = dao.consultarCpf(entidade);
-//                 entidades.then(resposta => { 
-//                     if (resposta != null){
-//                         return "Cpf já cadastrado";
-//                     }
+//                 let entidades = dao.consultar();
+
+//                 entidades.forEach(ent => {
+
+
                     
+//                 });
+                
+//                 return ""    
 //                 }   
-//                 )
-//                 // if(entidades == null){
-//                 //     return 'Usuário já cadastrado!'
-//                 // }         
+                
+                       
     
-//             return "";
-//         }
+        
     
-//     }
+    

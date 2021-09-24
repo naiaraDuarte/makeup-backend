@@ -6,6 +6,7 @@ import { CalculaFreteRouter } from './routes/calculaFrete.route';
 import { ProdutoRouter } from './routes/produto.route';
 import { CupomRouter } from './routes/cupom.route';
 import { PedidoRouter } from './routes/pedido.route';
+import { CashbackRouter } from './routes/cashback.route';
 
 const cors = require('cors');
 
@@ -31,6 +32,7 @@ app.use('/frete', CalculaFreteRouter);
 app.use('/produto', ProdutoRouter);
 app.use('/cupom', CupomRouter);
 app.use('/pedido', PedidoRouter);
+app.use('/cashback', CashbackRouter);
 
 app.listen(port, () => {
     console.log(`Listening on: http://localhost:${port}`);
