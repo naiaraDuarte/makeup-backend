@@ -26,7 +26,7 @@ CashbackRouter.get("/:id", async (req, res) => {
 CashbackRouter.post("/", async (req, res) => {
     let cash = req.body
     const cashback = {
-       idCliente: cash.idCliente,
+       idCliente: cash.id,
        valor: cash.valor
     };
     let conversao = Object.assign(new Cashback(), cashback);

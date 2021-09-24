@@ -7,7 +7,7 @@ import Produto from "../entidade/produto";
 export default class ValidarEstoque implements IStrategy {
     processar(entidade: EntidadeDominio): string {
         const pedido = entidade as Pedido;
-        let msgn = "ha ha";
+        let msgn = "";
 
 
         pedido.produtos.forEach(async pdt => {

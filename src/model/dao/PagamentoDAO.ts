@@ -22,8 +22,8 @@ export default class PagamentoDAO implements IDAO {
             let idPagamento = await db.query(
                 "INSERT INTO pagamentos (fk_cupom, fk_cashback) VALUES ($1, $2) RETURNING id",
                 [
-                    pagamento.cupom,
-                    pagamento.cashback
+                    pagamento.cupom.id,
+                    pagamento.cashback.id
                     
     
                 ]
