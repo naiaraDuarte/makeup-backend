@@ -6,7 +6,7 @@ import PagamentoCartao from '../entidade/pagamentoCartao';
 export default class PagamentoCartaoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const pagamentoCartao = entidade as PagamentoCartao;
-            
+                    
         let idPagamentoCartao = await db.query(
             "INSERT INTO pagamento_cartoes (fk_pagamentos, fk_cartoes) VALUES ($1, $2) RETURNING ID",
             [

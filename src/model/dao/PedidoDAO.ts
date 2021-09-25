@@ -20,6 +20,7 @@ export default class PedidoDAO implements IDAO {
         let pagamento = await pagamentoDao.salvar(pedido.pagamento);
         let pgmtoCartaoDao = new PagamentoCartaoDAO();
         //salvando cada cartao que consta no pedido
+        
         pedido.pagamento.cartoes.forEach(cart => {
             let pgmentoCartao = {
                 cartao: cart,
