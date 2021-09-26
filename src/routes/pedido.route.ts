@@ -44,8 +44,8 @@ PedidoRouter.post("/", async (req, res) => {
     cliente: ped.cliente.id,
     endereco: ped.endereco.id,
     pagamento: pagamento,
-    produtos: arrayProduto
-
+    produtos: arrayProduto,
+    status: ped.status
   };
  
   let conversao = Object.assign(new Pedido(), pedido);
