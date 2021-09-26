@@ -5,7 +5,7 @@ import ProdutoDAO from "../dao/ProdutoDAO";
 import Produto from "../entidade/produto";
 
 export default class ValidarEstoque implements IStrategy {
-    processar(entidade: EntidadeDominio): string {
+    async processar(entidade: EntidadeDominio): Promise<string>  {
         const pedido = entidade as Pedido;
         let msgn = "";
 
@@ -13,16 +13,18 @@ export default class ValidarEstoque implements IStrategy {
         pedido.produtos.forEach(async pdt => {
             let produtoDAO = new ProdutoDAO();
             let qntdeEstoque = await produtoDAO.consultarComId(pdt);
+            // qntdeEstoque.then(valor => {console.log("v", valor)})
             let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);
             console.log("estoque atual", qtdeEstoque.quantidade);
             console.log('vendido', pdt.quantidade);
 
             if (pdt.quantidade < qtdeEstoque.quantidade) {
                 msgn = "Produto sem estoque"
+                console.log("dentro if estoque", msgn)
                 return msgn
             }
         });
-
+        console.log("strategy estoque", msgn)
         return msgn;
 
     }

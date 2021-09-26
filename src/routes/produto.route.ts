@@ -13,10 +13,6 @@ ProdutoRouter.get("/", async (req, res) => {
       res.json({ message: "OK", dados: listaProduto });
     }); 
 
-// ProdutoRouter.get("/", async (req, res) => {
-//     res.json({ message: "OK" })
-// }); 
-
 ProdutoRouter.put("/:id", async (req, res) => {
     let pdt = req.body;
     const produto = {
@@ -37,6 +33,7 @@ ProdutoRouter.put("/:id", async (req, res) => {
         descricao: pdt.descricao,     
         
     };
+    console.log("cat rota", pdt.categoria )
 
     let conversao = Object.assign(new Produto(), produto);
     let listaProduto: any = await fachada.alterar(conversao as Produto);

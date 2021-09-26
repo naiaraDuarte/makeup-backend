@@ -3,7 +3,7 @@ import Pedido from "../entidade/pedido";
 import IStrategy from "./IStrategy";
 
 export default class ValidarValorCartao implements IStrategy {
-    processar(entidade: EntidadeDominio): string {
+    async processar(entidade: EntidadeDominio): Promise<string> {
         const pedido = entidade as Pedido;
         const minimoCartao = 10;
         let msgn = "";
@@ -19,6 +19,7 @@ export default class ValidarValorCartao implements IStrategy {
                     }
                 });
             }
+            // console.log("strategy", msgn)
             return msgn;
         }
         if (pedido.pagamento.cartoes.length > 1) {
@@ -26,8 +27,8 @@ export default class ValidarValorCartao implements IStrategy {
                 let valorCartao = cart.credito;
                 console.log("valor cartao", valorCartao)
                 if (valorCartao < minimoCartao) {
-                    return "Valor minimo no cartao de R$ 10,00"
-
+                    msgn = " Valor minimo no cartao de R$ 10,00"
+                    return msgn
                 }
             });
         }

@@ -3,7 +3,7 @@ import EntidadeDominio from "../entidade/entidade.model";
 import IStrategy from "./IStrategy";
 
 export default class ValidarCPF implements IStrategy {
-    processar(entidade: EntidadeDominio): string {
+    async processar(entidade: EntidadeDominio): Promise<string> {
         const cliente = entidade as Cliente;
         let cpf = cliente.cpf;
         

@@ -1,10 +1,12 @@
+import Cliente from "../entidade/cliente.model";
 import Endereco from "../entidade/endereco";
 import EntidadeDominio from "../entidade/entidade.model";
 import IStrategy from "./IStrategy";
 
 export default class ValidarEndereco implements IStrategy {
-    processar(entidade: EntidadeDominio): string {
-        const endereco = entidade as Endereco;
+    async processar(entidade: EntidadeDominio): Promise<string>  {
+        const endereco= entidade as Endereco;
+        // let msgn = "";
 
         let nome = endereco.nome;
         let cep = endereco.cep;
@@ -17,8 +19,7 @@ export default class ValidarEndereco implements IStrategy {
         let tipoResidencia = endereco.tipoResidencia;
         let tipoLogradouro = endereco.tipoLogradouro;
         let tipoEndereco = endereco.tipoEndereco;
-
-
+       
         if (nome == "" ||
             cep == "" ||
             logradouro == "" ||
@@ -27,8 +28,10 @@ export default class ValidarEndereco implements IStrategy {
             cidade == "" ||
             uf == null ||
             pais == null || tipoResidencia == null|| tipoLogradouro == null || tipoEndereco == null) {
-            return "Todos os campos de endereço são obrigatorios! ";
+            return "Todos os dados de endereço são obrigatorios! "            
+            
         }
+
         return "";
     }
     

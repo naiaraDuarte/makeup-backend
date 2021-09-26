@@ -14,6 +14,7 @@ import PedidoDAO from "../model/dao/PedidoDAO";
 import ValidarEstoque from "../model/strategy/validarEstoque"
 import ValidarValorCartao from "../model/strategy/validarValorCartao";
 import CashbackDAO from "../model/dao/CashbackDAO";
+import ValidarEndereco from "../model/strategy/validarEndereco";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -50,6 +51,7 @@ export default class Fachada implements IFachada {
     let validarCartao = new ValidarCartao();
     let validarEstoque = new ValidarEstoque();
     let validarValorCartao = new ValidarValorCartao();
+    let validarEndereco = new ValidarEndereco();
     
     // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
@@ -57,35 +59,46 @@ export default class Fachada implements IFachada {
     this.rns.set("Cliente", 
     [
       validarCpf,
-      validarDadosObrigatorios, 
-      // criptografarSenha
+      validarDadosObrigatorios,
+            // criptografarSenha
       ]);
     this.rns.set("Cartao",[validarCartao]);
     this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
-     
+    this.rns.set ("Endereco", [validarEndereco])   
 
   }
 
-  async processarStrategys(entidade: EntidadeDominio) {
-    let final_msg: string = "";
-    let nomeClasse: string = entidade.constructor.name;
+  async processarStrategys(entidade: EntidadeDominio): Promise<string> {
+    let nomeClasse = entidade.constructor.name;
+    let final_msg: string = 'Erro na execução das regras';
 
-    this.rns.get(nomeClasse)?.forEach(e => {
-      let msgn =  e?.processar(entidade);
-      
-      if (msgn != null) {
-        final_msg += msgn;
-      }
-    })
-    console.log(final_msg);
+    for(const s of this.rns.get(nomeClasse)!) {
+      final_msg = await s.processar(entidade);
+        if(final_msg != "") break;
+    }
     return final_msg;
+} 
+
+  // async processarStrategys(entidade: EntidadeDominio) {
+  //   let final_msg = new Array<string>();
+  //   let nomeClasse: string = entidade.constructor.name;
+
+  //   this.rns.get(nomeClasse)?.forEach(e => {
+  //     let msgn =  e?.processar(entidade);
+  //     if(msgn != "")        
+  //       final_msg.push(msgn);      
+      
+  //   })
+  //   console.log("array", final_msg)
+  //   return final_msg!;
    
-  }
+  // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let msg = this.processarStrategys(entidade);
-
-    if ((await msg) == "") {
+    console.log ("msgn", msg)
+    
+    if ((await msg).length < 1) {
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
