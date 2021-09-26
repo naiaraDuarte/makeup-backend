@@ -9,6 +9,5 @@ export default class Pedido extends EntidadeDominio{
     cliente!: Cliente;
     endereco!: Endereco;
     pagamento!: Pagamento;
-
-
+    status!: string;
 }

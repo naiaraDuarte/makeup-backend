@@ -52,19 +52,19 @@ export default class Fachada implements IFachada {
     let validarEstoque = new ValidarEstoque();
     let validarValorCartao = new ValidarValorCartao();
     let validarEndereco = new ValidarEndereco();
-    
+
     // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
 
-    this.rns.set("Cliente", 
-    [
-      validarCpf,
-      validarDadosObrigatorios,
-            // criptografarSenha
+    this.rns.set("Cliente",
+      [
+        validarCpf,
+        validarDadosObrigatorios,
+        // criptografarSenha
       ]);
-    this.rns.set("Cartao",[validarCartao]);
+    this.rns.set("Cartao", [validarCartao]);
     this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
-    this.rns.set ("Endereco", [validarEndereco])   
+    this.rns.set("Endereco", [validarEndereco])
 
   }
 
@@ -72,12 +72,13 @@ export default class Fachada implements IFachada {
     let nomeClasse = entidade.constructor.name;
     let final_msg: string = 'Erro na execução das regras';
 
-    for(const s of this.rns.get(nomeClasse)!) {
+    for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade);
-        if(final_msg != "") break;
+      console.log("msgn", final_msg)
+      if (final_msg != "") break;
     }
     return final_msg;
-} 
+  }
 
   // async processarStrategys(entidade: EntidadeDominio) {
   //   let final_msg = new Array<string>();
@@ -87,18 +88,17 @@ export default class Fachada implements IFachada {
   //     let msgn =  e?.processar(entidade);
   //     if(msgn != "")        
   //       final_msg.push(msgn);      
-      
+
   //   })
   //   console.log("array", final_msg)
   //   return final_msg!;
-   
+
   // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = this.processarStrategys(entidade);
-    console.log ("msgn", msg)
-    
-    if ((await msg).length < 1) {
+    let msg = await this.processarStrategys(entidade);
+
+    if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
@@ -117,7 +117,7 @@ export default class Fachada implements IFachada {
     return true;
   }
   async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
-    let nomeClasse: string = entidade.constructor.name;    
+    let nomeClasse: string = entidade.constructor.name;
     return (await this.daos.get(nomeClasse)?.consultar()) ?? [];
 
   }

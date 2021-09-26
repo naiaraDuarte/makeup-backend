@@ -5,5 +5,4 @@ export default class Cupom extends EntidadeDominio{
     quant!:number;
     porcen!: number;
     tipo!:string;
-    
 }

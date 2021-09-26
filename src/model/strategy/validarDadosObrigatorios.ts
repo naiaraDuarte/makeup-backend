@@ -7,8 +7,8 @@ import ValidarEndereco from "./validarEndereco";
 export default class ValidarDadosObrigatorios implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
         const cliente = entidade as Cliente;
-        let validarEndereco = new ValidarEndereco();
-        let msgn =  "";
+        // let validarEndereco = new ValidarEndereco();
+        // let msgn =  "";
         
         let nome = cliente.nome;
         let dataNasc = cliente.dataNasc;

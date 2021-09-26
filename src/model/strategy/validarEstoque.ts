@@ -10,7 +10,7 @@ export default class ValidarEstoque implements IStrategy {
         let msgn = "";
 
 
-        pedido.produtos.forEach(async pdt => {
+        pedido.produtos.forEach( async pdt => {
             let produtoDAO = new ProdutoDAO();
             let qntdeEstoque = await produtoDAO.consultarComId(pdt);
             // qntdeEstoque.then(valor => {console.log("v", valor)})
@@ -19,12 +19,13 @@ export default class ValidarEstoque implements IStrategy {
             console.log('vendido', pdt.quantidade);
 
             if (pdt.quantidade < qtdeEstoque.quantidade) {
-                msgn = "Produto sem estoque"
-                console.log("dentro if estoque", msgn)
+                msgn = "Produto sem estoque" 
+                console.log("if estoque", msgn)
                 return msgn
+                 
             }
         });
-        console.log("strategy estoque", msgn)
+        
         return msgn;
 
     }

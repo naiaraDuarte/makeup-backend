@@ -19,4 +19,9 @@ export default class Endereco extends EntidadeDominio {
     pais!: Pais;
     complemento!: string; 
     idCliente!: Number
+
+    constructor(idCliente: number = null!) {
+        super();
+        this.idCliente = idCliente;
+    }
 }

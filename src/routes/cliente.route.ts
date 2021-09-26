@@ -5,13 +5,15 @@ import { TipoEndereco } from "../model/entidade/tipoEndereco";
 import { TipoLogradouro } from "../model/entidade/tipoLogradouro";
 import { TipoResidencia } from "../model/entidade/tipoResidencia";
 import { Estado } from "../model/entidade/estado";
-import {BandeiraCartao} from "../model/entidade/bandeiraCartao";
+import { BandeiraCartao } from "../model/entidade/bandeiraCartao";
+import Endereco from "../model/entidade/endereco";
+import EntidadeDominio from "../model/entidade/entidade.model";
 
 export const ClienteRouter = express.Router();
 
 let fachada = new Fachada();
 
-ClienteRouter.post("/login", async (req, res) => {  
+ClienteRouter.post("/login", async (req, res) => {
   const cliente = {
     email: req.body.email,
     senha: req.body.senha,
@@ -21,7 +23,7 @@ ClienteRouter.post("/login", async (req, res) => {
   let listaCliente: any = await fachada.consultarLogin(conversao as Cliente);
   listaCliente = listaCliente as Cliente;
 
-  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao});
+  res.json({ message: "OK", cliente: listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao });
 });
 
 ClienteRouter.get("/", async (req, res) => {
@@ -31,7 +33,7 @@ ClienteRouter.get("/", async (req, res) => {
   res.json({ message: "OK", dados: listaCliente });
 });
 
-ClienteRouter.post("/", async (req, res) => {  
+ClienteRouter.post("/", async (req, res) => {
   let endereco = req.body.endereco;
   let arrayEndereco: any = [];
   endereco.forEach((end: any) => {
@@ -62,16 +64,23 @@ ClienteRouter.post("/", async (req, res) => {
     senha: req.body.senha,
     endereco: arrayEndereco,
     apelido: req.body.apelido,
-    
+
   };
 
-  
-
   let conversao = Object.assign(new Cliente(), cliente);
-  let listaCliente: any = await fachada.cadastrar(conversao as Cliente);
-  listaCliente = listaCliente as Cliente;
+  let cli = await fachada.cadastrar(conversao);
 
-  res.json({ message: "OK", dados: listaCliente });
+  let enderecos: Endereco[] = arrayEndereco.map((e: any) => Object.assign(new Endereco(cli.id), e));
+  let resultEnd: EntidadeDominio[] = [];
+  enderecos.forEach(async (e) => {
+    let msg2 = await fachada.cadastrar(e);
+    resultEnd.push(msg2);
+
+  });
+  
+  
+  res.json({ message: "OK", Cliente: cli});
+
 });
 
 ClienteRouter.put("/:id", async (req, res) => {
@@ -88,7 +97,7 @@ ClienteRouter.put("/:id", async (req, res) => {
     apelido: req.body.apelido,
   };
 
-  
+
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
 
@@ -96,15 +105,15 @@ ClienteRouter.put("/:id", async (req, res) => {
 });
 
 
-ClienteRouter.patch("/:id", async(req, res) => {
+ClienteRouter.patch("/:id", async (req, res) => {
   let cliente = {};
-  
+
   if (req.body.email) {
     cliente = {
       id: req.params.id,
       email: req.body.email
     }
-  }else if(req.body.senha){
+  } else if (req.body.senha) {
     cliente = {
       id: req.params.id,
       senha: req.body.senha
@@ -115,7 +124,7 @@ ClienteRouter.patch("/:id", async(req, res) => {
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
 
   res.json({ message: "OK", dados: listaCliente });
-  
+
 })
 
 ClienteRouter.get("/:id", async (req, res) => {
@@ -125,5 +134,5 @@ ClienteRouter.get("/:id", async (req, res) => {
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
 
-  res.json({ message: "OK", cliente:listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao});
+  res.json({ message: "OK", cliente: listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao });
 });

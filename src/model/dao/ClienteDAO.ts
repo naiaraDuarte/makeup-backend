@@ -10,6 +10,7 @@ import CartaoDAO from "./CartaoDAO";
 
 export default class ClienteDAO implements IDAO {
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+    console.log("dentro dao")
     const cliente = entidade as Cliente;
     let idCliente = await db.query(
       "INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha, apelido) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
@@ -27,22 +28,23 @@ export default class ClienteDAO implements IDAO {
     );
     entidade.id = idCliente.rows[0].id;
 
-    let enderecoDAO = new EnderecoDAO();
-    for (let i = 0; i < cliente.endereco.length; i++) {
-      let endereco = Object.assign(new Endereco(), cliente.endereco[i]);
-      endereco.idCliente = idCliente.rows[0].id;
+    // let enderecoDAO = new EnderecoDAO();
+    // for (let i = 0; i < cliente.endereco.length; i++) {
+    //   let endereco = Object.assign(new Endereco(), cliente.endereco[i]);
+    //   endereco.idCliente = idCliente.rows[0].id;
 
-      cliente.endereco[i] = Object.assign(
-        new Endereco(),
-        await enderecoDAO.salvar(endereco as Endereco)
-      );
-    }
+    //   cliente.endereco[i] = Object.assign(
+    //     new Endereco(),
+    //     await enderecoDAO.salvar(endereco as Endereco)
+    //   );
+    // }
        
     return entidade as Cliente;
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
+    
     if (Object.keys(cliente).length > 2) {
       await db.query(
         "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8, apelido=$9 WHERE id=$10",
