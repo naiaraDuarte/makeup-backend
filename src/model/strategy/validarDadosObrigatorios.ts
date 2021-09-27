@@ -8,7 +8,7 @@ export default class ValidarDadosObrigatorios implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
         const cliente = entidade as Cliente;
         // let validarEndereco = new ValidarEndereco();
-        // let msgn =  "";
+        let msgn =  "";
         
         let nome = cliente.nome;
         let dataNasc = cliente.dataNasc;
@@ -41,7 +41,7 @@ export default class ValidarDadosObrigatorios implements IStrategy {
         // if (valida) {
         //     return "Todos os dados do endereço são obrigatorios"
         // }
-        return null!
+        return msgn
 
     }
 

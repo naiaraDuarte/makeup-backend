@@ -6,7 +6,7 @@ import IStrategy from "./IStrategy";
 export default class ValidarEndereco implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string>  {
         const endereco= entidade as Endereco;
-        // let msgn = "";
+        let msgn = "";
 
         let nome = endereco.nome;
         let cep = endereco.cep;
@@ -32,7 +32,7 @@ export default class ValidarEndereco implements IStrategy {
             
         }
 
-        return null!;
+        return msgn;
     }
     
 }

@@ -4,6 +4,7 @@ import Cartao from "../model/entidade/cartao.model";
 import Cashback from "../model/entidade/cashback";
 import pagamento from "../model/entidade/pagamento";
 import Pedido from "../model/entidade/pedido";
+import ValidarValorCartao from "../model/strategy/validarValorCartao";
 
 export const PedidoRouter = express.Router();
 
@@ -45,7 +46,9 @@ PedidoRouter.post("/", async (req, res) => {
     endereco: ped.endereco.id,
     pagamento: pagamento,
     produtos: arrayProduto,
-    status: ped.status
+    status: ped.status,
+    valor: ped.valor,
+    frete: ped.frete
   };
  
   let conversao = Object.assign(new Pedido(), pedido);

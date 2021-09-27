@@ -18,7 +18,7 @@ export default class ValidarEstoque implements IStrategy {
             console.log("estoque atual", qtdeEstoque.quantidade);
             console.log('vendido', pdt.quantidade);
 
-            if (pdt.quantidade < qtdeEstoque.quantidade) {
+            if (pdt.quantidade > qtdeEstoque.quantidade) {
                 msgn = "Produto sem estoque" 
                 console.log("if estoque", msgn)
                 return msgn
@@ -26,7 +26,7 @@ export default class ValidarEstoque implements IStrategy {
             }
         });
         
-        return msgn;
+        return msgn
 
     }
 }
