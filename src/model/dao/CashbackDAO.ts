@@ -7,6 +7,7 @@ import IDAO from "./IDAO";
 export default class CashbackDAO implements IDAO {
     async salvar(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback = entidade as Cashback;
+        console.log("dao cashback");
         
         let idCashback = await db.query(
             "INSERT INTO cashback (valor, fk_cliente) VALUES ($1, $2) RETURNING id",
@@ -23,11 +24,10 @@ export default class CashbackDAO implements IDAO {
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback = entidade as Cashback
         
-        await db.query("UPDATE cashback SET valor=$1, fk_cliente=$2 WHERE id=$3",
+        await db.query("UPDATE cashback SET valor=$1,  WHERE fk_cliente=$2",
         [
             cashback.valor,
-            cashback.idCliente,
-            cashback.id
+            cashback.idCliente,            
 
         ]);
         return entidade as Cashback
@@ -49,7 +49,7 @@ export default class CashbackDAO implements IDAO {
     }
     async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
         const cashback = entidade as Cashback;
-        let cash = db.query("SELECT * FROM cashback WHERE id = $1", [cashback.id]);
+        let cash = db.query("SELECT * FROM cashback WHERE fk_cliente = $1", [cashback.idCliente]);
         let result: Array<EntidadeDominio> = [];
 
         result = await cash.then((dados) => {

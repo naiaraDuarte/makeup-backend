@@ -37,7 +37,7 @@ export default class CupomDAO implements IDAO {
   }
   excluir(entidade: EntidadeDominio): boolean {
     const cupom = entidade as Cupom;
-    db.query("DELETE FROM cupons WHERE id=$1", [cupom.id]);
+    db.query("UPDATE cupons SET ativo = false WHERE id=$1", [cupom.id]);
     return true;
   }
 
@@ -57,7 +57,7 @@ export default class CupomDAO implements IDAO {
     entidade: EntidadeDominio
   ): Promise<Array<EntidadeDominio>> {
     const cupom = entidade as Cupom;
-    let cup = db.query("SELECT * FROM cupons WHERE cod = $1 AND quant > 0", [
+    let cup = db.query("SELECT * FROM cupons WHERE cod = $1 AND ativo = true AND quant > 0", [
       cupom.cod,
     ]);
     let result: Array<EntidadeDominio> = [];

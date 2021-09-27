@@ -53,7 +53,7 @@ export default class EnderecoDAO implements IDAO {
   }
   excluir(entidade: EntidadeDominio): boolean {
     const endereco = entidade as Endereco;
-    db.query("DELETE FROM enderecos WHERE id=$1", [endereco.id]);
+    db.query("UPDATE enderecos SET ativo = false WHERE id=$1", [endereco.id]);
     return true;
   }
   consultar(): Promise<EntidadeDominio[]> {
@@ -61,7 +61,7 @@ export default class EnderecoDAO implements IDAO {
   }
   async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const endereco = entidade as Endereco;
-    let end = db.query("SELECT * FROM enderecos WHERE fk_cliente = $1", [endereco.idCliente]);
+    let end = db.query("SELECT * FROM enderecos WHERE fk_cliente = $1 AND ativo = true", [endereco.idCliente]);
     let result: Array<EntidadeDominio> = [];
 
     result = await end.then((dados) => {

@@ -8,6 +8,7 @@ import { Estado } from "../model/entidade/estado";
 import { BandeiraCartao } from "../model/entidade/bandeiraCartao";
 import Endereco from "../model/entidade/endereco";
 import EntidadeDominio from "../model/entidade/entidade.model";
+import Cashback from "../model/entidade/cashback";
 
 export const ClienteRouter = express.Router();
 
@@ -64,19 +65,29 @@ ClienteRouter.post("/", async (req, res) => {
     senha: req.body.senha,
     endereco: arrayEndereco,
     apelido: req.body.apelido,
-
-  };
+  }; 
 
   let conversao = Object.assign(new Cliente(), cliente);
   let cli = await fachada.cadastrar(conversao);
+  
+  const cashback = {
+    valor : 0,
+    idCliente: cli.id
+  }
+  
+  let convert = Object.assign(new Cashback(), cashback);
+  let cash = await fachada.cadastrar(convert);
+  console.log("cash rota", cash)
 
   let enderecos: Endereco[] = arrayEndereco.map((e: any) => Object.assign(new Endereco(cli.id), e));
-  let resultEnd: EntidadeDominio[] = [];
+  // let resultEnd: EntidadeDominio[] = [];
   enderecos.forEach(async (e) => {
     let msg2 = await fachada.cadastrar(e);
-    resultEnd.push(msg2);
+    // resultEnd.push(msg2);
 
   });
+
+
   
   
   res.json({ message: "OK", Cliente: cli});

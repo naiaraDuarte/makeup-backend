@@ -6,6 +6,7 @@ import EnderecoDAO from "./EnderecoDAO";
 import Endereco from "../entidade/endereco";
 import Cartao from "../entidade/cartao.model";
 import CartaoDAO from "./CartaoDAO";
+import CashbackDAO from "./CashbackDAO";
 
 
 export default class ClienteDAO implements IDAO {
@@ -73,13 +74,13 @@ export default class ClienteDAO implements IDAO {
   }
   excluir(entidade: EntidadeDominio): boolean {
     const cliente = entidade as Cliente;
-    let clientes = db.query("DELETE FROM public.clientes WHERE id=$1", [
+    let clientes = db.query("UPDATE clientes SET ativo = false WHERE id=$1", [
       cliente.id,
     ]);
     return true;
   }
   async consultar(): Promise<Array<EntidadeDominio>> {
-    let clientes = db.query("SELECT * FROM clientes");
+    let clientes = db.query("SELECT * FROM clientes WHERE ativo = true");
     let result: Array<EntidadeDominio> = [];
 
     result = await clientes.then((dados) => {
@@ -120,15 +121,18 @@ export default class ClienteDAO implements IDAO {
 
     return result;
   }
-  async consultarCpf(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>>{
+  async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio>{
     const cliente = entidade as Cliente;
-    let clientes = await db.query("SELECT * FROM clientes WHERE cpf = $1", [
-      cliente.cpf,    
-      ]);
-      let result: any;       
-
-      return result;
-   
+    let clientes = db.query("SELECT * FROM clientes WHERE cpf = $1", [cliente.cpf]);
+    let result: any;
+    
+    result = await clientes.then((dados) => {
+      return (result = dados.rows.map((cliente) => {
+        return cliente as Cliente;
+      }));
+    });
+    return result;
+       
   
   }
 

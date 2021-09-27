@@ -20,7 +20,7 @@ export default class ValidarCartao implements IStrategy {
         if (numero.length == 16) {
             if (validarCartao(numero)) {
 
-                return ""
+                return null!
             }
         }
         return "Numero do cartao invalido"

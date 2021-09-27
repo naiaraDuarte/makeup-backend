@@ -41,7 +41,7 @@ export default class CartaoDAO implements IDAO {
     }
     excluir(entidade: EntidadeDominio): boolean {
         const cartao = entidade as Cartao;
-        db.query("DELETE FROM cartoes WHERE id=$1", [cartao.id]);
+        db.query("UPDATE cartoes SET ativo = false WHERE id=$1", [cartao.id]);
         return true;
     };
 
@@ -50,7 +50,7 @@ export default class CartaoDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const cartao = entidade as Cartao;
-        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1", [cartao.idCliente]);
+        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1 AND ativo = true", [cartao.idCliente]);
         let result: Array<EntidadeDominio> = [];
     
         result = await cart.then((dados) => {

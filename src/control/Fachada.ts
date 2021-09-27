@@ -15,6 +15,7 @@ import ValidarEstoque from "../model/strategy/validarEstoque"
 import ValidarValorCartao from "../model/strategy/validarValorCartao";
 import CashbackDAO from "../model/dao/CashbackDAO";
 import ValidarEndereco from "../model/strategy/validarEndereco";
+import ValidarExistencia from "../model/strategy/validarExistencia";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -52,6 +53,7 @@ export default class Fachada implements IFachada {
     let validarEstoque = new ValidarEstoque();
     let validarValorCartao = new ValidarValorCartao();
     let validarEndereco = new ValidarEndereco();
+    let validarExistencia = new ValidarExistencia();
 
     // let criptografarSenha = new CriptografarSenha();
     // let validarExistencia = new ValidarExistencia();
@@ -60,17 +62,20 @@ export default class Fachada implements IFachada {
       [
         validarCpf,
         validarDadosObrigatorios,
-        // criptografarSenha
+        validarExistencia
       ]);
     this.rns.set("Cartao", [validarCartao]);
     this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
     this.rns.set("Endereco", [validarEndereco])
+    this.rns.set("Cashback", [])
 
   }
 
   async processarStrategys(entidade: EntidadeDominio): Promise<string> {
     let nomeClasse = entidade.constructor.name;
-    let final_msg: string = 'Erro na execução das regras';
+    let final_msg = "";
+    console.log("nome classe", nomeClasse)
+    
 
     for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade);
@@ -96,13 +101,16 @@ export default class Fachada implements IFachada {
   // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade);
+    let msg = await this.processarStrategys(entidade);    
+    console.log("mmmm", msg)
 
-    if (msg == "") {
+    if (msg == null) {
       let nomeClasse: string = entidade.constructor.name;
+      console.log("dentro cadastrar", nomeClasse)
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
     }
+    
     return entidade;
   }
 
