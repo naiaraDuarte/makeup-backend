@@ -20,7 +20,7 @@ CashbackRouter.get("/:id", async (req, res) => {
     let conversao = Object.assign(new Cashback(), cashback);
     let listaCashback: any = await fachada.consultarComId(conversao as Cashback);
   
-    res.json({ message: "OK", Cashback: listaCashback});
+    res.json({ message: "OK", cashback: listaCashback});
   });
 
 // CashbackRouter.post("/", async (req, res) => {

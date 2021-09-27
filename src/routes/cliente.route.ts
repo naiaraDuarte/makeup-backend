@@ -90,7 +90,7 @@ ClienteRouter.post("/", async (req, res) => {
 
   
   
-  res.json({ message: "OK", Cliente: cli});
+  res.json({ message: "OK", cliente: cli});
 
 });
 

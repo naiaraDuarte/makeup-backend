@@ -22,9 +22,8 @@ export default class CashbackDAO implements IDAO {
     }
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
-        const cashback = entidade as Cashback
-        
-        await db.query("UPDATE cashback SET valor=$1,  WHERE fk_cliente=$2",
+        const cashback = entidade as Cashback;
+        await db.query("UPDATE cashback SET valor=$1 WHERE fk_cliente=$2",
         [
             cashback.valor,
             cashback.idCliente,            
