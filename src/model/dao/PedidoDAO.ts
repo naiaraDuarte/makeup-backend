@@ -1,4 +1,5 @@
 import { db } from "../../db.config";
+import Cliente from "../entidade/cliente.model";
 import entidadeModel from "../entidade/entidade.model";
 import Pagamento from "../entidade/pagamento";
 import PagamentoCartao from "../entidade/pagamentoCartao";
@@ -77,8 +78,22 @@ export default class PedidoDAO implements IDAO {
     consultar(): Promise<entidadeModel[]> {
         throw new Error("Method not implemented.");
     }
-    consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
-        throw new Error("Method not implemented.");
+    async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
+        const cliente = entidade as Cliente;
+        let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1", [
+            cliente.id,
+          ]);
+          let result: any;
+          result = await pedidos.then((dados) => {
+            return (result = dados.rows.map((pedido) => {         
+      
+              return pedido as Pedido;
+            }));
+          });
+        let endereco = db.query("SELECT * from enderecos WHERE id IN (SELECT fk_endereco FROM pedidos WHERE fk_cliente = $1",
+        [cliente.id]);
+        
+          return result
     }
 
 }
