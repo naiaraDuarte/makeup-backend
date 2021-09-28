@@ -1,11 +1,14 @@
 import { db } from "../../db.config";
 import Cliente from "../entidade/cliente.model";
+import Endereco from "../entidade/endereco";
 import entidadeModel from "../entidade/entidade.model";
 import Pagamento from "../entidade/pagamento";
 import PagamentoCartao from "../entidade/pagamentoCartao";
 import Pedido from "../entidade/pedido";
 import Produto from "../entidade/produto";
 import ProdutoPedido from "../entidade/produtoPedido";
+import CartaoDAO from "./CartaoDAO";
+import EnderecoDAO from "./EnderecoDAO";
 import IDAO from "./IDAO";
 import PagamentoCartaoDAO from "./PagamentoCartaoDAO";
 import PagamentoDAO from "./PagamentoDAO";
@@ -21,7 +24,7 @@ export default class PedidoDAO implements IDAO {
         let pagamento = await pagamentoDao.salvar(pedido.pagamento);
         let pgmtoCartaoDao = new PagamentoCartaoDAO();
         //salvando cada cartao que consta no pedido
-        
+
         pedido.pagamento.cartoes.forEach(cart => {
             let pgmentoCartao = {
                 cartao: cart,
@@ -36,7 +39,7 @@ export default class PedidoDAO implements IDAO {
             [
                 pedido.cliente,
                 pedido.endereco,
-                pedido.pagamento.id, 
+                pedido.pagamento.id,
                 pedido.valor,
                 pedido.frete,
                 pedido.status
@@ -82,18 +85,50 @@ export default class PedidoDAO implements IDAO {
         const cliente = entidade as Cliente;
         let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1", [
             cliente.id,
-          ]);
-          let result: any;
-          result = await pedidos.then((dados) => {
-            return (result = dados.rows.map((pedido) => {         
-      
-              return pedido as Pedido;
-            }));
-          });
-        let endereco = db.query("SELECT * from enderecos WHERE id IN (SELECT fk_endereco FROM pedidos WHERE fk_cliente = $1",
-        [cliente.id]);
+        ]);
+        let result: any;
+        let enderecoDAO = new EnderecoDAO();
+        let pagamentoDao = new PagamentoDAO();
+        let pagamentoCartoesDao = new PagamentoCartaoDAO();
+        let produtosPedidosDao = new ProdutoPedidoDAO();
         
-          return result
-    }
+        result = await pedidos.then((dados) => {
+            return (result = dados.rows.map(async (pedido) => {
+                pedido.endereco = await enderecoDAO.consultarPedido(pedido.fk_endereco);
+                pedido.pagamento = await pagamentoDao.consultarPedido(pedido.fk_pagamento);
+                pedido.cartoes = await pagamentoCartoesDao.consultarPedido(pedido.fk_pagamento);
+                pedido.produtos = await produtosPedidosDao.consultarPedido(pedido.id)
+                console.log("pedido", pedido)
+                return pedido as Pedido;
+            }));
+        });
+        
+        
+        // let enderecoDAO = new EnderecoDAO();   
+        // for(let i = 0; i <= (await pedidos).rows.length; i++){
+        //     result.endereco = await enderecoDAO.consultarPedido((await pedidos).rows[i])
+        // }            
+        
 
+        // let cartaoDao = new CartaoDAO();
+        // pedidos.forEach(async (ped: entidadeModel) => {
+        //      let arrayCartao = await cartaoDao.consultarPedido(ped)
+            
+        // });   
+
+        
+        
+             console.log("result", result)  
+        return result
+  
 }
+
+
+        // result = await endereco.then((dados) => {
+        //     return (result = dados.rows.map((endereco) => {        
+        //       return endereco as Endereco;
+        //     }));
+        //   });
+
+        
+} 

@@ -2,6 +2,7 @@ import IDAO from './IDAO';
 import EntidadeDominio from '../entidade/entidade.model';
 import { db } from '../../db.config';
 import Cartao from '../entidade/cartao.model';
+import Pedido from '../entidade/pedido';
 
 export default class CartaoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
@@ -52,13 +53,33 @@ export default class CartaoDAO implements IDAO {
         const cartao = entidade as Cartao;
         let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1 AND ativo = true", [cartao.idCliente]);
         let result: Array<EntidadeDominio> = [];
-    
+
         result = await cart.then((dados) => {
-          return (result = dados.rows.map((cliente) => {
-            return cliente as Cartao;
-          }));
+            return (result = dados.rows.map((cliente) => {
+                return cliente as Cartao;
+            }));
         });
-    
+
         return result;
-      }
+    }
+    async consultarPedido(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const pedido = entidade as Pedido
+        console.log("dao", pedido)
+
+        let cartoes = db.query("SELECT * FROM cartoes WHERE id IN (SELECT fk_cartoes FROM pagamento_cartoes WHERE fk_pagamentos IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+            pedido.id
+        ])
+        let result: any;
+
+        result = await cartoes.then((dados) => {
+            return (result = dados.rows.map((cartoes) => {
+                return cartoes as Cartao;
+            }));
+        });
+
+        return result;
+
+
+
+    }
 }

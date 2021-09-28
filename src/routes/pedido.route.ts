@@ -1,5 +1,6 @@
 import express from "express";
 import Fachada from "../control/Fachada";
+import Endereco from "../model/entidade/endereco";
 import Pedido from "../model/entidade/pedido";
 
 
@@ -19,10 +20,38 @@ PedidoRouter.get("/:id", async (req, res) => {
   const pedido = {
     id: req.params.id,
   };
+
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.consultarComId(conversao as Pedido);
 
-  res.json({ message: "OK", pedido: listaPedido });
+  listaPedido.forEach((ped: Promise<any>) => {
+    ped.then(() => {
+
+    })
+
+
+  });
+  for (let i = 0; i < listaPedido.length; i++) {
+    listaPedido[i].then((teste: any) => {
+      res.json({ message: "OK", pedido: teste, endereco: listaPedido.endereco, pagamento: listaPedido.pagamento, cartao: listaPedido.cartoes });
+
+    })
+
+
+  }
+
+  console.log("rota", listaPedido)
+
+  // listaPedido.forEach(async (ped: any) => {
+  //   console.log("pedido", ped.endereco);
+
+  //   let conversao = Object.assign(new Endereco(), ped.endereco);
+  //   let end = await fachada.consultarComId(conversao);
+  //   console.log("end", end)    
+  //   listaPedido.endereco.push(end);
+  // });
+
+
 });
 
 PedidoRouter.post("/", async (req, res) => {
@@ -47,7 +76,7 @@ PedidoRouter.post("/", async (req, res) => {
   let cup = req.body.cupom;
   let cash = req.body.cashback
 
- const pagamento = {
+  const pagamento = {
     cartoes: arrayCartoes,
     cupom: cup,
     cashback: cash
@@ -64,7 +93,7 @@ PedidoRouter.post("/", async (req, res) => {
     valor: ped.valor,
     frete: ped.frete
   };
- 
+
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 

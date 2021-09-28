@@ -2,6 +2,7 @@ import IDAO from './IDAO';
 import EntidadeDominio from '../entidade/entidade.model';
 import { db } from '../../db.config';
 import Pagamento from '../entidade/pagamento';
+import PagamentoCartaoDAO from './PagamentoCartaoDAO';
 
 export default class PagamentoDAO implements IDAO {
     alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
@@ -30,6 +31,21 @@ export default class PagamentoDAO implements IDAO {
             entidade.id = idPagamento.rows[0].id;
             return entidade as Pagamento;
         }
+        async consultarPedido(id: Number){  
+            console.log("dao pgmto")   
+            
+            let pagamento = db.query("SELECT * from pagamentos WHERE id = $1",[id]);
+            let result: any;
+            
+            result = await pagamento.then((dados) => {
+              return (result = dados.rows.map(async (pagamento) => {               
+                return pagamento as Pagamento;
+              }));
+            });
+        
+            return result;
+        
+          }
     }
     
 

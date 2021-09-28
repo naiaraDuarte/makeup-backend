@@ -30,6 +30,19 @@ export default class PagamentoCartaoDAO implements IDAO {
         throw new Error('Method not implemented.');
     }
     consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
-        throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.');    
+    }
+    async consultarPedido(id: Number){
+        let pagamentoCartao = db.query("SELECT * from pagamento_cartoes WHERE id = $1",[id]);
+
+        let result : any;
+        result = await pagamentoCartao.then((dados) => {
+            return (result = dados.rows.map((pagamentoCartao) => {                
+              return pagamentoCartao as PagamentoCartao;
+            }));
+          });
+      
+          return result;
+      
     }
 }

@@ -91,24 +91,6 @@ export default class ProdutoDAO implements IDAO {
 
         return result;
     }
-
-
-
-    // async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
-    //     return new Promise(async (res, rej) => {
-    //         const produto = entidade as Produto;
-    //         let pdt = db.query("SELECT * FROM produtos WHERE id = $1", [produto.id]);
-    //         let result: Array<EntidadeDominio> = [];
-
-    //         result = await pdt.then((dados) => {
-    //             return (result = dados.rows.map((produto) => {
-    //                 return produto;
-    //             }));
-    //         });
-    //         res(result);
-
-    //     })
-
-    // }
+    
 
 }
