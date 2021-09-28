@@ -26,7 +26,6 @@ PedidoRouter.get("/:id", async (req, res) => {
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
       todosOsPedidos.push({
-        message: "OK",
         pedido: ped,
         endereco: listaPedido.endereco,
         pagamento: listaPedido.pagamento,
@@ -34,7 +33,7 @@ PedidoRouter.get("/:id", async (req, res) => {
       });
       console.log(todosOsPedidos);
       if (i == listaPedido.length - 1) {
-        res.json({todosOsPedidos});
+        res.json({message: "OK", todosOsPedidos});
       }
     });
   }
