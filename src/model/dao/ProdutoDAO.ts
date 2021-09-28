@@ -104,6 +104,23 @@ export default class ProdutoDAO implements IDAO {
 
         return result;
     }
+    async alterarEstoque(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const produto = entidade as Produto;
+        let pdt = db.query("UPDATE produtos SET quantidade=(quantidade-$1) WHERE id=$2", [
+            produto.quantidade,
+            produto.id
+        
+        ]);
+        
+        let result: Array<EntidadeDominio> = [];
+
+        result = await pdt.then((dados) => {
+            return (result = dados.rows.map((produto) => {
+                return produto;
+            }));
+        });
+        return result;
+    }
     
 
 }

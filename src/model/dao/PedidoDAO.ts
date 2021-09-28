@@ -11,8 +11,6 @@ import PagamentoCartao from "../entidade/pagamentoCartao";
 import Pedido from "../entidade/pedido";
 import Produto from "../entidade/produto";
 import ProdutoPedido from "../entidade/produtoPedido";
-import CartaoDAO from "./CartaoDAO";
-import EnderecoDAO from "./EnderecoDAO";
 import IDAO from "./IDAO";
 import PagamentoCartaoDAO from "./PagamentoCartaoDAO";
 import PagamentoDAO from "./PagamentoDAO";
@@ -111,23 +109,9 @@ export default class PedidoDAO implements IDAO {
                 return pedido as Pedido;
             }));
         });
+             
         
-        
-        // let enderecoDAO = new EnderecoDAO();   
-        // for(let i = 0; i <= (await pedidos).rows.length; i++){
-        //     result.endereco = await enderecoDAO.consultarPedido((await pedidos).rows[i])
-        // }            
-        
-
-        // let cartaoDao = new CartaoDAO();
-        // pedidos.forEach(async (ped: entidadeModel) => {
-        //      let arrayCartao = await cartaoDao.consultarPedido(ped)
             
-        // });   
-
-        
-        
-             console.log("result", result)  
         return result
   
 }                

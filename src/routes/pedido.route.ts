@@ -1,6 +1,5 @@
 import express from "express";
 import Fachada from "../control/Fachada";
-import Endereco from "../model/entidade/endereco";
 import Pedido from "../model/entidade/pedido";
 
 export const PedidoRouter = express.Router();
@@ -37,16 +36,8 @@ PedidoRouter.get("/:id", async (req, res) => {
       }
     });
   }
-  console.log("rota", listaPedido);
-
-  // listaPedido.forEach(async (ped: any) => {
-  //   console.log("pedido", ped.endereco);
-
-  //   let conversao = Object.assign(new Endereco(), ped.endereco);
-  //   let end = await fachada.consultarComId(conversao);
-  //   console.log("end", end)
-  //   listaPedido.endereco.push(end);
-  // });
+  
+ 
 });
 
 PedidoRouter.post("/", async (req, res) => {
