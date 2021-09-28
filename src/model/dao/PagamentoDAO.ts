@@ -7,16 +7,13 @@ import Cupom from '../entidade/cupom';
 
 export default class PagamentoDAO implements IDAO {
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        console.log("PAGAMENTO", id)
         let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
             id
           ])
           let result: any;
       
           result = await cupons.then((dados) => {
-              console.log("MERDA", dados)
               return (result = dados.rows.map((cupom) => {
-                  console.log("MDS", cupom)
                   return cupom as Cupom;
               }));
           });
@@ -49,7 +46,6 @@ export default class PagamentoDAO implements IDAO {
     }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
             const pagamento = entidade as Pagamento;
-            console.log("dao pagamento", pagamento.cupom)
             let idPagamento = await db.query(
                 "INSERT INTO pagamentos (fk_cupom, fk_cashback) VALUES ($1, $2) RETURNING id",
                 [

@@ -17,7 +17,6 @@ export default class CupomDAO implements IDAO {
   }
   async alterar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
-    console.log("Caiu nessa merda", cupom)
     if (Object.keys(cupom).length > 2) {
       await db.query(
         "UPDATE cupons SET porcen=$1, quant=$2, tipo=$3, cod=$4 WHERE id=$5",
@@ -25,7 +24,6 @@ export default class CupomDAO implements IDAO {
         [cupom.porcen, cupom.quant, cupom.tipo, cupom.cod, cupom.id]
       );
     } else {
-        console.log("Caiu nessa merda")
       let key = Object.keys(cupom);
       let values = Object.values(cupom);
       await db.query("UPDATE cupons SET " + key[1] + "=$1 WHERE id=$2", [
@@ -71,7 +69,6 @@ export default class CupomDAO implements IDAO {
     return result;
   }
   async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
-    console.log("dao", id)
 
     let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
       id
@@ -79,16 +76,11 @@ export default class CupomDAO implements IDAO {
     let result: any;
 
     result = await cupons.then((dados) => {
-        console.log("MERDA", dados)
         return (result = dados.rows.map((cupom) => {
-            console.log("MDS", cupom)
             return cupom as Cupom;
         }));
     });
 
-    console.log("MDS", result)
-
     return result;
-    throw new Error("Method not implemented.");
   }
 }

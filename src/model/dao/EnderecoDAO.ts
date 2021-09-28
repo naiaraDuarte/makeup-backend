@@ -6,7 +6,6 @@ import Cliente from "../entidade/cliente.model";
 
 export default class EnderecoDAO implements IDAO {
   async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-    console.log("dao end")   
     
     let endereco = db.query("SELECT * from enderecos WHERE id = $1",[id]);
     let result: any;

@@ -33,7 +33,6 @@ export default class ProdutoDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const produto = entidade as Produto;
-        console.log("categoria", produto.categoria)
         await db.query(
             "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14 WHERE id=$15",
 
@@ -91,7 +90,6 @@ export default class ProdutoDAO implements IDAO {
         return result;
     }
     async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
-        console.log("PRodutooooooooo", id)
 
         let produto = db.query("SELECT * FROM produtos WHERE id IN (SELECT fk_produto FROM produtos_pedidos WHERE fk_pedido = $1)", [
         id
@@ -99,14 +97,10 @@ export default class ProdutoDAO implements IDAO {
         let result: any;
 
         result = await produto.then((dados) => {
-            console.log("MERDA", dados)
             return (result = dados.rows.map((cupom) => {
-                console.log("MDS", cupom)
                 return cupom as Produto;
             }));
         });
-
-        console.log("MDS", result)
 
         return result;
     }

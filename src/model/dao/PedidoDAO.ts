@@ -39,7 +39,6 @@ export default class PedidoDAO implements IDAO {
             }
             pgmtoCartaoDao.salvar(pgmentoCartao as PagamentoCartao);
         });
-        console.log("dao pedido", pedido.status)
 
         let idPedido = await db.query(
             "INSERT INTO pedidos (fk_cliente, fk_endereco, fk_pagamento, valor, frete, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
@@ -109,7 +108,6 @@ export default class PedidoDAO implements IDAO {
                 pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
                 pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
                 pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
-                console.log("pedido", pedido)
                 return pedido as Pedido;
             }));
         });

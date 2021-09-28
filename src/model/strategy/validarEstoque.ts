@@ -15,8 +15,6 @@ export default class ValidarEstoque implements IStrategy {
             let qntdeEstoque = await produtoDAO.consultarComId(pdt);
             // qntdeEstoque.then(valor => {console.log("v", valor)})
             let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);
-            console.log("estoque atual", qtdeEstoque.quantidade);
-            console.log('vendido', pdt.quantidade);
 
             if (pdt.quantidade > qtdeEstoque.quantidade) {
                 msgn = "Produto sem estoque" 

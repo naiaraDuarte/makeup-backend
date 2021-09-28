@@ -11,7 +11,6 @@ import CashbackDAO from "./CashbackDAO";
 
 export default class ClienteDAO implements IDAO {  
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    console.log("dentro dao")
     const cliente = entidade as Cliente;
     let idCliente = await db.query(
       "INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha, apelido) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
