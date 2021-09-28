@@ -23,18 +23,13 @@ import ValidarExistencia from "../model/strategy/validarExistencia";
 export default class Fachada implements IFachada {
   daos: Map<string, IDAO>;
   rns: Map<string, IStrategy[]>;
-  // rns_cliente: any = [];
-  // rns_cartao: any = [];
-  // // rns_endereco: any = [];
-
+  
   constructor() {
     this.daos = new Map<string, IDAO>();
     this.rns = new Map<string, IStrategy[]>();
     this.definirDAOS();
     this.definirRNS();
   }
-
-
 
   definirDAOS() {
     this.daos.set("Cliente", new ClienteDAO());
@@ -53,10 +48,7 @@ export default class Fachada implements IFachada {
     let validarEstoque = new ValidarEstoque();
     let validarValorCartao = new ValidarValorCartao();
     let validarEndereco = new ValidarEndereco();
-    let validarExistencia = new ValidarExistencia();
-
-    // let criptografarSenha = new CriptografarSenha();
-    // let validarExistencia = new ValidarExistencia();
+    let validarExistencia = new ValidarExistencia();    
 
     this.rns.set("Cliente",
       [
@@ -67,7 +59,7 @@ export default class Fachada implements IFachada {
     this.rns.set("Cartao", [validarCartao]);
     this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
     this.rns.set("Endereco", [validarEndereco])
-    this.rns.set("Cashback", [])
+    // this.rns.set("Cashback", [])
 
   }
 
