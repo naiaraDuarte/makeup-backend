@@ -2,6 +2,7 @@ import Fachada from "../../control/Fachada";
 import { db } from "../../db.config";
 import Cartao from "../entidade/cartao.model";
 import Cliente from "../entidade/cliente.model";
+import Cupom from "../entidade/cupom";
 import endereco from "../entidade/endereco";
 import Endereco from "../entidade/endereco";
 import entidadeModel from "../entidade/entidade.model";
@@ -100,10 +101,12 @@ export default class PedidoDAO implements IDAO {
             return (result = dados.rows.map(async (pedido) => {
                 let endereco= Object.assign(new Endereco(), pedido.endereco );
                 let pagamento = Object.assign(new Pagamento(), pedido.pagamento );
+                let cupom = Object.assign(new Cupom());
                 let cartao = Object.assign(new Cartao(), pedido.cartoes );
-                let produto = Object.assign(new ProdutoPedido(), pedido.produtos );
+                let produto = Object.assign(new Produto(), pedido.produtos );
                 pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.fk_pagamento);
+                // pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
                 pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
                 pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
                 console.log("pedido", pedido)

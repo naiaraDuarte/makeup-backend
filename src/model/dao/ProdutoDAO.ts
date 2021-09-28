@@ -90,8 +90,25 @@ export default class ProdutoDAO implements IDAO {
         });
         return result;
     }
-    consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
-        throw new Error("Method not implemented.");
+    async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+        console.log("PRodutooooooooo", id)
+
+        let produto = db.query("SELECT * FROM produtos WHERE id IN (SELECT fk_produto FROM produtos_pedidos WHERE fk_pedido = $1)", [
+        id
+        ])
+        let result: any;
+
+        result = await produto.then((dados) => {
+            console.log("MERDA", dados)
+            return (result = dados.rows.map((cupom) => {
+                console.log("MDS", cupom)
+                return cupom as Produto;
+            }));
+        });
+
+        console.log("MDS", result)
+
+        return result;
     }
     
 

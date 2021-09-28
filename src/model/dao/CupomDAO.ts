@@ -5,9 +5,7 @@ import { db } from "../../db.config";
 import EntidadeDominio from "../entidade/entidade.model";
 
 export default class CupomDAO implements IDAO {
-  consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
-    throw new Error("Method not implemented.");
-  }
+  
   async salvar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
     let idCupom = await db.query(
@@ -71,5 +69,26 @@ export default class CupomDAO implements IDAO {
       }));
     });
     return result;
+  }
+  async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+    console.log("dao", id)
+
+    let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+      id
+    ])
+    let result: any;
+
+    result = await cupons.then((dados) => {
+        console.log("MERDA", dados)
+        return (result = dados.rows.map((cupom) => {
+            console.log("MDS", cupom)
+            return cupom as Cupom;
+        }));
+    });
+
+    console.log("MDS", result)
+
+    return result;
+    throw new Error("Method not implemented.");
   }
 }

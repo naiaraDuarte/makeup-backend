@@ -3,19 +3,34 @@ import EntidadeDominio from '../entidade/entidade.model';
 import { db } from '../../db.config';
 import Pagamento from '../entidade/pagamento';
 import PagamentoCartaoDAO from './PagamentoCartaoDAO';
+import Cupom from '../entidade/cupom';
 
 export default class PagamentoDAO implements IDAO {
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        console.log("dao pgmto")   
+        console.log("PAGAMENTO", id)
+        let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+            id
+          ])
+          let result: any;
+      
+          result = await cupons.then((dados) => {
+              console.log("MERDA", dados)
+              return (result = dados.rows.map((cupom) => {
+                  console.log("MDS", cupom)
+                  return cupom as Cupom;
+              }));
+          });
+      
+        // console.log("dao pgmto")   
             
-        let pagamento = db.query("SELECT * from pagamentos WHERE id = $1",[id]);
-        let result: any;
+        // let pagamento = db.query("SELECT * from pagamentos WHERE id = $1",[id]);
+        // let result: any;
         
-        result = await pagamento.then((dados) => {
-          return (result = dados.rows.map(async (pagamento) => {               
-            return pagamento as Pagamento;
-          }));
-        });
+        // result = await pagamento.then((dados) => {
+        //   return (result = dados.rows.map(async (pagamento) => {               
+        //     return pagamento as Pagamento;
+        //   }));
+        // });
     
         return result;
     ;
