@@ -135,8 +135,15 @@ export default class Fachada implements IFachada {
     return retorno
   }
 
+  async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
+    let nomeClasse: string = entidade.constructor.name;
+    return (await this.daos.get(nomeClasse)?.consultarPedido(entidade, id)) ?? [];
+  }
+
+
   async consultarLogin(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
     const cliente = new ClienteDAO()
     return await cliente.consultarLogin(entidade) ?? [];
   }
+  
 }

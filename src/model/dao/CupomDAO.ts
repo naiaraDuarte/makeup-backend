@@ -5,6 +5,9 @@ import { db } from "../../db.config";
 import EntidadeDominio from "../entidade/entidade.model";
 
 export default class CupomDAO implements IDAO {
+  consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+    throw new Error("Method not implemented.");
+  }
   async salvar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
     let idCupom = await db.query(

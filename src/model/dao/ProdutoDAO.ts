@@ -4,7 +4,7 @@ import IDAO from "./IDAO";
 import { db } from '../../db.config';
 import EntidadeDominio from "../entidade/entidade.model";
 
-export default class ProdutoDAO implements IDAO {
+export default class ProdutoDAO implements IDAO {    
     async salvar(entidade: entidadeModel): Promise<entidadeModel> {
         const produto = entidade as Produto;
         let idProduto = await db.query(
@@ -88,8 +88,10 @@ export default class ProdutoDAO implements IDAO {
                 return produto;
             }));
         });
-
         return result;
+    }
+    consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+        throw new Error("Method not implemented.");
     }
     
 

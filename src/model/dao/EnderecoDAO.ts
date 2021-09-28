@@ -5,6 +5,20 @@ import Endereco from "../entidade/endereco";
 import Cliente from "../entidade/cliente.model";
 
 export default class EnderecoDAO implements IDAO {
+  async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
+    console.log("dao end")   
+    
+    let endereco = db.query("SELECT * from enderecos WHERE id = $1",[id]);
+    let result: any;
+    
+    result = await endereco.then((dados) => {
+      return (result = dados.rows.map((enderecos) => {
+        return enderecos as Endereco;
+      }));
+    });
+
+    return result;;
+  }
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const endereco = entidade as Endereco;
 
@@ -72,20 +86,5 @@ export default class EnderecoDAO implements IDAO {
     });
 
     return result;
-  }
-  async consultarPedido(id: Number){  
-    console.log("dao end")   
-    
-    let endereco = db.query("SELECT * from enderecos WHERE id = $1",[id]);
-    let result: any;
-    
-    result = await endereco.then((dados) => {
-      return (result = dados.rows.map((enderecos) => {
-        return enderecos as Endereco;
-      }));
-    });
-
-    return result;
-
-  }
+  }  
 }

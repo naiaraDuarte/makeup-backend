@@ -5,6 +5,9 @@ import entidadeModel from "../entidade/entidade.model";
 import IDAO from "./IDAO";
 
 export default class CashbackDAO implements IDAO {
+    consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
+        throw new Error("Method not implemented.");
+    }
     async salvar(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback = entidade as Cashback;
         console.log("dao cashback");

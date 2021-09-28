@@ -1,5 +1,8 @@
+import Fachada from "../../control/Fachada";
 import { db } from "../../db.config";
+import Cartao from "../entidade/cartao.model";
 import Cliente from "../entidade/cliente.model";
+import endereco from "../entidade/endereco";
 import Endereco from "../entidade/endereco";
 import entidadeModel from "../entidade/entidade.model";
 import Pagamento from "../entidade/pagamento";
@@ -15,6 +18,9 @@ import PagamentoDAO from "./PagamentoDAO";
 import ProdutoPedidoDAO from "./ProdutoPedidoDAO";
 
 export default class PedidoDAO implements IDAO {
+    consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+        throw new Error("Method not implemented.");
+    }
     async salvar(entidade: entidadeModel): Promise<entidadeModel> {
         const pedido = entidade as Pedido;
 
@@ -87,17 +93,20 @@ export default class PedidoDAO implements IDAO {
             cliente.id,
         ]);
         let result: any;
-        let enderecoDAO = new EnderecoDAO();
-        let pagamentoDao = new PagamentoDAO();
-        let pagamentoCartoesDao = new PagamentoCartaoDAO();
-        let produtosPedidosDao = new ProdutoPedidoDAO();
+        let fachada = new Fachada();
+        
         
         result = await pedidos.then((dados) => {
             return (result = dados.rows.map(async (pedido) => {
-                pedido.endereco = await enderecoDAO.consultarPedido(pedido.fk_endereco);
-                pedido.pagamento = await pagamentoDao.consultarPedido(pedido.fk_pagamento);
-                pedido.cartoes = await pagamentoCartoesDao.consultarPedido(pedido.fk_pagamento);
-                pedido.produtos = await produtosPedidosDao.consultarPedido(pedido.id)
+                
+                let endereco= Object.assign(new Endereco(), pedido.endereco );
+                let pagamento = Object.assign(new Pagamento(), pedido.pagamento );
+                let cartao = Object.assign(new Cartao(), pedido.cartoes );
+                let produto = Object.assign(new ProdutoPedido(), pedido.produtos );
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
+                pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.fk_pagamento);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.fk_pagamento);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
                 console.log("pedido", pedido)
                 return pedido as Pedido;
             }));
@@ -121,14 +130,5 @@ export default class PedidoDAO implements IDAO {
              console.log("result", result)  
         return result
   
-}
-
-
-        // result = await endereco.then((dados) => {
-        //     return (result = dados.rows.map((endereco) => {        
-        //       return endereco as Endereco;
-        //     }));
-        //   });
-
-        
+}                
 } 

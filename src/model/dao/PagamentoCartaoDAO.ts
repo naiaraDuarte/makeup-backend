@@ -4,6 +4,18 @@ import { db } from '../../db.config';
 import PagamentoCartao from '../entidade/pagamentoCartao';
 
 export default class PagamentoCartaoDAO implements IDAO {
+    async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
+        let pagamentoCartao = db.query("SELECT * from pagamento_cartoes WHERE id = $1",[id]);
+
+        let result : any;
+        result = await pagamentoCartao.then((dados) => {
+            return (result = dados.rows.map((pagamentoCartao) => {                
+              return pagamentoCartao as PagamentoCartao;
+            }));
+          });
+      
+          return result;;
+    }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const pagamentoCartao = entidade as PagamentoCartao;
                     
@@ -32,17 +44,5 @@ export default class PagamentoCartaoDAO implements IDAO {
     consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
         throw new Error('Method not implemented.');    
     }
-    async consultarPedido(id: Number){
-        let pagamentoCartao = db.query("SELECT * from pagamento_cartoes WHERE id = $1",[id]);
-
-        let result : any;
-        result = await pagamentoCartao.then((dados) => {
-            return (result = dados.rows.map((pagamentoCartao) => {                
-              return pagamentoCartao as PagamentoCartao;
-            }));
-          });
-      
-          return result;
-      
-    }
+   
 }

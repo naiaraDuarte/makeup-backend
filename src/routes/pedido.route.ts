@@ -24,22 +24,18 @@ PedidoRouter.get("/:id", async (req, res) => {
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.consultarComId(conversao as Pedido);
 
-  listaPedido.forEach((ped: Promise<any>) => {
-    ped.then(() => {
+  // listaPedido.forEach((ped: Promise<any>) => {
+  //   ped.then(() => {
 
-    })
+  //   })
 
 
-  });
+  // });
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((teste: any) => {
       res.json({ message: "OK", pedido: teste, endereco: listaPedido.endereco, pagamento: listaPedido.pagamento, cartao: listaPedido.cartoes });
-
     })
-
-
   }
-
   console.log("rota", listaPedido)
 
   // listaPedido.forEach(async (ped: any) => {

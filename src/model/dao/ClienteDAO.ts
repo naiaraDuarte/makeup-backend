@@ -9,7 +9,7 @@ import CartaoDAO from "./CartaoDAO";
 import CashbackDAO from "./CashbackDAO";
 
 
-export default class ClienteDAO implements IDAO {
+export default class ClienteDAO implements IDAO {  
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     console.log("dentro dao")
     const cliente = entidade as Cliente;
@@ -131,8 +131,7 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    return result;
-       
+    return result;     
   
   }
 
@@ -163,5 +162,8 @@ export default class ClienteDAO implements IDAO {
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
     
     return result;
+  }
+  consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
+    throw new Error("Method not implemented.");
   }
 }
