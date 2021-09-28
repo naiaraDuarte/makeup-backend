@@ -62,20 +62,24 @@ export default class CartaoDAO implements IDAO {
 
         return result;
     }
-    async consultarPedido(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+    async consultarPedido(entidade: EntidadeDominio, fk: Number): Promise<Array<EntidadeDominio>> {
         const pedido = entidade as Pedido
-        console.log("dao", pedido)
+        console.log("dao", fk)
 
         let cartoes = db.query("SELECT * FROM cartoes WHERE id IN (SELECT fk_cartoes FROM pagamento_cartoes WHERE fk_pagamentos IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
-            pedido.id
+            fk
         ])
         let result: any;
 
         result = await cartoes.then((dados) => {
-            return (result = dados.rows.map((cartoes) => {
-                return cartoes as Cartao;
+            console.log("MERDA", dados)
+            return (result = dados.rows.map((cartao) => {
+                console.log("MDS", cartao)
+                return cartao as Cartao;
             }));
         });
+
+        console.log("MDS", result)
 
         return result;
 

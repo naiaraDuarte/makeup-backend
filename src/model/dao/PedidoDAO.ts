@@ -98,14 +98,13 @@ export default class PedidoDAO implements IDAO {
         
         result = await pedidos.then((dados) => {
             return (result = dados.rows.map(async (pedido) => {
-                
                 let endereco= Object.assign(new Endereco(), pedido.endereco );
                 let pagamento = Object.assign(new Pagamento(), pedido.pagamento );
                 let cartao = Object.assign(new Cartao(), pedido.cartoes );
                 let produto = Object.assign(new ProdutoPedido(), pedido.produtos );
                 pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
                 pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.fk_pagamento);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.fk_pagamento);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
                 pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
                 console.log("pedido", pedido)
                 return pedido as Pedido;
