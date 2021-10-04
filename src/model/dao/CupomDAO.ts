@@ -41,7 +41,7 @@ export default class CupomDAO implements IDAO {
   }
 
   async consultar(): Promise<entidadeModel[]> {
-    let cupons = db.query("SELECT * FROM cupons");
+    let cupons = db.query("SELECT * FROM cupons WHERE ativo= true ");
     let result: Array<EntidadeDominio> = [];
 
     result = await cupons.then((dados) => {
