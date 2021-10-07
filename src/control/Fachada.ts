@@ -62,6 +62,7 @@ export default class Fachada implements IFachada {
     this.rns.set("Cashback", [])
     this.rns.set("Cashback", [])
     this.rns.set("Cupom", [])
+    this.rns.set("Produto", [])
 
 
   }

@@ -23,14 +23,14 @@ export default class ValidarEstoque implements IStrategy {
             //     return msgn
             // }
             // else {
-                // pedido.produtos.forEach(async pdt => {
-                //     let qntdeEstoque = await produtoDao.alterarEstoque(pdt);                    
-                //     console.log("else")
-                // });
+                pedido.produtos.forEach(async pdt => {
+                    let qntdeEstoque = await produtoDao.alterarEstoque(pdt);                    
+                    console.log("else")
+            //     });
 
             // }
         });
-
+    });
 
 
 
