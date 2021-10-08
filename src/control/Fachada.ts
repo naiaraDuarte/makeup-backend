@@ -17,6 +17,8 @@ import CashbackDAO from "../model/dao/CashbackDAO";
 import ValidarEndereco from "../model/strategy/validarEndereco";
 import ValidarExistencia from "../model/strategy/validarExistencia";
 import CategoriaDAO from "../model/dao/CategoriaDAO";
+import ValidarCupom from "../model/strategy/validarCupom";
+import ValidarCupomPedido from "../model/strategy/ValidarCupomPedido";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -51,6 +53,8 @@ export default class Fachada implements IFachada {
     let validarValorCartao = new ValidarValorCartao();
     let validarEndereco = new ValidarEndereco();
     let validarExistencia = new ValidarExistencia();    
+    let validarCupom = new ValidarCupom();
+    let validarCupomPedido = new ValidarCupomPedido();
 
     this.rns.set("Cliente",
       [
@@ -59,11 +63,11 @@ export default class Fachada implements IFachada {
         validarExistencia
       ]);
     this.rns.set("Cartao", [validarCartao]);
-    this.rns.set("Pedido", [validarEstoque, validarValorCartao]);
+    this.rns.set("Pedido", [validarEstoque, validarValorCartao, validarCupomPedido]);
     this.rns.set("Endereco", [validarEndereco])
     this.rns.set("Cashback", [])
     this.rns.set("Cashback", [])
-    this.rns.set("Cupom", [])
+    this.rns.set("Cupom", [validarCupom])
     this.rns.set("Produto", [])
   }
 

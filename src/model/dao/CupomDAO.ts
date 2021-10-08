@@ -5,7 +5,7 @@ import { db } from "../../db.config";
 import EntidadeDominio from "../entidade/entidade.model";
 
 export default class CupomDAO implements IDAO {
-  
+
   async salvar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
     let idCupom = await db.query(
@@ -76,11 +76,21 @@ export default class CupomDAO implements IDAO {
     let result: any;
 
     result = await cupons.then((dados) => {
-        return (result = dados.rows.map((cupom) => {
-            return cupom as Cupom;
-        }));
+      return (result = dados.rows.map((cupom) => {
+        return cupom as Cupom;
+      }));
     });
 
     return result;
+  }
+  async alterarQtde(entidade: entidadeModel): Promise<entidadeModel> {
+    const cupom = entidade as Cupom;
+    await db.query(
+      "UPDATE cupons SET quant=(quant-1) WHERE id=$1",
+
+      [cupom.id]
+    );
+    return cupom
+
   }
 }
