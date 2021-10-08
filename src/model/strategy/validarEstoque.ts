@@ -25,7 +25,7 @@ export default class ValidarEstoque implements IStrategy {
             // else {
                 pedido.produtos.forEach(async pdt => {
                     let qntdeEstoque = await produtoDao.alterarEstoque(pdt);                    
-                    console.log("else")
+                    
             //     });
 
             // }
