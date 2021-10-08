@@ -16,6 +16,7 @@ import ValidarValorCartao from "../model/strategy/validarValorCartao";
 import CashbackDAO from "../model/dao/CashbackDAO";
 import ValidarEndereco from "../model/strategy/validarEndereco";
 import ValidarExistencia from "../model/strategy/validarExistencia";
+import CategoriaDAO from "../model/dao/CategoriaDAO";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
 
@@ -39,6 +40,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Cupom", new CupomDAO());
     this.daos.set("Pedido", new PedidoDAO());
     this.daos.set("Cashback", new CashbackDAO());
+    this.daos.set("Categoria", new CategoriaDAO());
   }
 
   definirRNS() {
@@ -63,19 +65,19 @@ export default class Fachada implements IFachada {
     this.rns.set("Cashback", [])
     this.rns.set("Cupom", [])
     this.rns.set("Produto", [])
-
-
   }
 
   async processarStrategys(entidade: EntidadeDominio): Promise<string> {
     let nomeClasse = entidade.constructor.name;
     let final_msg = "";
-    
+    // let mensagem = entidade.msgn
     for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade);
-      console.log("msgn", final_msg)
-      if (final_msg != "") break;
-    }
+      console.log("msgn", final_msg)      
+      // mensagem.push(final_msg); 
+      if (final_msg != "")            
+      break;
+    } 
     return final_msg;
   }
 
@@ -102,7 +104,7 @@ export default class Fachada implements IFachada {
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
       }
-      entidade.erro = 500;    
+      entidade.msgn   
     return entidade;
   }
 

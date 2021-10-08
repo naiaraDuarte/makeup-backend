@@ -65,32 +65,31 @@ ClienteRouter.post("/", async (req, res) => {
     senha: req.body.senha,
     endereco: arrayEndereco,
     apelido: req.body.apelido,
-  }; 
+  };
 
   let conversao = Object.assign(new Cliente(), cliente);
   let cli = await fachada.cadastrar(conversao);
-  
+
   const cashback = {
-    valor : 0,
+    valor: 0,
     idCliente: cli.id
   }
-  
-  let convert = Object.assign(new Cashback(), cashback);
-  let cash = await fachada.cadastrar(convert);
-  console.log("cash rota", cash)
+  console.log("cli.id", cli.id)
+  if (cli.id != null) {
 
-  let enderecos: Endereco[] = arrayEndereco.map((e: any) => Object.assign(new Endereco(cli.id), e));
-  // let resultEnd: EntidadeDominio[] = [];
-  enderecos.forEach(async (e) => {
-    let msg2 = await fachada.cadastrar(e);
-    // resultEnd.push(msg2);
+    let convert = Object.assign(new Cashback(), cashback);
+    let cash = await fachada.cadastrar(convert);
+    console.log("cash rota", cash)
 
-  });
+    let enderecos: Endereco[] = arrayEndereco.map((e: any) => Object.assign(new Endereco(cli.id), e));
+    // let resultEnd: EntidadeDominio[] = [];
+    enderecos.forEach(async (e) => {
+      let msg2 = await fachada.cadastrar(e);
+      // resultEnd.push(msg2);
+    });
+  }
 
-
-  
-  
-  res.json({ message: "OK", cliente: cli});
+  res.json({ message: "OK", cliente: cli });
 
 });
 
