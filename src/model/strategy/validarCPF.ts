@@ -42,7 +42,7 @@ export default class ValidarCPF implements IStrategy {
                 return "Cpf invalido";
             } 
             
-            return "";
+            return null!;
         
     }
 

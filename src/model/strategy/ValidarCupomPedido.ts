@@ -14,8 +14,7 @@ export default class ValidarCupomPedido implements IStrategy {
         let msgn = "";
         
         let cupom= {
-            id: pedido.pagamento.cupom.id,
-             
+            id: pedido.pagamento.cupom.id,             
         }
         
         let alterarQtde = cupomDao.alterarQtde(cupom as Cupom);

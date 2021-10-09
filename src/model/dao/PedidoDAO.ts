@@ -5,6 +5,7 @@ import Cliente from "../entidade/cliente.model";
 import Cupom from "../entidade/cupom";
 import endereco from "../entidade/endereco";
 import Endereco from "../entidade/endereco";
+import EntidadeDominio from "../entidade/entidade.model";
 import entidadeModel from "../entidade/entidade.model";
 import Pagamento from "../entidade/pagamento";
 import PagamentoCartao from "../entidade/pagamentoCartao";
@@ -82,37 +83,47 @@ export default class PedidoDAO implements IDAO {
     excluir(entidade: entidadeModel): boolean {
         throw new Error("Method not implemented.");
     }
-    consultar(): Promise<entidadeModel[]> {
-        throw new Error("Method not implemented.");
-    }
-    async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
-        const cliente = entidade as Cliente;
-        let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1", [
-            cliente.id,
-        ]);
-        let result: any;
-        let fachada = new Fachada();
-        
-        
+    async consultar(): Promise<entidadeModel[]> {
+        let pedidos = db.query("select * from pedidos");
+        let result: Array<EntidadeDominio> = [];
+
         result = await pedidos.then((dados) => {
-            return (result = dados.rows.map(async (pedido) => {
-                let endereco= Object.assign(new Endereco(), pedido.endereco );
-                let pagamento = Object.assign(new Pagamento(), pedido.pagamento );
-                let cupom = Object.assign(new Cupom());
-                let cartao = Object.assign(new Cartao(), pedido.cartoes );
-                let produto = Object.assign(new Produto(), pedido.produtos );
-                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                // pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.id);
-                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
-                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+            return (result = dados.rows.map((pedido) => {
                 return pedido as Pedido;
             }));
         });
-             
-        
-            
-        return result
-  
+
+        return result;
+    }
+
+    async consultarComId(entidade: entidadeModel): Promise < entidadeModel[] > {
+    const cliente = entidade as Cliente;
+    let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1", [
+        cliente.id,
+    ]);
+    let result: any;
+    let fachada = new Fachada();
+
+
+    result = await pedidos.then((dados) => {
+        return (result = dados.rows.map(async (pedido) => {
+            let endereco = Object.assign(new Endereco(), pedido.endereco);
+            let pagamento = Object.assign(new Pagamento(), pedido.pagamento);
+            let cupom = Object.assign(new Cupom());
+            let cartao = Object.assign(new Cartao(), pedido.cartoes);
+            let produto = Object.assign(new Produto(), pedido.produtos);
+            pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
+            // pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.id);
+            pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
+            pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
+            pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+            return pedido as Pedido;
+        }));
+    });
+
+
+
+    return result
+
 }                
-} 
+}

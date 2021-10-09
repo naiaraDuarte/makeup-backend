@@ -32,7 +32,7 @@ export default class ValidarEndereco implements IStrategy {
             
         }
 
-        return msgn;
+        return null!;
     }
     
 }

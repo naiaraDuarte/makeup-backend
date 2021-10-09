@@ -88,8 +88,16 @@ ClienteRouter.post("/", async (req, res) => {
       // resultEnd.push(msg2);
     });
   }
+  if (cli.msgn.length>1){
+    res.status(400).json({status: 1, message: cli.msgn});    
+  }
+    else{
+      res.status(200).json({status: 0, message: cli});
+    }
+      
 
-  res.json({ message: "OK", cliente: cli });
+
+ 
 
 });
 

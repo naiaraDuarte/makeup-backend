@@ -76,13 +76,14 @@ export default class Fachada implements IFachada {
   async processarStrategys(entidade: EntidadeDominio): Promise<string> {
     let nomeClasse = entidade.constructor.name;
     let final_msg = "";
-    // let mensagem = entidade.msgn
+    let mensagem = [];
     for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade);
       console.log("msgn", final_msg)      
-      // mensagem.push(final_msg); 
-      if (final_msg != "")            
-      break;
+      mensagem.push(final_msg);
+      entidade.msgn = mensagem; 
+      // if (final_msg != "")            
+      // break;
     } 
     return final_msg;
   }
