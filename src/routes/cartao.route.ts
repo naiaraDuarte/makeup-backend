@@ -23,7 +23,12 @@ CartaoRouter.post("/:id", async (req, res) => {
     };
     let conversao = Object.assign(new Cartao(), cartaoCredito);
     let listaCartao: any = await fachada.cadastrar(conversao as Cartao);
-    res.json({ message: "OK", cartao: listaCartao });
+    if (listaCartao.msgn.length>1){
+        res.status(400).json({status: 1, message: listaCartao.msgn});    
+      }
+        else{
+          res.status(200).json({status: 0, message: listaCartao});
+        }
 });
 
 CartaoRouter.put("/:id", async (req, res) => {
@@ -39,8 +44,13 @@ CartaoRouter.put("/:id", async (req, res) => {
     };
 
     let conversao = Object.assign(new Cartao(), cartaoCredito);
-    let listaCliente: any = await fachada.alterar(conversao as Cartao);
-    res.json({ message: "OK", dados: listaCliente });
+    let listaCartao: any = await fachada.alterar(conversao as Cartao);
+    if (listaCartao.msgn.length>1){
+        res.status(400).json({status: 1, message: listaCartao.msgn});    
+      }
+        else{
+          res.status(200).json({status: 0, message: listaCartao});
+        }
 });
 
 CartaoRouter.delete("/:id", async (req, res) => {

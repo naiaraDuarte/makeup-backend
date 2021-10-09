@@ -1,5 +1,4 @@
 import express from "express";
-import { idText } from "typescript";
 import Fachada from "../control/Fachada";
 import Produto from "../model/entidade/produto";
 

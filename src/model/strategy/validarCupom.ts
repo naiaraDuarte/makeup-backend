@@ -4,7 +4,7 @@ import Fachada from "../../control/Fachada";
 import Cupom from "../entidade/cupom";
 
 export default class ValidarCupom implements IStrategy {
-    async processar(entidade: EntidadeDominio): Promise<string> {
+    async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const cupom = entidade as Cupom;          
         let fachada = new Fachada();
         let msgn = "";
@@ -12,8 +12,9 @@ export default class ValidarCupom implements IStrategy {
         let cupomEstoque = await fachada.consultar(cupom)
         
         cupomEstoque.forEach(cup => {
-            let conversao = Object.assign(new Cupom(), cup);                      
-            if (cupom.cod == conversao.cod)
+            let conversao = Object.assign(new Cupom(), cup); 
+            console.log("altera", altera)                     
+            if (cupom.cod == conversao.cod && !altera)
             msgn= "Cupom já cadastrado";            
         });
         if (msgn == "")

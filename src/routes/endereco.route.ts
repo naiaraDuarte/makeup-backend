@@ -36,7 +36,12 @@ EnderecoRouter.post("/:id", async (req, res) => {
   let conversao = Object.assign(new Endereco(), endereco);
   let listaEndereco: any = await fachada.cadastrar(conversao as Endereco);
 
-  res.json({ message: "OK", endereco: listaEndereco });
+  if (listaEndereco.msgn.length>1){
+    res.status(400).json({status: 1, message: listaEndereco.msgn});    
+  }
+    else{
+      res.status(200).json({status: 0, message: listaEndereco});
+    }
 });
 
 EnderecoRouter.put("/:idCliente", async (req, res) => {
@@ -62,7 +67,12 @@ EnderecoRouter.put("/:idCliente", async (req, res) => {
   let conversao = Object.assign(new Endereco(), endereco);
   let listaCliente: any = await fachada.alterar(conversao as Endereco);
 
-  res.json({ message: "OK", dados: listaCliente });
+  if (listaCliente.msgn.length>1){
+    res.status(400).json({status: 1, message: listaCliente.msgn});    
+  }
+    else{
+      res.status(200).json({status: 0, message: listaCliente});
+    }
 });
 
 EnderecoRouter.delete("/:id", async (req, res) => {

@@ -73,12 +73,12 @@ export default class Fachada implements IFachada {
     this.rns.set("Produto", [])
   }
 
-  async processarStrategys(entidade: EntidadeDominio): Promise<string> {
+  async processarStrategys(entidade: EntidadeDominio, altera: boolean): Promise<string> {
     let nomeClasse = entidade.constructor.name;
     let final_msg = "";
     let mensagem = [];
     for (const s of this.rns.get(nomeClasse)!) {
-      final_msg = await s.processar(entidade);
+      final_msg = await s.processar(entidade, altera);
       console.log("msgn", final_msg) 
       if (final_msg != null) {
         mensagem.push(final_msg);
@@ -107,7 +107,7 @@ export default class Fachada implements IFachada {
   // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade);
+    let msg = await this.processarStrategys(entidade, false);
     console.log("mensagem cadastro", msg)    
     
     if (msg == "") {
@@ -120,11 +120,11 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade);    
+    let msg = await this.processarStrategys(entidade, true);    
     
     if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
-      let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
+      let retorno = await this.daos.get(nomeClasse)?.alterar(entidade,);
       return retorno as EntidadeDominio;
       }
       entidade.msgn   

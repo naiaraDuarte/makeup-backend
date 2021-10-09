@@ -44,7 +44,12 @@ CashbackRouter.put("/:id", async (req, res) => {
 
     let conversao = Object.assign(new Cashback(), cashback);
     let listaCashback: any = await fachada.alterar(conversao as Cashback);
-    res.json({ message: "OK", dados: listaCashback });
+    if (listaCashback.msgn.length>1){
+        res.status(400).json({status: 1, message: listaCashback.msgn});    
+      }
+        else{
+          res.status(200).json({status: 0, message: listaCashback});
+        }
 });
 
 // CashbackRouter.delete("/:id", async (req, res) => {
