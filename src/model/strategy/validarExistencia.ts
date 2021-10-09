@@ -8,11 +8,7 @@ export default class ValidarExistencia implements IStrategy {
         const cliente = entidade as Cliente                      
                   
                 let dao = new ClienteDAO();
-                let ent = await dao.consultarCpf(cliente);
-                console.log("entidade", ent);
-                // if()      
-
-                                  
+                let ent = await dao.consultarCpf(cliente);                                          
                 
                 
                 return null!    

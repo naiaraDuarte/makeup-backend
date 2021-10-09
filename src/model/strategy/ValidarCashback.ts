@@ -21,7 +21,7 @@ export default class ValidarCashback implements IStrategy {
         }
         let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
-        return msgn
+        return null!
 
     }
 }

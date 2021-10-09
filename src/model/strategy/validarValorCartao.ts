@@ -15,7 +15,7 @@ export default class ValidarValorCartao implements IStrategy {
                     let valorCartao = cart.credito;
                     if (valorCartao < minimoCartao) {
                         msgn = " Valor minimo no cartao de R$ 10,00"
-                        return msgn
+                        
                     }
                 });
             }
@@ -27,11 +27,13 @@ export default class ValidarValorCartao implements IStrategy {
                 let valorCartao = cart.credito;
                 console.log("valor cartao", valorCartao)
                 if (valorCartao < minimoCartao) {
-                    msgn = " Valor minimo no cartao de R$ 10,00"
-                    return msgn
+                    msgn =  " Valor minimo no cartao de R$ 10,00"
+                    
                 }
             });
         }
+        if (msgn == "")
+        return null!
 
         return msgn
 

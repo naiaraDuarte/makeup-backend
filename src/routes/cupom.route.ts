@@ -35,8 +35,12 @@ CupomRouter.post("/", async (req, res) => {
 
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.cadastrar(conversao as Cupom);
-
-  res.json({ message: "OK", cupom: listaCupom });
+  if (listaCupom.msgn.length>1){
+    res.status(400).json({status: 1, message: listaCupom.msgn});    
+  }
+    else{
+      res.status(200).json({status: 0, message: listaCupom});
+    }
 });
 CupomRouter.put("/:id", async (req, res) => {
   let cup = req.body;
@@ -50,7 +54,12 @@ CupomRouter.put("/:id", async (req, res) => {
 
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.alterar(conversao as Cupom);
-  res.json({ message: "OK", dados: listaCupom });
+  if (listaCupom.msgn.length>1){
+    res.status(200).json({status: 0, message: listaCupom});     
+  }
+    else{
+      res.status(400).json({status: 1, message: listaCupom.msgn});
+    }
 });
 
 CupomRouter.patch("/:id", async(req, res) => {

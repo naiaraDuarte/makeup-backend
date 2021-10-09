@@ -10,8 +10,8 @@ export default class ValidarCupomPedido implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
         const pedido = entidade as Pedido;
         let cupomDao = new CupomDAO();
-        let fachada = new Fachada();
-        let msgn = "";
+        // let fachada = new Fachada();
+        // let msgn = "";
         
         let cupom= {
             id: pedido.pagamento.cupom.id,             
@@ -19,7 +19,7 @@ export default class ValidarCupomPedido implements IStrategy {
         
         let alterarQtde = cupomDao.alterarQtde(cupom as Cupom);
 
-        return msgn
+        return null!
 
     }
 }

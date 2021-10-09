@@ -9,7 +9,7 @@ export default class ValidarEstoque implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
         const pedido = entidade as Pedido;
         let produtoDao = new ProdutoDAO();
-        let msgn = "";
+        // let msgn = "";
 
 
         pedido.produtos.forEach(async pdt => {
@@ -34,7 +34,7 @@ export default class ValidarEstoque implements IStrategy {
 
 
 
-        return msgn
+        return null!
 
     }
 }

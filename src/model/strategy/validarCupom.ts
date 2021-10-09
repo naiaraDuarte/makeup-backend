@@ -16,7 +16,9 @@ export default class ValidarCupom implements IStrategy {
             if (cupom.cod == conversao.cod)
             msgn= "Cupom já cadastrado";            
         });
-        
+        if (msgn == "")
+        return null!
+
         return msgn
     }
 }
