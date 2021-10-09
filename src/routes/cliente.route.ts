@@ -118,8 +118,14 @@ ClienteRouter.put("/:id", async (req, res) => {
 
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
-
-  res.json({ message: "OK", dados: listaCliente });
+console.log("alterar", listaCliente)
+if (listaCliente.msgn.length>1){
+  res.status(200).json({status: 0, message: listaCliente});     
+}
+  else{
+    res.status(400).json({status: 1, message: listaCliente.msgn});
+  }
+  // res.json({ message: "OK", dados: listaCliente });
 });
 
 

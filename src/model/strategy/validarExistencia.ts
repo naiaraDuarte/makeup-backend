@@ -15,7 +15,7 @@ export default class ValidarExistencia implements IStrategy {
                                   
                 
                 
-                return ""    
+                return null!    
 }   
 }
                 

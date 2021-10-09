@@ -79,13 +79,16 @@ export default class Fachada implements IFachada {
     let mensagem = [];
     for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade);
-      console.log("msgn", final_msg)      
-      mensagem.push(final_msg);
+      console.log("msgn", final_msg) 
+      if (final_msg != null) {
+        mensagem.push(final_msg);
+      }    
+      
       entidade.msgn = mensagem; 
       // if (final_msg != "")            
       // break;
     } 
-    return final_msg;
+    return (mensagem.length > 0) ? final_msg: "";
   }
 
   // async processarStrategys(entidade: EntidadeDominio) {
@@ -104,7 +107,8 @@ export default class Fachada implements IFachada {
   // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade);    
+    let msg = await this.processarStrategys(entidade);
+    console.log("mensagem cadastro", msg)    
     
     if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
@@ -116,9 +120,19 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let nomeClasse: string = entidade.constructor.name;
-    let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
-    return retorno as EntidadeDominio;
+    let msg = await this.processarStrategys(entidade);    
+    
+    if (msg == "") {
+      let nomeClasse: string = entidade.constructor.name;
+      let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
+      return retorno as EntidadeDominio;
+      }
+      entidade.msgn   
+    return entidade;
+    // let nomeClasse: string = entidade.constructor.name;
+    // let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
+    // return retorno as EntidadeDominio;
+
   }
   excluir(entidade: EntidadeDominio): boolean {
     let nomeClasse: string = entidade.constructor.name;
