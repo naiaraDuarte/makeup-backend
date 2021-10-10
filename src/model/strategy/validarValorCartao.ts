@@ -20,7 +20,7 @@ export default class ValidarValorCartao implements IStrategy {
                 });
             }
             // console.log("strategy", msgn)
-            return msgn;
+            
         }
         if (pedido.pagamento.cartoes.length > 1) {
             pedido.pagamento.cartoes.forEach(cart => {

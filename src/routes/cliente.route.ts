@@ -89,16 +89,12 @@ ClienteRouter.post("/", async (req, res) => {
     });
   }
   if (cli.msgn.length>1){
-    res.status(400).json({status: 1, message: cli.msgn});    
+    res.status(400).json({status: 1, mensagem: cli.msgn});    
   }
     else{
-      res.status(200).json({status: 0, message: cli});
+      res.status(200).json({status: 0, dados: cli});
     }
       
-
-
- 
-
 });
 
 ClienteRouter.put("/:id", async (req, res) => {
@@ -120,10 +116,10 @@ ClienteRouter.put("/:id", async (req, res) => {
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
 console.log("alterar", listaCliente)
 if (listaCliente.msgn.length>1){
-  res.status(200).json({status: 0, message: listaCliente});     
+  res.status(200).json({status: 0, mensagem: listaCliente});     
 }
   else{
-    res.status(400).json({status: 1, message: listaCliente.msgn});
+    res.status(400).json({status: 1, dados: listaCliente.msgn});
   }
   // res.json({ message: "OK", dados: listaCliente });
 });

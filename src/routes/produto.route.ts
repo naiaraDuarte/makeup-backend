@@ -72,7 +72,7 @@ ProdutoRouter.post("/", async (req, res) => {
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
 
-  res.json({ message: "OK", produto: listaProduto });
+  res.json({ message: "OK", dados: listaProduto });
 });
 
 
@@ -84,6 +84,6 @@ ProdutoRouter.get("/:id", async (req, res) => {
   let listaProduto: any = await fachada.consultarComId(conversao as Produto);
   console.log("pdt", listaProduto)
 
-  res.json({ message: "OK", produto: listaProduto });
+  res.json({ message: "OK", dados: listaProduto });
 });
 

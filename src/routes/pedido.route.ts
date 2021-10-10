@@ -84,9 +84,9 @@ PedidoRouter.post("/", async (req, res) => {
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 
   if (listaPedido.msgn.length>1){
-    res.status(400).json({status: 1, message: listaPedido.msgn});    
+    res.status(400).json({status: 1, mensagem: listaPedido.msgn});    
   }
     else{
-      res.status(200).json({status: 0, message: listaPedido});
+      res.status(200).json({status: 0, dados: listaPedido});
     }
 });

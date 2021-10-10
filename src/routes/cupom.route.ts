@@ -36,10 +36,10 @@ CupomRouter.post("/", async (req, res) => {
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.cadastrar(conversao as Cupom);
   if (listaCupom.msgn.length>1){
-    res.status(400).json({status: 1, message: listaCupom.msgn});    
+    res.status(400).json({status: 1, mensagem: listaCupom.msgn});    
   }
     else{
-      res.status(200).json({status: 0, message: listaCupom});
+      res.status(200).json({status: 0, dados: listaCupom});
     }
 });
 CupomRouter.put("/:id", async (req, res) => {

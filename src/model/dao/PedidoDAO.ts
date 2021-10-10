@@ -1,6 +1,7 @@
 import Fachada from "../../control/Fachada";
 import { db } from "../../db.config";
 import Cartao from "../entidade/cartao.model";
+import Cashback from "../entidade/cashback";
 import Cliente from "../entidade/cliente.model";
 import Cupom from "../entidade/cupom";
 import endereco from "../entidade/endereco";
@@ -12,6 +13,7 @@ import PagamentoCartao from "../entidade/pagamentoCartao";
 import Pedido from "../entidade/pedido";
 import Produto from "../entidade/produto";
 import ProdutoPedido from "../entidade/produtoPedido";
+import CashbackDAO from "./CashbackDAO";
 import IDAO from "./IDAO";
 import PagamentoCartaoDAO from "./PagamentoCartaoDAO";
 import PagamentoDAO from "./PagamentoDAO";
@@ -63,16 +65,15 @@ export default class PedidoDAO implements IDAO {
             }
             produtoPedidoDao.salvar(produtoPedido as ProdutoPedido);
         });
-
-        // for (let i = 0; i < pedido.produtos.length; i++) {
-        //     let produtoPedido = {
-        //             produto: pedido.produtos[i],
-        //             pedido: pedido
-        //         }   
-        //         produtoPedidoDao.salvar(produtoPedido as ProdutoPedido);
-        //     };
+        let cashback = {
+            id: pedido.pagamento.cashback.id,
+            valor: pedido.pagamento.cashback.valor
+        }
+        let cashbackDao = new CashbackDAO();
+        let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
         entidade.id = idPedido.rows[0].id;
+        
         return entidade as Pedido
     }
 
