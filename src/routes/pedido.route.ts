@@ -7,10 +7,25 @@ export const PedidoRouter = express.Router();
 let fachada = new Fachada();
 
 PedidoRouter.get("/", async (req, res) => {
-  let listaPedido: Array<Pedido> = (await fachada.consultar(
+  let listaPedido: any = (await fachada.consultar(
     new Pedido()
-  )) as Array<Pedido>;
-  res.json({ message: "OK", dados: listaPedido });
+  ));
+
+  let todosOsPedidos: any = [];
+  for (let i = 0; i < listaPedido.length; i++) {
+    listaPedido[i].then((ped: any) => {
+      todosOsPedidos.push({
+        pedido: ped,
+        endereco: listaPedido.endereco,
+        pagamento: listaPedido.pagamento,
+        cartao: listaPedido.cartoes,
+      });
+      console.log(todosOsPedidos);
+      if (i == listaPedido.length - 1) {
+        res.json({message: "OK", todosOsPedidos});
+      }
+    });
+  }
 });
 
 PedidoRouter.get("/:id", async (req, res) => {

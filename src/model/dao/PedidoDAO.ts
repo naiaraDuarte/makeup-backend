@@ -86,14 +86,27 @@ export default class PedidoDAO implements IDAO {
     }
     async consultar(): Promise<entidadeModel[]> {
         let pedidos = db.query("select * from pedidos");
-        let result: Array<EntidadeDominio> = [];
+
+        let result: any;
+        let fachada = new Fachada();
 
         result = await pedidos.then((dados) => {
-            return (result = dados.rows.map((pedido) => {
+            return (result = dados.rows.map(async (pedido) => {
+                let cliente = Object.assign(new Cliente());
+                let endereco = Object.assign(new Endereco(), pedido.endereco);
+                let pagamento = Object.assign(new Pagamento(), pedido.pagamento);
+                let cupom = Object.assign(new Cupom());
+                let cartao = Object.assign(new Cartao(), pedido.cartoes);
+                let produto = Object.assign(new Produto(), pedido.produtos);
+                pedido.cliente = await fachada.consultarPedido(cliente, pedido.fk_cliente);
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
+                // pedido.pagamento = await fachada.consultarPedido(pagamento, pedido.id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
                 return pedido as Pedido;
             }));
         });
-
         return result;
     }
 
@@ -121,10 +134,6 @@ export default class PedidoDAO implements IDAO {
             return pedido as Pedido;
         }));
     });
-
-
-
     return result
-
 }                
 }

@@ -90,8 +90,6 @@ export default class ClienteDAO implements IDAO {
     let result: any;
     let enderecos: any = [];
     let clienteCompleto: any;
-    
-    
 
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
@@ -99,11 +97,11 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
+  
+    console.log('result')
     let senhaBD: string = cliente.senha;
 
-
-
-    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
+    // if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
       let enderecoDAO = new EnderecoDAO();
       let endereco = Object.assign(new Endereco());
       endereco.idCliente = result[0].id;
@@ -114,7 +112,7 @@ export default class ClienteDAO implements IDAO {
       cartao.idCliente = result[0].id;
       result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
 
-    }
+    // }
     return result;
   }
   async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio> {
