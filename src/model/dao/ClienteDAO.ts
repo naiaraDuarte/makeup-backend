@@ -29,17 +29,6 @@ export default class ClienteDAO implements IDAO {
     );
     entidade.id = idCliente.rows[0].id;
 
-    // let enderecoDAO = new EnderecoDAO();
-    // for (let i = 0; i < cliente.endereco.length; i++) {
-    //   let endereco = Object.assign(new Endereco(), cliente.endereco[i]);
-    //   endereco.idCliente = idCliente.rows[0].id;
-
-    //   cliente.endereco[i] = Object.assign(
-    //     new Endereco(),
-    //     await enderecoDAO.salvar(endereco as Endereco)
-    //   );
-    // }
-
     return entidade as Cliente;
   }
 
@@ -101,6 +90,8 @@ export default class ClienteDAO implements IDAO {
     let result: any;
     let enderecos: any = [];
     let clienteCompleto: any;
+    
+    
 
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
@@ -149,7 +140,7 @@ export default class ClienteDAO implements IDAO {
 
     let result: any;
     let clienteCompleto: any;
-
+    console.log('')
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
         return cliente as Cliente;
@@ -158,6 +149,10 @@ export default class ClienteDAO implements IDAO {
 
     let enderecoDAO = new EnderecoDAO();
     let endereco = Object.assign(new Endereco());
+
+
+    console.log('aaaaaa', clientes)
+
     endereco.idCliente = result[0].id;
     result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
 
