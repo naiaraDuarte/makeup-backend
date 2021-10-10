@@ -108,11 +108,11 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    let senhaBD: string = cliente.senha;
+    let senhaBD: string = result.senha;
 
 
-
-    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
+    if (await Encrypt.comparePassword(cliente.senha, result.senha)) {
+    
       let enderecoDAO = new EnderecoDAO();
       let endereco = Object.assign(new Endereco());
       endereco.idCliente = result[0].id;
@@ -142,23 +142,36 @@ export default class ClienteDAO implements IDAO {
 
   async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
-    let clientes = db.query("SELECT * FROM clientes WHERE email = $1 and senha = $2", [
+    let mensagem = [];   
+
+    let clientes = db.query("SELECT * FROM clientes WHERE email = $1", [
       cliente.email,
-      cliente.senha
-    ]);
+      ]);
+    
+      
 
     let result: any;
     let clienteCompleto: any;
-
+    
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
+        
         return cliente as Cliente;
       }));
     });
-    let senhaBD: string = cliente.senha;
+    console.log("result", result)
+          
+    if(result.length<1){
+      mensagem.push("Email não cadastrado");
+      result.msgn = mensagem
+      return result 
+    }
 
+    let senhaBD = result[0].senha
+    console.log("senha", cliente.senha)
+
+    
     if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
-
     let enderecoDAO = new EnderecoDAO();
     let endereco = Object.assign(new Endereco());
     endereco.idCliente = result[0].id;
@@ -168,8 +181,13 @@ export default class ClienteDAO implements IDAO {
     let cartao = Object.assign(new Cartao());
     cartao.idCliente = result[0].id;
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
-    }
+    return result;
+    } 
+       
 
+    mensagem.push("Dados não conferem"); 
+    result.msgn = mensagem
+    
     return result;
   }
   consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
