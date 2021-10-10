@@ -37,10 +37,10 @@ EnderecoRouter.post("/:id", async (req, res) => {
   let listaEndereco: any = await fachada.cadastrar(conversao as Endereco);
 
   if (listaEndereco.msgn.length>1){
-    res.status(400).json({status: 1, message: listaEndereco.msgn});    
+    res.status(400).json({status: 1, mensagem: listaEndereco.msgn});    
   }
     else{
-      res.status(200).json({status: 0, message: listaEndereco});
+      res.status(200).json({status: 0, dados: listaEndereco});
     }
 });
 
@@ -68,10 +68,10 @@ EnderecoRouter.put("/:idCliente", async (req, res) => {
   let listaCliente: any = await fachada.alterar(conversao as Endereco);
 
   if (listaCliente.msgn.length>1){
-    res.status(400).json({status: 1, message: listaCliente.msgn});    
+    res.status(400).json({status: 1, mensagem: listaCliente.msgn});    
   }
     else{
-      res.status(200).json({status: 0, message: listaCliente});
+      res.status(200).json({status: 0, dados: listaCliente});
     }
 });
 

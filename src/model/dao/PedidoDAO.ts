@@ -72,8 +72,6 @@ export default class PedidoDAO implements IDAO {
         let cashbackDao = new CashbackDAO();
         let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
-       
-
         entidade.id = idPedido.rows[0].id;
         
         return entidade as Pedido
