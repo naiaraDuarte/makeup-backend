@@ -58,7 +58,7 @@ CupomRouter.put("/:id", async (req, res) => {
     res.status(200).json({status: 0, message: listaCupom});     
   }
     else{
-      res.status(400).json({status: 1, message: listaCupom.msgn});
+      res.status(400).json({status: 1, dados: listaCupom.msgn});
     }
 });
 

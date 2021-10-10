@@ -3,41 +3,39 @@ import Pedido from "../entidade/pedido";
 import IStrategy from "./IStrategy";
 
 export default class ValidarValorCartao implements IStrategy {
-    async processar(entidade: EntidadeDominio): Promise<string> {
+    async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const pedido = entidade as Pedido;
         const minimoCartao = 10;
         let msgn = "";
-
-
-        if (pedido.pagamento.cashback != null || pedido.pagamento.cupom != null) {
+        if (altera == false) {
+            if (pedido.pagamento.cashback != null || pedido.pagamento.cupom != null) {
+                if (pedido.pagamento.cartoes.length > 1) {
+                    pedido.pagamento.cartoes.forEach(cart => {
+                        let valorCartao = cart.credito;
+                        if (valorCartao < minimoCartao) {
+                            msgn = " Valor minimo no cartao de R$ 10,00"
+                            
+                        }
+                    });
+                }
+                // console.log("strategy", msgn)
+                
+            }
             if (pedido.pagamento.cartoes.length > 1) {
                 pedido.pagamento.cartoes.forEach(cart => {
                     let valorCartao = cart.credito;
+                    console.log("valor cartao", valorCartao)
                     if (valorCartao < minimoCartao) {
-                        msgn = " Valor minimo no cartao de R$ 10,00"
+                        msgn =  " Valor minimo no cartao de R$ 10,00"
                         
                     }
                 });
             }
-            // console.log("strategy", msgn)
-            
-        }
-        if (pedido.pagamento.cartoes.length > 1) {
-            pedido.pagamento.cartoes.forEach(cart => {
-                let valorCartao = cart.credito;
-                console.log("valor cartao", valorCartao)
-                if (valorCartao < minimoCartao) {
-                    msgn =  " Valor minimo no cartao de R$ 10,00"
-                    
-                }
-            });
         }
         if (msgn == "")
         return null!
 
         return msgn
-
-
     }
 }
  // {

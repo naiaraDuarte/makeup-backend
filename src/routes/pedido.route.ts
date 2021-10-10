@@ -15,6 +15,7 @@ PedidoRouter.get("/", async (req, res) => {
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
       todosOsPedidos.push({
+        cliente: listaPedido.cliente,
         pedido: ped,
         endereco: listaPedido.endereco,
         pagamento: listaPedido.pagamento,
@@ -51,8 +52,6 @@ PedidoRouter.get("/:id", async (req, res) => {
       }
     });
   }
-  
- 
 });
 
 PedidoRouter.post("/", async (req, res) => {
@@ -103,5 +102,22 @@ PedidoRouter.post("/", async (req, res) => {
   }
     else{
       res.status(200).json({status: 0, dados: listaPedido});
+    }
+});
+
+PedidoRouter.put("/status/:id", async (req, res) => {
+  const pedido = {
+    id: req.params.id,
+    status: req.body.status,
+  };
+
+  let conversao = Object.assign(new Pedido(), pedido);
+  console.log('console', conversao)
+  let listaPedido: any = await fachada.alterar(conversao as Pedido);
+  if (listaPedido.msgn.length <= 3){
+    res.status(200).json({status: 0, message: listaPedido});     
+  }
+    else{
+      res.status(400).json({status: 1, dados: listaPedido.msgn});
     }
 });

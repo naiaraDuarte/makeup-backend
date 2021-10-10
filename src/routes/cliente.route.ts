@@ -23,8 +23,14 @@ ClienteRouter.post("/login", async (req, res) => {
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarLogin(conversao as Cliente);
   listaCliente = listaCliente as Cliente;
+  console.log(listaCliente.msgn)
 
-  res.json({ message: "OK", cliente: listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao });
+if (listaCliente.msgn != null){
+    res.status(400).json({status: 1, mensagem: listaCliente.msgn});    
+  }
+else{
+      res.status(200).json({ message: "OK", cliente: listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao });
+    }
 });
 
 ClienteRouter.get("/", async (req, res) => {

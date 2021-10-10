@@ -7,18 +7,18 @@ import Cupom from "../entidade/cupom";
 
 
 export default class ValidarCupomPedido implements IStrategy {
-    async processar(entidade: EntidadeDominio): Promise<string> {
+    async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const pedido = entidade as Pedido;
         let cupomDao = new CupomDAO();
         // let fachada = new Fachada();
         // let msgn = "";
-        
-        let cupom= {
-            id: pedido.pagamento.cupom.id,             
+        if (altera == false) {
+            let cupom= {
+                id: pedido.pagamento.cupom.id,             
+            }
+            
+            let alterarQtde = cupomDao.alterarQtde(cupom as Cupom);
         }
-        
-        let alterarQtde = cupomDao.alterarQtde(cupom as Cupom);
-
         return null!
 
     }
