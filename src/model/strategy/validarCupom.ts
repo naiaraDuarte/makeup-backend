@@ -13,7 +13,7 @@ export default class ValidarCupom implements IStrategy {
         
         cupomEstoque.forEach(cup => {
             let conversao = Object.assign(new Cupom(), cup); 
-            console.log("altera", altera)                     
+                                
             if (cupom.cod == conversao.cod && !altera)
             msgn= "Cupom já cadastrado";            
         });
