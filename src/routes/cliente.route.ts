@@ -40,6 +40,27 @@ ClienteRouter.get("/", async (req, res) => {
   res.json({ message: "OK", dados: listaCliente });
 });
 
+ClienteRouter.post("/senha/:id", async (req, res) => {
+  const cliente = {
+    id: req.params.id,
+    senha: req.body.senha,
+  }
+  let conversao = Object.assign(new Cliente(), cliente);
+  let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
+  console.log("rota")
+  
+  if (listaCliente.msgn != null){
+    res.status(400).json({status: 1, mensagem: listaCliente.msgn});    
+  }
+else{
+      res.status(200).json({ message: "OK", cliente: listaCliente, endereco: listaCliente.endereco, cartao: listaCliente.cartao });
+    }
+});
+
+
+
+
+
 ClienteRouter.post("/", async (req, res) => {
   let endereco = req.body.endereco;
   let arrayEndereco: any = [];
@@ -120,7 +141,7 @@ ClienteRouter.put("/:id", async (req, res) => {
 
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
-console.log("alterar", listaCliente)
+
 if (listaCliente.msgn.length>1){
   res.status(200).json({status: 0, mensagem: listaCliente});     
 }

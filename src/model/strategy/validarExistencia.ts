@@ -13,8 +13,7 @@ export default class ValidarExistencia implements IStrategy {
         let clienteCpf = await fachada.consultar(cliente)
         
         clienteCpf.forEach(cli => {
-            let conversao = Object.assign(new Cliente(), cli); 
-            console.log("altera", altera)                     
+            let conversao = Object.assign(new Cliente(), cli);                                
             if (cliente.cpf == conversao.cpf && !altera)
             msgn= "Cliente já cadastrado";            
         });

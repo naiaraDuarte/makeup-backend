@@ -95,6 +95,7 @@ export default class ClienteDAO implements IDAO {
 
   async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
+    let mensagem = [];
     let clientes = db.query("SELECT * FROM clientes WHERE id = $1", [
       cliente.id,
     ]);
@@ -108,24 +109,38 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    let senhaBD: string = result.senha;
-
-
-    if (await Encrypt.comparePassword(cliente.senha, result.senha)) {
-    
-      let enderecoDAO = new EnderecoDAO();
-      let endereco = Object.assign(new Endereco());
-      endereco.idCliente = result[0].id;
-      result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
-
-      let cartaoDAO = new CartaoDAO();
-      let cartao = Object.assign(new Cartao());
-      cartao.idCliente = result[0].id;
-      result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
+    console.log("cliente senha", cliente.senha, "senha bd", result[0].senha)
+    if (cliente.senha != null) {
+      let senhaBD: string = result[0].senha;
+      console.log ("senha bd", senhaBD)
+      if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {
+        mensagem.push("Senha não confere");
+        result.msgn = mensagem
+        console.log("resultadoo", result)
+            
+        return result
+      }
 
     }
+    let enderecoDAO = new EnderecoDAO();
+    let endereco = Object.assign(new Endereco());
+    endereco.idCliente = result[0].id;
+    result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
+
+    let cartaoDAO = new CartaoDAO();
+    let cartao = Object.assign(new Cartao());
+    cartao.idCliente = result[0].id;
+    result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
     return result;
+
+
   }
+
+
+
+
+
+
   async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
     let clientes = db.query("SELECT * FROM clientes WHERE cpf = $1", [cliente.cpf]);
@@ -142,52 +157,52 @@ export default class ClienteDAO implements IDAO {
 
   async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
-    let mensagem = [];   
+    let mensagem = [];
 
     let clientes = db.query("SELECT * FROM clientes WHERE email = $1", [
       cliente.email,
-      ]);
-    
-      
+    ]);
+
+
 
     let result: any;
     let clienteCompleto: any;
-    
+
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
-        
+
         return cliente as Cliente;
       }));
     });
     console.log("result", result)
-          
-    if(result.length<1){
+
+    if (result.length < 1) {
       mensagem.push("Email não cadastrado");
       result.msgn = mensagem
-      return result 
+      return result
     }
 
     let senhaBD = result[0].senha
     console.log("senha", cliente.senha)
 
-    
+
     if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
-    let enderecoDAO = new EnderecoDAO();
-    let endereco = Object.assign(new Endereco());
-    endereco.idCliente = result[0].id;
-    result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
+      let enderecoDAO = new EnderecoDAO();
+      let endereco = Object.assign(new Endereco());
+      endereco.idCliente = result[0].id;
+      result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
 
-    let cartaoDAO = new CartaoDAO();
-    let cartao = Object.assign(new Cartao());
-    cartao.idCliente = result[0].id;
-    result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
-    return result;
-    } 
-       
+      let cartaoDAO = new CartaoDAO();
+      let cartao = Object.assign(new Cartao());
+      cartao.idCliente = result[0].id;
+      result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
+      return result;
+    }
 
-    mensagem.push("Dados não conferem"); 
+
+    mensagem.push("Dados não conferem");
     result.msgn = mensagem
-    
+
     return result;
   }
   consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
