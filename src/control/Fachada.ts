@@ -19,6 +19,7 @@ import ValidarExistencia from "../model/strategy/validarExistencia";
 import CategoriaDAO from "../model/dao/CategoriaDAO";
 import ValidarCupom from "../model/strategy/validarCupom";
 import ValidarCupomPedido from "../model/strategy/ValidarCupomPedido";
+import ProdutoPedidoDAO from "../model/dao/ProdutoPedidoDAO";
 // import ValidarCashback from "../model/strategy/ValidarCashback";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
@@ -44,6 +45,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Pedido", new PedidoDAO());
     this.daos.set("Cashback", new CashbackDAO());
     this.daos.set("Categoria", new CategoriaDAO());
+    this.daos.set("ProdutoPedido", new ProdutoPedidoDAO());
   }
 
   definirRNS() {
@@ -71,6 +73,7 @@ export default class Fachada implements IFachada {
     this.rns.set("Cashback", [])
     this.rns.set("Cupom", [validarCupom])
     this.rns.set("Produto", [])
+    this.rns.set("ProdutoPedido", [])
   }
 
   async processarStrategys(entidade: EntidadeDominio, altera: boolean): Promise<string> {
@@ -85,26 +88,9 @@ export default class Fachada implements IFachada {
       }    
       
       entidade.msgn = mensagem; 
-      // if (final_msg != "")            
-      // break;
     } 
     return (mensagem.length > 0) ? final_msg: "";
   }
-
-  // async processarStrategys(entidade: EntidadeDominio) {
-  //   let final_msg = new Array<string>();
-  //   let nomeClasse: string = entidade.constructor.name;
-
-  //   this.rns.get(nomeClasse)?.forEach(e => {
-  //     let msgn =  e?.processar(entidade);
-  //     if(msgn != "")        
-  //       final_msg.push(msgn);      
-
-  //   })
-  //   console.log("array", final_msg)
-  //   return final_msg!;
-
-  // }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     let msg = await this.processarStrategys(entidade, false);
@@ -120,6 +106,7 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+    console.log('chegou agr', entidade)
     let msg = await this.processarStrategys(entidade, true);    
     
     if (msg == "") {

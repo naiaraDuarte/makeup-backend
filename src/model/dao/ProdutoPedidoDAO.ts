@@ -21,19 +21,29 @@ export default class ProdutoPedidoDAO implements IDAO{
         const produtoPedido = entidade as ProdutoPedido;
               
         let idProdutoPedido = await db.query(
-            "INSERT INTO produtos_pedidos(fk_produto, fk_pedido) VALUES ($1, $2) RETURNING ID",
+            "INSERT INTO produtos_pedidos(fk_produto, fk_pedido, status) VALUES ($1, $2, $3) RETURNING ID",
             [
                 produtoPedido.produto.id,
-                produtoPedido.pedido.id               
-
+                produtoPedido.pedido.id,
+                produtoPedido.status, 
             ]
 
         );
         entidade.id = idProdutoPedido.rows[0].id;
         return entidade as ProdutoPedido;
     }
-    alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-        throw new Error('Method not implemented.');
+    async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+        const produtoPedido = entidade as ProdutoPedido;
+        await db.query(
+            "UPDATE produtos_pedidos SET status=$1 WHERE fk_produto=$2 AND fk_pedido=$3",
+            [
+                produtoPedido.status, 
+                produtoPedido.produto.id,
+                produtoPedido.pedido.id,
+            ]
+        );
+
+        return entidade as ProdutoPedido;
     }
     excluir(entidade: EntidadeDominio): boolean {
         throw new Error('Method not implemented.');

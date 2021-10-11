@@ -1,6 +1,8 @@
 import express from "express";
 import Fachada from "../control/Fachada";
 import Pedido from "../model/entidade/pedido";
+import Produto from "../model/entidade/produto";
+import ProdutoPedido from "../model/entidade/produtoPedido";
 
 export const PedidoRouter = express.Router();
 
@@ -115,6 +117,25 @@ PedidoRouter.put("/status/:id", async (req, res) => {
   console.log('console', conversao)
   let listaPedido: any = await fachada.alterar(conversao as Pedido);
   if (listaPedido.msgn.length <= 3){
+    res.status(200).json({status: listaPedido.status});     
+  }
+    else{
+      res.status(400).json({status: 1, message: listaPedido.msgn});
+    }
+});
+
+PedidoRouter.put("/troca/:id", async (req, res) => {
+let pedido = { id: req.params.id }
+let produto = { id: req.body.produto.id }
+  const pedidoProduto = {
+    pedido:  Object.assign(new Pedido(), pedido),
+    produto: Object.assign(new Produto(), produto),
+    status: req.body.status,
+  };
+
+  let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
+  let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
+  if (!listaPedido.msgn){
     res.status(200).json({status: 0, message: listaPedido});     
   }
     else{

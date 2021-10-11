@@ -4,6 +4,6 @@ import Produto from "./produto";
 
 export default class ProdutoPedido extends EntidadeDominio{
     produto!: Produto;
-    pedido!: Pedido;  
-
+    pedido!: Pedido;
+    status!: string
 }
