@@ -1,5 +1,5 @@
 import Cartao from "./cartao.model";
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 import Pagamento from "./pagamento";
 
 export default class PagamentoCartao extends EntidadeDominio{

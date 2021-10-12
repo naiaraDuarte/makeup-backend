@@ -1,6 +1,6 @@
 import Cliente from "./cliente.model";
 import Endereco from "./endereco";
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 import Pagamento from "./pagamento";
 import produto from "./produto";
 

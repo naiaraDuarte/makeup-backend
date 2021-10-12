@@ -1,7 +1,7 @@
 import { db } from "../../db.config";
 import Categoria from "../entidade/categoria";
-import EntidadeDominio from "../entidade/entidade.model";
-import entidadeModel from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
+import entidadeModel from "../entidade/entidadeDominio";
 import IDAO from "./IDAO";
 
 export default class CategoriaDAO implements IDAO {

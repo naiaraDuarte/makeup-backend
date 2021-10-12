@@ -1,4 +1,4 @@
-import EntidadeDominio from "../model/entidade/entidade.model";
+import EntidadeDominio from "../model/entidade/entidadeDominio";
 
 export default interface IFachada {
     cadastrar(entidade: EntidadeDominio) : any;

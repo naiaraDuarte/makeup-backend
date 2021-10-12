@@ -1,7 +1,7 @@
 import Fachada from "../../control/Fachada";
 import ClienteDAO from "../dao/ClienteDAO";
 import Cliente from "../entidade/cliente.model";
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 
 export default class ValidarExistencia implements IStrategy {

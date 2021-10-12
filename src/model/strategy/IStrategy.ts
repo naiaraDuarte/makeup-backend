@@ -1,4 +1,4 @@
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 
 export default interface IStrategy {
     

@@ -1,5 +1,5 @@
 import IDAO from './IDAO';
-import EntidadeDominio from '../entidade/entidade.model';
+import EntidadeDominio from '../entidade/entidadeDominio';
 import { db } from '../../db.config';
 import PagamentoCartao from '../entidade/pagamentoCartao';
 

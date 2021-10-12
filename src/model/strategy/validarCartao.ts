@@ -1,5 +1,5 @@
 import Cartao from "../entidade/cartao.model";
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 
 export default class ValidarCartao implements IStrategy {

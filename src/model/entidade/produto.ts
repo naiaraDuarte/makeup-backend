@@ -1,4 +1,4 @@
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 import Categoria from "./categoria";
 
 export default class Produto extends EntidadeDominio{
@@ -6,14 +6,15 @@ export default class Produto extends EntidadeDominio{
     nome!:string; 
     marca!:string; 
     tipo!:string; 
-    peso!: Number; 
-    altura!:Number; 
-    comprimento!:Number; 
-    quantidade!:Number; 
+    peso!: number; 
+    altura!:number; 
+    comprimento!:number; 
+    quantidade!:number; 
     imagem!:string; 
-    largura!:Number; 
-    diametro!:Number; 
+    largura!:number; 
+    diametro!:number; 
     categoria!: Categoria; 
-    custo!:Number;  
+    custo!:number;  
     descricao!:string; 
+    preco!: number;
 }

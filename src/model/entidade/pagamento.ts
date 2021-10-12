@@ -2,7 +2,7 @@ import Cartao from "./cartao.model";
 import Cashback from "./cashback";
 import Cliente from "./cliente.model";
 import Cupom from "./cupom";
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 
 
 export default class Pagamento extends EntidadeDominio{

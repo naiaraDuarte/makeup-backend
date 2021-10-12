@@ -1,7 +1,7 @@
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 
 export default class Categoria extends EntidadeDominio{
     descricao!: string;
-    gpPrecificacao!: Number;
+    gpPrecificacao!: number;
     
 }

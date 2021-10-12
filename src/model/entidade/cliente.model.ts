@@ -1,6 +1,6 @@
 import Cartao from "./cartao.model";
 import Endereco from "./endereco";
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 import { Sexo } from "./sexo";
 import { TipoTelefone } from "./tipoTelefone";
 

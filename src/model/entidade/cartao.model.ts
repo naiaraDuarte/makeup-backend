@@ -1,5 +1,5 @@
 import { BandeiraCartao } from "./bandeiraCartao";
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 
 export default class Cartao extends EntidadeDominio {
     nome!: string;

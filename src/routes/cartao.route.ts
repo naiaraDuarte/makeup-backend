@@ -7,9 +7,30 @@ export const CartaoRouter = express.Router();
 
 let fachada = new Fachada();
 
-CartaoRouter.get("/", async (req, res) => {
-  res.json({ message: "OK" })
-});
+CartaoRouter.get("/:id", async (req, res) => {
+  const cartao = {
+    id: req.params.id,
+  };
+
+  let conversao = Object.assign(new Cartao(), cartao);
+  let listaCartao: any = await fachada.consultarComId(conversao as Cartao);
+  let todosCartoes: any = [];
+  // for (let i = 0; i < listaCartao.length; i++) {
+  //   listaCartao[i].then((ped: any) => {
+  //     todosCartoes.push({
+  //       pedido: ped,
+
+  //     });
+
+  //     if (i == listaCartao.length - 1) {
+        res.json({ message: "OK", dados: listaCartao });
+      // }
+
+    });
+//   }
+// });
+
+
 
 CartaoRouter.post("/:id", async (req, res) => {
   let cartao = req.body;
@@ -24,7 +45,7 @@ CartaoRouter.post("/:id", async (req, res) => {
   let conversao = Object.assign(new Cartao(), cartaoCredito);
   let listaCartao: any = await fachada.cadastrar(conversao as Cartao);
   console.log("rota cartao", listaCartao.msgn)
-  
+
   if (listaCartao.msgn.length > 0) {
     res.status(400).json({ status: 1, mensagem: listaCartao.msgn });
   }

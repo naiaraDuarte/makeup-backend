@@ -1,4 +1,4 @@
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 import Pedido from "../entidade/pedido";
 import ProdutoDAO from "../dao/ProdutoDAO";

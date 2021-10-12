@@ -1,11 +1,11 @@
-import entidadeModel from "../entidade/entidade.model";
+import entidadeModel from "../entidade/entidadeDominio";
 import Produto from "../entidade/produto";
 import IDAO from "./IDAO";
 import { db } from '../../db.config';
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 
 export default class ProdutoDAO implements IDAO {    
-    async salvar(entidade: entidadeModel): Promise<entidadeModel> {
+    async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
         let idProduto = await db.query(
             "INSERT INTO produtos (cod, nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id",
@@ -31,10 +31,10 @@ export default class ProdutoDAO implements IDAO {
         return entidade as Produto;
     }
 
-    async alterar(entidade: entidadeModel): Promise<entidadeModel> {
+    async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
         await db.query(
-            "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14 WHERE id=$15",
+            "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
 
             [
                 produto.cod,
@@ -51,8 +51,8 @@ export default class ProdutoDAO implements IDAO {
                 produto.categoria,
                 produto.custo,
                 produto.descricao,
+                produto.preco,
                 produto.id
-
             ]
 
         );
@@ -89,7 +89,7 @@ export default class ProdutoDAO implements IDAO {
         });
         return result;
     }
-    async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+    async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
 
         let produto = db.query("SELECT * FROM produtos WHERE id IN (SELECT fk_produto FROM produtos_pedidos WHERE fk_pedido = $1)", [
         id

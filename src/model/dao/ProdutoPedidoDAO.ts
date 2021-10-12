@@ -1,5 +1,5 @@
 import IDAO from './IDAO';
-import EntidadeDominio from '../entidade/entidade.model';
+import EntidadeDominio from '../entidade/entidadeDominio';
 import { db } from '../../db.config';
 import ProdutoPedido from '../entidade/produtoPedido';
 import Produto from '../entidade/produto';
@@ -45,6 +45,7 @@ export default class ProdutoPedidoDAO implements IDAO{
 
         return entidade as ProdutoPedido;
     }
+
     excluir(entidade: EntidadeDominio): boolean {
         throw new Error('Method not implemented.');
     }

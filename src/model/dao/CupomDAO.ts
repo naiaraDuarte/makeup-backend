@@ -1,8 +1,8 @@
-import entidadeModel from "../entidade/entidade.model";
+import entidadeModel from "../entidade/entidadeDominio";
 import Cupom from "../entidade/cupom";
 import IDAO from "./IDAO";
 import { db } from "../../db.config";
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 
 export default class CupomDAO implements IDAO {
 

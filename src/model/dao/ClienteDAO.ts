@@ -1,5 +1,5 @@
 import IDAO from "./IDAO";
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import { db } from "../../db.config";
 import Cliente from "../entidade/cliente.model";
 import EnderecoDAO from "./EnderecoDAO";
@@ -98,7 +98,7 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    console.log("cliente senha", cliente.senha, "senha bd", result[0].senha)
+    // console.log("cliente senha", cliente.senha, "senha bd", result[0].senha)
     if (cliente.senha != null) {
       let senhaBD: string = result[0].senha;
       console.log ("senha bd", senhaBD)

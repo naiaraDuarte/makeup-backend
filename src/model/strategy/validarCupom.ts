@@ -1,4 +1,4 @@
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 import Fachada from "../../control/Fachada";
 import Cupom from "../entidade/cupom";

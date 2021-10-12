@@ -1,6 +1,6 @@
 import Cliente from "../entidade/cliente.model";
 import Endereco from "../entidade/endereco";
-import EntidadeDominio from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 
 export default class ValidarEndereco implements IStrategy {

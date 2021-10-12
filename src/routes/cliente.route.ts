@@ -7,7 +7,7 @@ import { TipoResidencia } from "../model/entidade/tipoResidencia";
 import { Estado } from "../model/entidade/estado";
 import { BandeiraCartao } from "../model/entidade/bandeiraCartao";
 import Endereco from "../model/entidade/endereco";
-import EntidadeDominio from "../model/entidade/entidade.model";
+import EntidadeDominio from "../model/entidade/entidadeDominio";
 import Cashback from "../model/entidade/cashback";
 
 export const ClienteRouter = express.Router();

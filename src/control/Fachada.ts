@@ -1,4 +1,4 @@
-import EntidadeDominio from "../model/entidade/entidade.model";
+import EntidadeDominio from "../model/entidade/entidadeDominio";
 import IFachada from "./IFachada";
 import IDAO from "../model/dao/IDAO";
 import ClienteDAO from "../model/dao/ClienteDAO";
@@ -20,6 +20,7 @@ import CategoriaDAO from "../model/dao/CategoriaDAO";
 import ValidarCupom from "../model/strategy/validarCupom";
 import ValidarCupomPedido from "../model/strategy/ValidarCupomPedido";
 import ProdutoPedidoDAO from "../model/dao/ProdutoPedidoDAO";
+import GerarPrecoProduto from "../model/strategy/gerarPrecoProduto";
 // import ValidarCashback from "../model/strategy/ValidarCashback";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
@@ -58,6 +59,7 @@ export default class Fachada implements IFachada {
     let validarExistencia = new ValidarExistencia();    
     let validarCupom = new ValidarCupom();
     let validarCupomPedido = new ValidarCupomPedido();
+    let gerarPrecoProduto = new GerarPrecoProduto();
     // let validarCashback = new ValidarCashback();
 
     this.rns.set("Cliente",
@@ -72,9 +74,10 @@ export default class Fachada implements IFachada {
     this.rns.set("Cashback", [])
     this.rns.set("Cashback", [])
     this.rns.set("Cupom", [validarCupom])
-    this.rns.set("Produto", [])
+    this.rns.set("Produto", [gerarPrecoProduto])
     this.rns.set("ProdutoPedido", [])
   }
+  
 
   async processarStrategys(entidade: EntidadeDominio, altera: boolean): Promise<string> {
     let nomeClasse = entidade.constructor.name;

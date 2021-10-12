@@ -1,4 +1,4 @@
- import EntidadeDominio from "./entidade.model";
+ import EntidadeDominio from "./entidadeDominio";
 import Pedido from "./pedido";
 import Produto from "./produto";
 

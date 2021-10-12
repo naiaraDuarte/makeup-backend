@@ -1,4 +1,4 @@
-import EntidadeDominio from "./entidade.model";
+import EntidadeDominio from "./entidadeDominio";
 import { Estado } from "./estado";
 import { Pais } from "./pais";
 import { TipoEndereco } from "./tipoEndereco";

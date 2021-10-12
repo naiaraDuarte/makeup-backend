@@ -1,7 +1,7 @@
 import { db } from "../../db.config";
 import Cashback from "../entidade/cashback";
-import EntidadeDominio from "../entidade/entidade.model";
-import entidadeModel from "../entidade/entidade.model";
+import EntidadeDominio from "../entidade/entidadeDominio";
+import entidadeModel from "../entidade/entidadeDominio";
 import IDAO from "./IDAO";
 
 export default class CashbackDAO implements IDAO {
@@ -25,7 +25,7 @@ export default class CashbackDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback = entidade as Cashback;
-        await db.query("UPDATE cashback SET valor=$1 WHERE fk_cliente=$2",
+        await db.query("UPDATE cashback SET valor=(valor + $1) WHERE fk_cliente=$2",
         [
             cashback.valor,
             cashback.idCliente,            
