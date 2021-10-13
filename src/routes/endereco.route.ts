@@ -32,11 +32,12 @@ EnderecoRouter.post("/:id", async (req, res) => {
     complemento: end.complemento,
     idCliente: req.params.id,
   };
+  console.log("rota end", endereco)
 
   let conversao = Object.assign(new Endereco(), endereco);
   let listaEndereco: any = await fachada.cadastrar(conversao as Endereco);
 
-  if (listaEndereco.msgn.length>1){
+  if (listaEndereco.msgn.length>0){
     res.status(400).json({status: 1, mensagem: listaEndereco.msgn});    
   }
     else{

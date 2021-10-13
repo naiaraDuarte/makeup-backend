@@ -44,7 +44,7 @@ CartaoRouter.post("/:id", async (req, res) => {
   };
   let conversao = Object.assign(new Cartao(), cartaoCredito);
   let listaCartao: any = await fachada.cadastrar(conversao as Cartao);
-  console.log("rota cartao", listaCartao.msgn)
+  console.log("cartaooo", cartao)
 
   if (listaCartao.msgn.length > 0) {
     res.status(400).json({ status: 1, mensagem: listaCartao.msgn });
@@ -65,7 +65,7 @@ CartaoRouter.put("/:id", async (req, res) => {
     bandeira: BandeiraCartao[cartao.bandeira],
 
   };
-
+  
   let conversao = Object.assign(new Cartao(), cartaoCredito);
   let listaCartao: any = await fachada.alterar(conversao as Cartao);
   if (listaCartao.msgn.length > 1) {
