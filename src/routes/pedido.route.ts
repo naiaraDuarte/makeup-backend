@@ -95,7 +95,7 @@ PedidoRouter.post("/", async (req, res) => {
     valor: ped.valor,
     frete: ped.frete,
   };
-
+  console.log("pedido", ped)
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 

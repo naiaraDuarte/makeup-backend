@@ -7,7 +7,7 @@ export default class ValidarValorCartao implements IStrategy {
         const pedido = entidade as Pedido;
         const minimoCartao = 10;
         let msgn = "";
-        if (altera == false) {
+        if (!altera) {
             if (pedido.pagamento.cashback != null || pedido.pagamento.cupom != null) {
                 if (pedido.pagamento.cartoes.length > 1) {
                     pedido.pagamento.cartoes.forEach(cart => {

@@ -11,7 +11,7 @@ export default class ValidarEstoque implements IStrategy {
         let produtoDao = new ProdutoDAO();
         // let msgn = "";
 
-        if (alterar == false) {
+        if (!alterar) {
             pedido.produtos.forEach(async pdt => {
                 let qntdeEstoque = await produtoDao.consultarComId(pdt);
                 let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);

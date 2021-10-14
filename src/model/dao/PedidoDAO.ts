@@ -70,6 +70,7 @@ export default class PedidoDAO implements IDAO {
             id: pedido.pagamento.cashback.id,
             valor: pedido.pagamento.cashback.valor
         }
+        
         let cashbackDao = new CashbackDAO();
         let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
@@ -81,30 +82,15 @@ export default class PedidoDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const pedido = entidade as Pedido;
-        console.log('ckhbvjfd', Object.keys(pedido).length);
-        if (Object.keys(pedido).length > 3) {
-        //   await db.query(
-        //     "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8, apelido=$9 WHERE id=$10",
-        //     [
-        //       pedido.nome,
-        //       pedido.dataNasc,
-        //       pedido.cpf,
-        //       pedido.tipoTelefone,
-        //       pedido.telefone,
-        //       pedido.sexo,
-        //       pedido.email,
-        //       pedido.senha,
-        //       pedido.apelido,
-        //       pedido.id,
-        //     ]
-        //   );
-        } else {
-          let key = Object.keys(pedido);
-          let values = Object.values(pedido);
-          await db.query(
-            "UPDATE pedidos SET " + key[1] + "=$1 WHERE id=$2", [values[1], values[0]]);
-    
-        }
+        await db.query(
+            "UPDATE pedidos SET status=$1 WHERE id=$2",
+            [
+              pedido.status,
+              pedido.id
+              
+            ]
+          );   
+        
     
         return entidade as Pedido;
     }

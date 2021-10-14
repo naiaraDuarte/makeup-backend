@@ -12,7 +12,7 @@ export default class ValidarCupomPedido implements IStrategy {
         let cupomDao = new CupomDAO();
         // let fachada = new Fachada();
         // let msgn = "";
-        if (altera == false) {
+        if (!altera) {
             let cupom= {
                 id: pedido.pagamento.cupom.id,             
             }
