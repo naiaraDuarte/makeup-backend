@@ -120,6 +120,7 @@ export default class ClienteDAO implements IDAO {
     let cartao = Object.assign(new Cartao());
     cartao.idCliente = result[0].id;
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
+    
     return result;
   }
   async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio> {

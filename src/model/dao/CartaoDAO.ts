@@ -52,7 +52,8 @@ export default class CartaoDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const cartao = entidade as Cartao;
-        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1 AND ativo = true", [cartao.id]);
+       
+        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1 AND ativo = true", [cartao.idCliente]);
         let result: Array<EntidadeDominio> = [];
 
         result = await cart.then((dados) => {
