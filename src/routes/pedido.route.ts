@@ -23,7 +23,6 @@ PedidoRouter.get("/", async (req, res) => {
         pagamento: listaPedido.pagamento,
         cartao: listaPedido.cartoes,
       });
-      console.log(todosOsPedidos);
       if (i == listaPedido.length - 1) {
         res.json({ message: "OK", todosOsPedidos });
       }
@@ -48,7 +47,6 @@ PedidoRouter.get("/:id", async (req, res) => {
         pagamento: listaPedido.pagamento,
         cartao: listaPedido.cartoes,
       });
-      console.log(todosOsPedidos);
       if (i == listaPedido.length - 1) {
         res.json({ message: "OK", todosOsPedidos });
       }

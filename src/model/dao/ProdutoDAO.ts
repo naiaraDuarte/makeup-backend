@@ -91,7 +91,7 @@ export default class ProdutoDAO implements IDAO {
     }
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
 
-        let produto = db.query("SELECT * FROM produtos WHERE id IN (SELECT fk_produto FROM produtos_pedidos WHERE fk_pedido = $1)", [
+        let produto = db.query("select * from produtos inner join produtos_pedidos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1", [
         id
         ])
         let result: any;
