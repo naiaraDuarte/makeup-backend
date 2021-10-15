@@ -17,4 +17,5 @@ export default class Produto extends EntidadeDominio{
     custo!:number;  
     descricao!:string; 
     preco!: number;
+    status!: string;
 }

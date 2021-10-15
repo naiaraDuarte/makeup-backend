@@ -37,7 +37,7 @@ export default class ProdutoPedidoDAO implements IDAO{
         await db.query(
             "UPDATE produtos_pedidos SET status=$1 WHERE fk_produto=$2 AND fk_pedido=$3",
             [
-                produtoPedido.status, 
+                produtoPedido.produto.status, 
                 produtoPedido.produto.id,
                 produtoPedido.pedido.id,
             ]

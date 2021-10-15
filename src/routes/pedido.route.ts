@@ -25,7 +25,7 @@ PedidoRouter.get("/", async (req, res) => {
       });
       console.log(todosOsPedidos);
       if (i == listaPedido.length - 1) {
-        res.json({message: "OK", todosOsPedidos});
+        res.json({ message: "OK", todosOsPedidos });
       }
     });
   }
@@ -50,7 +50,7 @@ PedidoRouter.get("/:id", async (req, res) => {
       });
       console.log(todosOsPedidos);
       if (i == listaPedido.length - 1) {
-        res.json({message: "OK", todosOsPedidos});
+        res.json({ message: "OK", todosOsPedidos });
       }
     });
   }
@@ -99,12 +99,12 @@ PedidoRouter.post("/", async (req, res) => {
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 
-  if (listaPedido.msgn.length>1){
-    res.status(400).json({status: 1, mensagem: listaPedido.msgn});    
+  if (listaPedido.msgn.length > 1) {
+    res.status(400).json({ status: 1, mensagem: listaPedido.msgn });
   }
-    else{
-      res.status(200).json({status: 0, dados: listaPedido});
-    }
+  else {
+    res.status(200).json({ status: 0, dados: listaPedido });
+  }
 });
 
 PedidoRouter.put("/status/:id", async (req, res) => {
@@ -116,29 +116,32 @@ PedidoRouter.put("/status/:id", async (req, res) => {
   let conversao = Object.assign(new Pedido(), pedido);
   console.log('console', conversao)
   let listaPedido: any = await fachada.alterar(conversao as Pedido);
-  if (listaPedido.msgn.length <= 3){
-    res.status(200).json({status: listaPedido.status});     
+  if (listaPedido.msgn.length <= 3) {
+    res.status(200).json({ status: listaPedido.status });
   }
-    else{
-      res.status(400).json({status: 1, message: listaPedido.msgn});
-    }
+  else {
+    res.status(400).json({ status: 1, message: listaPedido.msgn });
+  }
 });
 
 PedidoRouter.put("/troca/:id", async (req, res) => {
-let pedido = { id: req.params.id }
-let produto = { id: req.body.produto.id }
+  let pedido = { id: req.params.id }
+  let produto = {
+    id: req.body.produto.id,
+    status: req.body.produto.status
+  }
   const pedidoProduto = {
-    pedido:  Object.assign(new Pedido(), pedido),
+    pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
-    status: req.body.status,
+
   };
 
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
   let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
-  if (!listaPedido.msgn){
-    res.status(200).json({status: 0, message: listaPedido});     
+  if (!listaPedido.msgn) {
+    res.status(200).json({ status: 0, message: listaPedido });
   }
-    else{
-      res.status(400).json({status: 1, dados: listaPedido.msgn});
-    }
+  else {
+    res.status(400).json({ status: 1, dados: listaPedido.msgn });
+  }
 });
