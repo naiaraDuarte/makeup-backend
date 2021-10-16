@@ -109,7 +109,7 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    console.log('chegou agr', entidade)
+    console.log('chegou agr FACHADA', entidade)
     let msg = await this.processarStrategys(entidade, true);    
     
     if (msg == "") {

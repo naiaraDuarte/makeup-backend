@@ -50,6 +50,7 @@ PedidoRouter.get("/:id", async (req, res) => {
       if (i == listaPedido.length - 1) {
         res.json({ message: "OK", todosOsPedidos });
       }
+      
     });
   }
 });
@@ -124,10 +125,10 @@ PedidoRouter.put("/status/:id", async (req, res) => {
 
 PedidoRouter.put("/troca/:id", async (req, res) => {
   let pedido = { id: req.params.id, 
-  status: req.body.produto.status}
+  status: req.body.status}
   let produto = {
     id: req.body.produto.id,
-    status: req.body.produto.status
+    status: req.body.status
   }
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
