@@ -35,13 +35,14 @@ CashbackRouter.get("/:id", async (req, res) => {
 //     res.json({ message: "OK", Cashback: listaCashback });
 // });
 CashbackRouter.put("/:id", async (req, res) => {
+  
     let cash= req.body;
     const cashback = {
         idCliente: req.params.id,
         valor: cash.valor               
         
     };
-
+    console.log("rota cash", cash)
     let conversao = Object.assign(new Cashback(), cashback);
     let listaCashback: any = await fachada.alterar(conversao as Cashback);
     

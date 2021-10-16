@@ -56,6 +56,7 @@ PedidoRouter.get("/:id", async (req, res) => {
 });
 
 PedidoRouter.post("/", async (req, res) => {
+  console.log("rota pedido")
   let produto = req.body.produto;
   let arrayProduto: any = [];
   produto.forEach(async (pdt: any) => {
@@ -83,7 +84,7 @@ PedidoRouter.post("/", async (req, res) => {
     cashback: cash,
   };
 
-  console.log("rota", pagamento.cupom);
+  console.log("cash", cash);
   let ped = req.body;
   const pedido = {
     cliente: ped.cliente.id,
