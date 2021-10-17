@@ -90,7 +90,10 @@ export default class PedidoDAO implements IDAO {
               
             ]
           );   
-        
+        // if (pedido.status == "TROCA SOLICITADA"){
+        //     let produtoPedidoDao = new ProdutoPedidoDAO();
+        //     let obs = await produtoPedidoDao.alterar
+        // }
     
         return entidade as Pedido;
     }

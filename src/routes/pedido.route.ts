@@ -134,8 +134,9 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
   const pedidoProduto = {
     pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
-
+    observacao: req.body.observacao
   };
+  console.log("rora",pedidoProduto)
 
 
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
