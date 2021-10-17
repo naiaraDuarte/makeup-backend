@@ -66,13 +66,13 @@ export default class PedidoDAO implements IDAO {
             }
             produtoPedidoDao.salvar(produtoPedido as ProdutoPedido);
         });
-        let cashback = {
-            id: pedido.pagamento.cashback.id,
-            valor: pedido.pagamento.cashback.valor
-        }
+        // let cashback = {
+        //     id: pedido.pagamento.cashback.id,
+        //     valor: pedido.pagamento.cashback.valor
+        // }
         
-        let cashbackDao = new CashbackDAO();
-        let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
+        // let cashbackDao = new CashbackDAO();
+        // let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
         entidade.id = idPedido.rows[0].id;
         

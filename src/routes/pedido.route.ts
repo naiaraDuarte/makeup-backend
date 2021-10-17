@@ -56,6 +56,7 @@ PedidoRouter.get("/:id", async (req, res) => {
 });
 
 PedidoRouter.post("/", async (req, res) => {
+  console.log("rota pedido")
   let produto = req.body.produto;
   let arrayProduto: any = [];
   produto.forEach(async (pdt: any) => {
