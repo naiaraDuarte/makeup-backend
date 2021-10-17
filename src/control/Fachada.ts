@@ -85,7 +85,6 @@ export default class Fachada implements IFachada {
     let mensagem = [];
     for (const s of this.rns.get(nomeClasse)!) {
       final_msg = await s.processar(entidade, altera);
-      console.log("msgn", final_msg) 
       if (final_msg != null) {
         mensagem.push(final_msg);
       }    
@@ -96,8 +95,7 @@ export default class Fachada implements IFachada {
   }
 
   async cadastrar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade, false);
-    console.log("mensagem cadastro", msg)    
+    let msg = await this.processarStrategys(entidade, false); 
     
     if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
@@ -109,7 +107,6 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    console.log('chegou agr FACHADA', entidade)
     let msg = await this.processarStrategys(entidade, true);    
     
     if (msg == "") {

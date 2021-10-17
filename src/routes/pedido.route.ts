@@ -83,7 +83,6 @@ PedidoRouter.post("/", async (req, res) => {
     cashback: cash,
   };
 
-  console.log("rota", pagamento.cupom);
   let ped = req.body;
   const pedido = {
     cliente: ped.cliente.id,
@@ -94,7 +93,6 @@ PedidoRouter.post("/", async (req, res) => {
     valor: ped.valor,
     frete: ped.frete,
   };
-  console.log("pedido", ped)
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 
@@ -113,7 +111,6 @@ PedidoRouter.put("/status/:id", async (req, res) => {
   };
 
   let conversao = Object.assign(new Pedido(), pedido);
-  console.log('console', conversao)
   let listaPedido: any = await fachada.alterar(conversao as Pedido);
   if (listaPedido.msgn.length <= 3) {
     res.status(200).json({ status: listaPedido.status });

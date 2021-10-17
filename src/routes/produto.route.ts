@@ -36,7 +36,6 @@ ProdutoRouter.put("/:id", async (req, res) => {
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
-  console.log(conversao)
   res.json({ message: "OK", dados: listaProduto });
 });
 
@@ -69,7 +68,6 @@ ProdutoRouter.post("/", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descricaoProduto,
   };
-  console.log("prouto",produto.categoria)
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
@@ -84,7 +82,6 @@ ProdutoRouter.get("/:id", async (req, res) => {
   };
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.consultarComId(conversao as Produto);
-  console.log("pdt", listaProduto)
 
   res.json({ message: "OK", dados: listaProduto });
 });

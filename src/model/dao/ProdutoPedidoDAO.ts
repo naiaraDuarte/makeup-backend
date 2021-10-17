@@ -33,8 +33,6 @@ export default class ProdutoPedidoDAO implements IDAO{
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produtoPedido = entidade as ProdutoPedido;
-        console.log("pedido.id", produtoPedido.produto.id)
-        console.log("pedido.id", produtoPedido.pedido.id)
         
         await db.query(
             "UPDATE produtos_pedidos SET status=$1 WHERE id=$2 AND fk_pedido=$3",

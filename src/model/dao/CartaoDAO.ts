@@ -7,7 +7,6 @@ import Pedido from '../entidade/pedido';
 export default class CartaoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const cartao = entidade as Cartao;
-        console.log("DAO CARTAO", cartao)
         let idCartao = await db.query(
             "INSERT INTO cartoes(numero, nome, data_validade, cvv, fk_cliente, bandeira) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
             [

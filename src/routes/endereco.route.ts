@@ -32,7 +32,6 @@ EnderecoRouter.post("/:id", async (req, res) => {
     complemento: end.complemento,
     idCliente: req.params.id,
   };
-  console.log("rota end", endereco)
 
   let conversao = Object.assign(new Endereco(), endereco);
   let listaEndereco: any = await fachada.cadastrar(conversao as Endereco);

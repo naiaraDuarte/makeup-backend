@@ -7,7 +7,6 @@ export default class GerarPrecoProduto implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
         const produto = entidade as Produto;
         let cat = produto.categoria.toString()
-        console.log("cat", cat)
 
         switch (cat) {
             case "1":

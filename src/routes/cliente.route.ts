@@ -23,7 +23,6 @@ ClienteRouter.post("/login", async (req, res) => {
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarLogin(conversao as Cliente);
   listaCliente = listaCliente as Cliente;
-  console.log(listaCliente.msgn)
 
 if (listaCliente.msgn != null){
     res.status(400).json({status: 1, mensagem: listaCliente.msgn});    
@@ -47,7 +46,6 @@ ClienteRouter.post("/senha/:id", async (req, res) => {
   }
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
-  console.log("rota")
   
   if (listaCliente.msgn != null){
     res.status(400).json({status: 1, mensagem: listaCliente.msgn});    
@@ -101,12 +99,10 @@ ClienteRouter.post("/", async (req, res) => {
     valor: 0,
     idCliente: cli.id
   }
-  console.log("cli.id", cli.id)
   if (cli.id != null) {
 
     let convert = Object.assign(new Cashback(), cashback);
     let cash = await fachada.cadastrar(convert);
-    console.log("cash rota", cash)
 
     let enderecos: Endereco[] = arrayEndereco.map((e: any) => Object.assign(new Endereco(cli.id), e));
     // let resultEnd: EntidadeDominio[] = [];

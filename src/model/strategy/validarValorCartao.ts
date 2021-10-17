@@ -18,13 +18,11 @@ export default class ValidarValorCartao implements IStrategy {
                         }
                     });
                 }
-                // console.log("strategy", msgn)
                 
             }
             if (pedido.pagamento.cartoes.length > 1) {
                 pedido.pagamento.cartoes.forEach(cart => {
                     let valorCartao = cart.credito;
-                    console.log("valor cartao", valorCartao)
                     if (valorCartao < minimoCartao) {
                         msgn =  " Valor minimo no cartao de R$ 10,00"
                         

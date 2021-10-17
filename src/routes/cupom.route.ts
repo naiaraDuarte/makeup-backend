@@ -69,6 +69,8 @@ CupomRouter.patch("/:id", async(req, res) => {
     quant: cup.quant,
   };
 
+  // console.log(cupom)
+
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCliente: any = await fachada.alterar(conversao as Cupom);
 

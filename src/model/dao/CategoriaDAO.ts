@@ -15,7 +15,6 @@ export default class CategoriaDAO implements IDAO {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<entidadeModel[]> {
-        console.log("dao cat")
         let categorias = db.query("SELECT * FROM categorias");
         let result: Array<EntidadeDominio> = [];
 

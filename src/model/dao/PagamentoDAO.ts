@@ -17,18 +17,6 @@ export default class PagamentoDAO implements IDAO {
                   return cupom as Cupom;
               }));
           });
-      
-        // console.log("dao pgmto")   
-            
-        // let pagamento = db.query("SELECT * from pagamentos WHERE id = $1",[id]);
-        // let result: any;
-        
-        // result = await pagamento.then((dados) => {
-        //   return (result = dados.rows.map(async (pagamento) => {               
-        //     return pagamento as Pagamento;
-        //   }));
-        // });
-    
         return result;
     ;
     }
@@ -46,7 +34,6 @@ export default class PagamentoDAO implements IDAO {
     }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
             const pagamento = entidade as Pagamento;
-            console.log("pagamnto", pagamento.cupom.id, pagamento.cashback.id)
             let idPagamento = await db.query(
                 "INSERT INTO pagamentos (fk_cupom, fk_cashback) VALUES ($1, $2) RETURNING id",
                 [

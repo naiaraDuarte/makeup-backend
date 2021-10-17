@@ -98,14 +98,11 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    // console.log("cliente senha", cliente.senha, "senha bd", result[0].senha)
     if (cliente.senha != null) {
       let senhaBD: string = result[0].senha;
-      console.log ("senha bd", senhaBD)
       if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {
         mensagem.push("Senha não confere");
         result.msgn = mensagem
-        console.log("resultadoo", result)
             
         return result
       }
@@ -154,7 +151,6 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-    console.log("result", result)
 
     if (result.length < 1) {
       mensagem.push("Email não cadastrado");
@@ -163,7 +159,6 @@ export default class ClienteDAO implements IDAO {
     }
 
     let senhaBD = result[0].senha
-    console.log("senha", cliente.senha)
 
 
     if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
