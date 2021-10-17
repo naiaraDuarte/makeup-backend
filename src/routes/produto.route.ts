@@ -38,22 +38,39 @@ ProdutoRouter.put("/:id", async (req, res) => {
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });
 });
-
-ProdutoRouter.delete("/:id", async (req, res) => {
+ProdutoRouter.patch("/:id", async (req, res) => {
+  let pdt = req.body;
   const produto = {
     id: req.params.id,
+    quantidade: pdt.quantidadeProduto,
   };
 
   let conversao = Object.assign(new Produto(), produto);
-  let prod: boolean = await fachada.excluir(conversao as Produto);
-
-  res.json({ message: "OK", dados: prod });
+  let listaProduto: any = await fachada.alterar(conversao as Produto);
+  if (listaProduto.length < 1) {
+    console.log("400")
+    res.status(400).json({ status: 1 });
+  }
+  else {
+    res.status(200).json({ status: 0, dados: listaProduto });
+  }
 });
+
+  ProdutoRouter.delete("/:id", async (req, res) => {
+    const produto = {
+      id: req.params.id,
+    };
+
+    let conversao = Object.assign(new Produto(), produto);
+    let prod: boolean = await fachada.excluir(conversao as Produto);
+
+    res.json({ message: "OK", dados: prod });
+  });
 
 ProdutoRouter.post("/", async (req, res) => {
   let pdt = req.body
   const produto = {
-    cod : pdt.codigoProduto,
+    cod: pdt.codigoProduto,
     nome: pdt.nomeProduto,
     marca: pdt.marcaProduto,
     tipo: pdt.tipoProduto,
