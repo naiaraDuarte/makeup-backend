@@ -42,6 +42,7 @@ CartaoRouter.post("/:id", async (req, res) => {
     data_validade: cartao.data_validade.trim(),
     bandeira: BandeiraCartao[cartao.bandeira]
   };
+  console.log("rota cartao", cartaoCredito)
   let conversao = Object.assign(new Cartao(), cartaoCredito);
   let listaCartao: any = await fachada.cadastrar(conversao as Cartao);
 

@@ -125,7 +125,7 @@ export default class PedidoDAO implements IDAO {
 
     async consultarComId(entidade: entidadeModel): Promise < entidadeModel[] > {
     const cliente = entidade as Cliente;
-    let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1", [
+    let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1 ORDER BY id", [
         cliente.id,
     ]);
     let result: any;

@@ -20,8 +20,14 @@ CupomRouter.get("/:cod", async (req, res) => {
   };
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.consultarComId(conversao as Cupom);
-
-  res.json({ message: "OK", cupom: listaCupom });
+console.log("lista", listaCupom.length)
+  if (listaCupom.length<1){
+    console.log("400")
+    res.status(400).json({status: 1});   
+  }
+    else{
+      res.status(200).json({status: 0, cupom: listaCupom});
+    }
 });
 
 CupomRouter.post("/", async (req, res) => {
