@@ -20,11 +20,12 @@ export default class ProdutoPedidoDAO implements IDAO{
         const produtoPedido = entidade as ProdutoPedido;
               
         let idProdutoPedido = await db.query(
-            "INSERT INTO produtos_pedidos(fk_produto, fk_pedido, status) VALUES ($1, $2, $3) RETURNING ID",
+            "INSERT INTO produtos_pedidos(fk_produto, fk_pedido, status, qtde_comprada) VALUES ($1, $2, $3, $4) RETURNING ID",
             [
                 produtoPedido.produto.id,
                 produtoPedido.pedido.id,
                 produtoPedido.status, 
+                produtoPedido.qtdeComprada
             ]
 
         );

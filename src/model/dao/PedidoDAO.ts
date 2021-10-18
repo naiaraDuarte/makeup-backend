@@ -62,7 +62,8 @@ export default class PedidoDAO implements IDAO {
             let produtoPedido = {
                 produto: pdt,
                 pedido: pedido,
-                status: pedido.status
+                status: pedido.status,
+                qtdeComprada: pdt.quantidade
             }
             produtoPedidoDao.salvar(produtoPedido as ProdutoPedido);
         });

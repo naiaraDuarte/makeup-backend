@@ -8,4 +8,6 @@ export default class ProdutoPedido extends EntidadeDominio{
     pedido!: Pedido;
     status!: string;
     observacao!: string;
+    qtdeComprada!: number;
+    
 }
