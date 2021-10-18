@@ -36,7 +36,7 @@ export default class ProdutoPedidoDAO implements IDAO{
         const produtoPedido = entidade as ProdutoPedido;
         console.log("dao", produtoPedido)
         await db.query(
-            "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE fk_produto=$3 AND fk_pedido=$4",
+            "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE id=$3 AND fk_pedido=$4",
             [
                 produtoPedido.produto.status, 
                 produtoPedido.observacao,

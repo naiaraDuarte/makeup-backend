@@ -44,6 +44,7 @@ ProdutoRouter.patch("/:id", async (req, res) => {
     id: req.params.id,
     quantidade: pdt.quantidadeProduto,
   };
+  console.log("rota pdr", produto)
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);

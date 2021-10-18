@@ -25,7 +25,7 @@ console.log("lista", listaCupom.length)
     console.log("400")
     res.status(400).json({status: 1});   
   }
-    else{
+  else{
       res.status(200).json({status: 0, cupom: listaCupom});
     }
 });
