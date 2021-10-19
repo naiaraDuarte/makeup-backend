@@ -34,11 +34,12 @@ PedidoRouter.get("/:id", async (req, res) => {
   const pedido = {
     id: req.params.id,
   };
-
+  
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.consultarComId(conversao as Pedido);
 
   let todosOsPedidos: any = [];
+  console.log("get", listaPedido)
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
       todosOsPedidos.push({
@@ -126,7 +127,7 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
   status: req.body.status}
   let produto = {
     id: req.body.produto.id,
-    status: req.body.status
+    status: req.body.status,    
   }
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
@@ -134,7 +135,8 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
   const pedidoProduto = {
     pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
-    observacao: req.body.observacao
+    observacao: req.body.produto.observacao
+    
   };
   console.log("rora",pedidoProduto)
 

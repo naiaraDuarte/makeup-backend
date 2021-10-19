@@ -102,7 +102,7 @@ export default class PedidoDAO implements IDAO {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<entidadeModel[]> {
-        let pedidos = db.query("select * from pedidos");
+        let pedidos = db.query("SELECT* from pedidos ORDER BY id");
 
         let result: any;
         let fachada = new Fachada();
@@ -151,6 +151,7 @@ export default class PedidoDAO implements IDAO {
             return pedido as Pedido;
         }));
     });
+    console.log("result", result)
     return result
 }                
 }

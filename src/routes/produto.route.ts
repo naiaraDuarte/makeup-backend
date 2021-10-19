@@ -49,7 +49,7 @@ ProdutoRouter.patch("/:id", async (req, res) => {
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   if (listaProduto.length < 1) {
-    console.log("400")
+
     res.status(400).json({ status: 1 });
   }
   else {
@@ -57,16 +57,16 @@ ProdutoRouter.patch("/:id", async (req, res) => {
   }
 });
 
-  ProdutoRouter.delete("/:id", async (req, res) => {
-    const produto = {
-      id: req.params.id,
-    };
+ProdutoRouter.delete("/:id", async (req, res) => {
+  const produto = {
+    id: req.params.id,
+  };
 
-    let conversao = Object.assign(new Produto(), produto);
-    let prod: boolean = await fachada.excluir(conversao as Produto);
+  let conversao = Object.assign(new Produto(), produto);
+  let prod: boolean = await fachada.excluir(conversao as Produto);
 
-    res.json({ message: "OK", dados: prod });
-  });
+  res.json({ message: "OK", dados: prod });
+});
 
 ProdutoRouter.post("/", async (req, res) => {
   let pdt = req.body
@@ -100,7 +100,7 @@ ProdutoRouter.get("/:id", async (req, res) => {
   };
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.consultarComId(conversao as Produto);
-
+  console.log("get", listaProduto)
   res.json({ message: "OK", dados: listaProduto });
 });
 
