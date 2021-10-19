@@ -62,6 +62,7 @@ export default class ProdutoDAO implements IDAO {
             console.log("else produto", produto)
             let key = Object.keys(produto);
             let values = Object.values(produto);
+            console.log("qtde",values[1])
             await db.query(
                 "UPDATE produtos SET quantidade = (quantidade + $1) WHERE id=$2", [values[1], values[0]]);
 
@@ -101,7 +102,7 @@ export default class ProdutoDAO implements IDAO {
     }
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
 
-        let produto = db.query("select * from produtos inner join produtos_pedidos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1", [
+        let produto = db.query("select * from produtos_pedidos inner join produtos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1", [
             id
         ])
         let result: any;
