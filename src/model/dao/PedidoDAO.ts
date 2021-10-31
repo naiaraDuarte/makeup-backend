@@ -151,7 +151,7 @@ export default class PedidoDAO implements IDAO {
             return pedido as Pedido;
         }));
     });
-    console.log("result", result)
+    
     return result
 }                
 }

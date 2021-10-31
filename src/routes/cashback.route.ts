@@ -42,7 +42,7 @@ CashbackRouter.put("/:id", async (req, res) => {
         valor: cash.valor               
         
     };
-    console.log("rota cash", cash)
+    
     let conversao = Object.assign(new Cashback(), cashback);
     let listaCashback: any = await fachada.alterar(conversao as Cashback);
     

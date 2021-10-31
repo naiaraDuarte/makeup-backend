@@ -7,8 +7,9 @@ import EntidadeDominio from "../entidade/entidadeDominio";
 export default class ProdutoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
+        
         let idProduto = await db.query(
-            "INSERT INTO produtos (cod, nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id",
+            "INSERT INTO produtos (cod, nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao, preco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id",
             [
                 produto.cod,
                 produto.nome,
@@ -24,6 +25,7 @@ export default class ProdutoDAO implements IDAO {
                 produto.categoria,
                 produto.custo,
                 produto.descricao,
+                produto.preco
 
             ],
         );
@@ -33,9 +35,9 @@ export default class ProdutoDAO implements IDAO {
 
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
-        console.log("pdt", produto)
+       
         if (Object.keys(produto).length > 3) {
-            console.log("pdt if",Object.keys(produto).length)
+            
             await db.query(
                 "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
 
@@ -59,15 +61,13 @@ export default class ProdutoDAO implements IDAO {
                 ]
             );
         } else {
-            console.log("else produto", produto)
+            
             let key = Object.keys(produto);
             let values = Object.values(produto);
-            console.log("qtde",values[1])
+           
             await db.query(
                 "UPDATE produtos SET quantidade = (quantidade + $1) WHERE id=$2", [values[1], values[0]]);
-
         }
-
         return entidade as Produto;
 
     }

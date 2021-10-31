@@ -20,9 +20,9 @@ CupomRouter.get("/:cod", async (req, res) => {
   };
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.consultarComId(conversao as Cupom);
-console.log("lista", listaCupom.length)
+
   if (listaCupom.length<1){
-    console.log("400")
+    
     res.status(400).json({status: 1});   
   }
   else{
@@ -60,7 +60,7 @@ CupomRouter.put("/:id", async (req, res) => {
 
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCupom: any = await fachada.alterar(conversao as Cupom);
-  console.log(listaCupom.msgn.length)
+  
   if (listaCupom.msgn.length > 1){
     res.status(400).json({status: 0, message: listaCupom.msgn});     
   }
@@ -75,8 +75,6 @@ CupomRouter.patch("/:id", async(req, res) => {
     id: req.params.id,
     quant: cup.quant,
   };
-
-  console.log(cupom)
 
   let conversao = Object.assign(new Cupom(), cupom);
   let listaCliente: any = await fachada.alterar(conversao as Cupom);

@@ -14,6 +14,7 @@ ProdutoRouter.get("/", async (req, res) => {
 
 ProdutoRouter.put("/:id", async (req, res) => {
   let pdt = req.body;
+  
   const produto = {
     id: req.params.id,
     codigo: pdt.codigoProduto,
@@ -31,8 +32,8 @@ ProdutoRouter.put("/:id", async (req, res) => {
     custo: pdt.custoProduto,
     preco: pdt.precoProduto,
     descricao: pdt.descProduto,
-
   };
+  
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
@@ -44,8 +45,7 @@ ProdutoRouter.patch("/:id", async (req, res) => {
     id: req.params.id,
     quantidade: pdt.quantidadeProduto,
   };
-  console.log("rota pdr", produto)
-
+  
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   if (listaProduto.length < 1) {
@@ -84,7 +84,7 @@ ProdutoRouter.post("/", async (req, res) => {
     diametro: pdt.diametroProduto,
     categoria: pdt.categoriaProduto,
     custo: pdt.custoProduto,
-    descricao: pdt.descricaoProduto,
+    descricao: pdt.descProduto,
   };
 
   let conversao = Object.assign(new Produto(), produto);
@@ -100,7 +100,7 @@ ProdutoRouter.get("/:id", async (req, res) => {
   };
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.consultarComId(conversao as Produto);
-  console.log("get", listaProduto)
+  
   res.json({ message: "OK", dados: listaProduto });
 });
 

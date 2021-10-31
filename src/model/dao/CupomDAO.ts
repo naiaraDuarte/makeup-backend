@@ -17,7 +17,7 @@ export default class CupomDAO implements IDAO {
   }
   async alterar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
-    console.log("AQUIU", cupom)
+   
     if (Object.keys(cupom).length > 3) {
       await db.query(
         "UPDATE cupons SET porcen=$1, quant=$2, tipo=$3, cod=$4 WHERE id=$5",

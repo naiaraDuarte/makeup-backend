@@ -20,11 +20,11 @@ CalculaFreteRouter.post("/", async (req, res) => {
   correios
     .calcPreco(frete)
     .then((result: any) => {
-        console.log(result)
+        
       res.json({ message: "OK", valor: result });
     })
     .catch((error: any) => {
       res.json({ message: "OK", erro: error });
-      console.log(error);
+     
     });
 });

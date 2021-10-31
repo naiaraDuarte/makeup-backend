@@ -6,7 +6,7 @@ import IStrategy from "./IStrategy";
 export default class GerarPrecoProduto implements IStrategy {
     async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const produto = entidade as Produto;
-        
+                
         if (!altera){
         let cat = produto.categoria.toString()
 
