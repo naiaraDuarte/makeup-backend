@@ -18,7 +18,9 @@ export default class ProdutoPedidoDAO implements IDAO{
     }
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produtoPedido = entidade as ProdutoPedido;
-              
+        let qntde = produtoPedido.qtdeComprada;
+
+        for(let i=0; i<=qntde; i++){                
         let idProdutoPedido = await db.query(
             "INSERT INTO produtos_pedidos(fk_produto, fk_pedido, status, qtde_comprada) VALUES ($1, $2, $3, $4) RETURNING ID",
             [
@@ -29,7 +31,8 @@ export default class ProdutoPedidoDAO implements IDAO{
             ]
 
         );
-        entidade.id = idProdutoPedido.rows[0].id;
+        entidade.id = idProdutoPedido.rows[0].id;        
+        }
         return entidade as ProdutoPedido;
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
