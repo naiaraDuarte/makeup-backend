@@ -1,6 +1,6 @@
 import EntidadeDominio from "./entidadeDominio";
 
-export default class Cartao extends EntidadeDominio {
+export default class Filtro extends EntidadeDominio {
     dateInicial!: Date;
     dateFinal!: Date;
 }
