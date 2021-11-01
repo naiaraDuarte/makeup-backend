@@ -1,4 +1,5 @@
 import express from 'express';
+
 import { CartaoRouter } from './routes/cartao.route';
 import { ClienteRouter } from './routes/cliente.route';
 import { EnderecoRouter } from './routes/endereco.route';
@@ -8,6 +9,7 @@ import { CupomRouter } from './routes/cupom.route';
 import { PedidoRouter } from './routes/pedido.route';
 import { CashbackRouter } from './routes/cashback.route';
 import { CategoriaRouter } from './routes/categoria.route';
+import { GraficoRouter } from './routes/grafico.route';
 
 
 const cors = require('cors');
@@ -36,6 +38,7 @@ app.use('/cupom', CupomRouter);
 app.use('/pedido', PedidoRouter);
 app.use('/cashback', CashbackRouter);
 app.use('/categoria', CategoriaRouter);
+app.use('/grafico', GraficoRouter);
 
 app.listen(port, () => {
     console.log(`Listening on: http://localhost:${port}`);
