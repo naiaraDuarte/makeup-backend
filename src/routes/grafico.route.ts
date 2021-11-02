@@ -24,7 +24,8 @@ GraficoRouter.get("/", async (req, res) => {
 GraficoRouter.post("/", async (req, res) => {
   const filtro = {
     dataInicial: req.body.dataInicial,
-    dataFinal: req.body.dataFinal
+    dataFinal: req.body.dataFinal,
+    status: req.body.status
   };
   var day = 86400000
   var date = new Date(filtro.dataInicial);

@@ -34,19 +34,34 @@ export default class FiltroDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const filtro = entidade as Filtro
+        let result: Array<EntidadeDominio>; 
         
-        let filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome", [
-            filtro.dataInicial,
-            filtro.dataFinal
+        if (filtro.status == 1){
+            let filtros = db.query("SELECT DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, categorias.id, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY mes, mes_completo, categorias.id, categorias.descricao ORDER BY mes, categorias.descricao", [
+                filtro.dataInicial,
+                filtro.dataFinal        
         ]);
-        
-        let result: Array<EntidadeDominio>;       
-
         result = await filtros.then((dados) => {
             return (result = dados.rows.map((filtro) => {
                 return filtro;
             }));
         });
+    }else{    
+        let filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome", [
+            filtro.dataInicial,
+            filtro.dataFinal
+        ]);
+        result = await filtros.then((dados) => {
+            return (result = dados.rows.map((filtro) => {
+                return filtro;
+            }));
+        });}
+    
+
+        
+             
+
+        
        
         return result;
 
