@@ -21,7 +21,7 @@ GraficoRouter.get("/:date", async (req, res) => {
   let conversao = Object.assign(new Filtro(), filtro);
   let listaFiltro: any = await fachada.consultarComId(conversao as Filtro);
 
-  res.status(200).json({status: 0, dados: listaFiltro});
+  res.status(200).json({ status: 0, dados: listaFiltro });
 });
 
 GraficoRouter.post("/", async (req, res) => {
@@ -29,10 +29,15 @@ GraficoRouter.post("/", async (req, res) => {
     dataInicial: req.body.dataInicial,
     dataFinal: req.body.dataFinal
   };
-  console.log("filtro", filtro)
+  var day = 86400000
+  var date = new Date(filtro.dataInicial);
+  var date1 = new Date(filtro.dataFinal);
+  filtro.dataInicial = new Date((date.getTime() - day));
+  filtro.dataFinal = new Date((date1.getTime() + day));
+
   let conversao = Object.assign(new Filtro(), filtro);
   let listaFiltro: any = await fachada.consultarComId(conversao as Filtro);
 
-  res.status(200).json({status: 0, dados: listaFiltro});
+  res.status(200).json({ status: 0, dados: listaFiltro });
 
 });
