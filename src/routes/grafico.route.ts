@@ -22,15 +22,12 @@ GraficoRouter.get("/:date", async (req, res) => {
   let listaFiltro: any = await fachada.consultarComId(conversao as Filtro);
 
   res.status(200).json({status: 0, dados: listaFiltro});
-
-
 });
 
 GraficoRouter.post("/", async (req, res) => {
   const filtro = {
-    dateInicial: req.body.dataInicial,
-    dateFinal: req.body.dataFinal
-
+    dataInicial: req.body.dataInicial,
+    dataFinal: req.body.dataFinal
   };
   console.log("filtro", filtro)
   let conversao = Object.assign(new Filtro(), filtro);

@@ -21,7 +21,7 @@ import ValidarCupom from "../model/strategy/validarCupom";
 import ValidarCupomPedido from "../model/strategy/ValidarCupomPedido";
 import ProdutoPedidoDAO from "../model/dao/ProdutoPedidoDAO";
 import GerarPrecoProduto from "../model/strategy/gerarPrecoProduto";
-import FiltroDAO from "../model/dao/FiltroDAO";
+import GraficoDAO from "../model/dao/GraficoDAO";
 // import ValidarCashback from "../model/strategy/ValidarCashback";
 
 // import ValidarExistencia from "../model/strategy/validarExistencia";
@@ -48,7 +48,7 @@ export default class Fachada implements IFachada {
     this.daos.set("Cashback", new CashbackDAO());
     this.daos.set("Categoria", new CategoriaDAO());
     this.daos.set("ProdutoPedido", new ProdutoPedidoDAO());
-    this.daos.set("Filtro", new FiltroDAO());
+    this.daos.set("Filtro", new GraficoDAO());
   }
 
   definirRNS() {
