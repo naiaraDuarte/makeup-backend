@@ -22,14 +22,12 @@ export default class FiltroDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const filtro = entidade as Filtro
-        // let values = Object.values(filtro);
-        console.log(filtro)
-
+        
         let filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome", [
             filtro.dataInicial,
             filtro.dataFinal
-
         ]);
+        
         let result: Array<EntidadeDominio>;       
 
         result = await filtros.then((dados) => {
@@ -37,8 +35,7 @@ export default class FiltroDAO implements IDAO {
                 return filtro;
             }));
         });
-        console.log("dao", result)
-
+       
         return result;
 
     }
