@@ -27,11 +27,15 @@ GraficoRouter.post("/", async (req, res) => {
     dataFinal: req.body.dataFinal,
     status: req.body.status
   };
-  var day = 86400000
-  var date = new Date(filtro.dataInicial);
-  var date1 = new Date(filtro.dataFinal);
-  filtro.dataInicial = new Date((date.getTime() - day));
-  filtro.dataFinal = new Date((date1.getTime() + day));
+
+  console.log(filtro)
+  if (filtro.dataInicial != null) {
+    var day = 86400000
+    var date = new Date(filtro.dataInicial);
+    var date1 = new Date(filtro.dataFinal);
+    filtro.dataInicial = new Date((date.getTime() - day));
+    filtro.dataFinal = new Date((date1.getTime() + day));
+  }
 
   let conversao = Object.assign(new Filtro(), filtro);
   let listaFiltro: any = await fachada.consultarComId(conversao as Filtro);

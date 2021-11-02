@@ -36,6 +36,7 @@ export default class FiltroDAO implements IDAO {
         const filtro = entidade as Filtro
         let result: Array<EntidadeDominio>;
         let filtros;
+        console.log("ftiltre", filtro)
 
         if (filtro.status == 1) {
             if (filtro.dataInicial == null) {
@@ -55,7 +56,6 @@ export default class FiltroDAO implements IDAO {
         } else {
             if (filtro.dataInicial == null) {
                 filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome")
-
             }
             else {
                 filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome", [
