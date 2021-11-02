@@ -14,12 +14,9 @@ let fachada = new Fachada();
 //   res.json({ message: "OK", dados: listaCupom });
 // });
 
-GraficoRouter.get("/:date", async (req, res) => {
-  const filtro = {
-    cod: req.params.date,
-  };
-  let conversao = Object.assign(new Filtro(), filtro);
-  let listaFiltro: any = await fachada.consultarComId(conversao as Filtro);
+GraficoRouter.get("/", async (req, res) => {
+  let listaFiltro: any = await fachada.consultar(new Filtro());
+  console.log("rota", listaFiltro)
 
   res.status(200).json({ status: 0, dados: listaFiltro });
 });

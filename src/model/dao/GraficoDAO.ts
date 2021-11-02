@@ -14,8 +14,20 @@ export default class FiltroDAO implements IDAO {
     excluir(entidade: EntidadeDominio): boolean {
         throw new Error("Method not implemented.");
     }
-    consultar(): Promise<EntidadeDominio[]> {
-        throw new Error("Method not implemented.");
+    async consultar(): Promise<EntidadeDominio[]> {
+        let filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome");
+        let result: Array<EntidadeDominio> = [];
+    
+        result = await filtros.then((dados) => {
+          return (result = dados.rows.map((filtro) => {
+    
+            return filtro as Filtro;
+          }));
+        });
+        console.log("result", result)
+    
+        return result;
+      
     }
     consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
         throw new Error("Method not implemented.");
