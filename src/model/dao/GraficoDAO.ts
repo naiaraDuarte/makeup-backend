@@ -106,7 +106,7 @@ export default class FiltroDAO implements IDAO {
 
     }
     validaDatas(dataI: Date, dataF: Date) {
-        console.group("i", dataI.getUTCMonth(), "F", dataF.getUTCMonth())
+        console.log("i", dataI.getMonth(), "F", dataF.getMonth(), 'data I', dataI, 'data F', dataF)
         if (dataI.getFullYear() == dataF.getFullYear() && dataI.getUTCMonth() == dataF.getUTCMonth()) {
             //pegar dias 
             console.log("pegar dias ")
