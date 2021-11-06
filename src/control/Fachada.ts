@@ -74,7 +74,7 @@ export default class Fachada implements IFachada {
     this.rns.set("Pedido", [validarEstoque, validarValorCartao, validarCupomPedido]);
     this.rns.set("Endereco", [validarEndereco])
     this.rns.set("Cashback", [])
-    this.rns.set("Cashback", [])
+    this.rns.set("Categoria", [])
     this.rns.set("Cupom", [validarCupom])
     this.rns.set("Produto", [gerarPrecoProduto])
     this.rns.set("ProdutoPedido", [])

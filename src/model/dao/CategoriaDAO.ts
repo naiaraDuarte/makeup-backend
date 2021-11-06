@@ -1,20 +1,40 @@
 import { db } from "../../db.config";
 import Categoria from "../entidade/categoria";
 import EntidadeDominio from "../entidade/entidadeDominio";
-import entidadeModel from "../entidade/entidadeDominio";
+
 import IDAO from "./IDAO";
 
 export default class CategoriaDAO implements IDAO {
-    salvar(entidade: entidadeModel): Promise<entidadeModel> {
-        throw new Error("Method not implemented.");
+    async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+        const categoria = entidade as Categoria;
+        let idCategoria = await db.query(
+            "INSERT INTO categorias (descricao, gp_precificacao) VALUES ($1, $2) RETURNING id",
+            [categoria.descricao,
+            categoria.gpPrecificacao,]
+        );
+        entidade.id = idCategoria.rows[0].id;
+        return entidade as Categoria;
     }
-    alterar(entidade: entidadeModel): Promise<entidadeModel> {
-        throw new Error("Method not implemented.");
+    async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
+        const categoria = entidade as Categoria;
+
+
+        await db.query(
+            "UPDATE categorias SET descricao=$1, gp_precificacao=$2 WHERE id=$3",
+
+            [categoria.descricao, categoria.gpPrecificacao, categoria.id]
+        );
+
+
+        return entidade as Categoria;
     }
-    excluir(entidade: entidadeModel): boolean {
-        throw new Error("Method not implemented.");
+    excluir(entidade: EntidadeDominio): boolean {
+        const categoria = entidade as Categoria;
+        db.query("DELETE categorias WHERE id=$1", [categoria.id]);
+        return true;
+
     }
-    async consultar(): Promise<entidadeModel[]> {
+    async consultar(): Promise<EntidadeDominio[]> {
         let categorias = db.query("SELECT * FROM categorias");
         let result: Array<EntidadeDominio> = [];
 
@@ -27,10 +47,10 @@ export default class CategoriaDAO implements IDAO {
 
         return result;
     }
-    consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
+    consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
         throw new Error("Method not implemented.");
     }
-    consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+    consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
         throw new Error("Method not implemented.");
     }
 
