@@ -42,14 +42,16 @@ export default class PedidoDAO implements IDAO {
         });
 
         let idPedido = await db.query(
-            "INSERT INTO pedidos (fk_cliente, fk_endereco, fk_pagamento, valor, frete, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+            "INSERT INTO pedidos (fk_cliente, fk_endereco, fk_pagamento, valor, frete, status, data_cadastro) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
             [
                 pedido.cliente,
                 pedido.endereco,
                 pedido.pagamento.id,
                 pedido.valor,
                 pedido.frete,
-                pedido.status
+                pedido.status,
+                pedido.dataCadastro
+
             ]
 
         );
