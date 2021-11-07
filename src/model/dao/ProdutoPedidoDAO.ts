@@ -6,7 +6,7 @@ import Produto from '../entidade/produto';
 
 export default class ProdutoPedidoDAO implements IDAO{
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        let produtos = db.query("select * from produtos_pedidos inner join produtos on produtos.id = fk_produto  where produtos_pedidos.fk_pedido=$1",[id]);
+        let produtos = db.query("select * from produtos_pedidos inner join produtos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1",[id]);
         let result: any;
         
         result = await produtos.then((dados) => {
@@ -37,20 +37,18 @@ export default class ProdutoPedidoDAO implements IDAO{
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produtoPedido = entidade as ProdutoPedido;
-        
+              
         await db.query(
             "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE id=$3",
             [
                 produtoPedido.produto.status, 
                 produtoPedido.observacao,
-                produtoPedido.produto.id,                
+                produtoPedido.produto.id,               
                
             ]
         );
-
         return entidade as ProdutoPedido;
     }
-
     excluir(entidade: EntidadeDominio): boolean {
         throw new Error('Method not implemented.');
     }
