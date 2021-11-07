@@ -42,7 +42,7 @@ CategoriaRouter.get("/", async (req, res) => {
     let conversao = Object.assign(new Categoria(), categoria);
     let listaCategoria: any = await fachada.alterar(conversao as Categoria);
     
-    if (listaCategoria.msgn == null){
+    if (listaCategoria.msgn == ""){
       res.status(400).json({status: 0, message: listaCategoria.msgn});     
     }
       else{
