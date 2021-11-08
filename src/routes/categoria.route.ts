@@ -56,5 +56,12 @@ CategoriaRouter.delete("/:id", async (req, res) => {
   let conversao = Object.assign(new Categoria(), categoria);
   let cat: boolean = await fachada.excluir(conversao as Categoria);
 
-  res.json({ message: "OK", dados: cat });
+  if (cat){
+    res.status(200).json({ message: "OK", dados: cat });
+  }
+  else{
+    res.status(400).json({ message: "OK", dados: cat });
+
+  }
+  
 });

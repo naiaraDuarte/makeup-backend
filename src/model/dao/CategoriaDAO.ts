@@ -1,6 +1,7 @@
 import { db } from "../../db.config";
 import Categoria from "../entidade/categoria";
 import EntidadeDominio from "../entidade/entidadeDominio";
+import Produto from "../entidade/produto";
 
 import IDAO from "./IDAO";
 
@@ -30,7 +31,7 @@ export default class CategoriaDAO implements IDAO {
     }
     excluir(entidade: EntidadeDominio): boolean {
         const categoria = entidade as Categoria;
-        db.query("DELETE categorias WHERE id=$1", [categoria.id]);
+        db.query("DELETE FROM categorias WHERE id=$1", [categoria.id]);
         return true;
 
     }
@@ -47,8 +48,18 @@ export default class CategoriaDAO implements IDAO {
 
         return result;
     }
-    consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
-        throw new Error("Method not implemented.");
+    async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
+        const produto = entidade as Produto;
+        console.log("dao",produto.categoria.id)
+        let cat = db.query("SELECT * FROM categorias WHERE id = $1", [produto.categoria.id]);
+        let result: Array<EntidadeDominio> = [];
+
+        result = await cat.then((dados) => {
+            return (result = dados.rows.map((categoria) => {
+                return categoria;
+            }));
+        });
+        return result;
     }
     consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
         throw new Error("Method not implemented.");

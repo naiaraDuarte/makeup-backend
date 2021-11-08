@@ -22,7 +22,7 @@ export default class ProdutoDAO implements IDAO {
                 produto.imagem,
                 produto.largura,
                 produto.diametro,
-                produto.categoria,
+                produto.categoria.id,
                 produto.custo,
                 produto.descricao,
                 produto.preco
@@ -35,6 +35,7 @@ export default class ProdutoDAO implements IDAO {
 
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
+        console.log("id", produto.cod)
        
         if (Object.keys(produto).length > 3) {
             
@@ -53,7 +54,7 @@ export default class ProdutoDAO implements IDAO {
                     produto.imagem,
                     produto.largura,
                     produto.diametro,
-                    produto.categoria,
+                    produto.categoria.id,
                     produto.custo,
                     produto.descricao,
                     produto.preco,

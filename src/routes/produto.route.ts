@@ -17,7 +17,7 @@ ProdutoRouter.put("/:id", async (req, res) => {
   
   const produto = {
     id: req.params.id,
-    codigo: pdt.codigoProduto,
+    cod: pdt.codigoProduto,
     nome: pdt.nomeProduto,
     marca: pdt.marcaProduto,
     tipo: pdt.tipoProduto,
@@ -86,6 +86,7 @@ ProdutoRouter.post("/", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
+  
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
