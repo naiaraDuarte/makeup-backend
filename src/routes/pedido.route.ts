@@ -1,6 +1,7 @@
 import express from "express";
 import Fachada from "../control/Fachada";
 import Pedido from "../model/entidade/pedido";
+import produto from "../model/entidade/produto";
 import Produto from "../model/entidade/produto";
 import ProdutoPedido from "../model/entidade/produtoPedido";
 
@@ -107,18 +108,32 @@ PedidoRouter.post("/", async (req, res) => {
 });
 
 PedidoRouter.put("/status/:id", async (req, res) => {
-  const pedido = {
-    id: req.params.id,
+  let pedido = {
+    id: req.params.id, 
+    status: req.body.status
+  }  
+  let produto={
+    id: req.body.id_produto,   
     status: req.body.status,
-  };
+  }
+  
+  let convert = Object.assign(new Pedido(), pedido);
+  let lista: any = await fachada.alterar(convert as Pedido);
 
-  let conversao = Object.assign(new Pedido(), pedido);
-  let listaPedido: any = await fachada.alterar(conversao as Pedido);
-  if (listaPedido.msgn.length <= 3) {
-    res.status(200).json({ status: listaPedido.status });
+  const pedidoProduto = {
+    pedido: Object.assign(new Pedido(), pedido),
+    produto: Object.assign(new Produto(), produto),
+    observacao: "Avaliada pelo administrador", 
+    
+  };
+ 
+  let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
+  let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
+  if (!listaPedido.msgn) {
+    res.status(200).json({ status: 0, message: listaPedido });
   }
   else {
-    res.status(400).json({ status: 1, message: listaPedido.msgn });
+    res.status(400).json({ status: 1, dados: listaPedido.msgn });
   }
 });
 
