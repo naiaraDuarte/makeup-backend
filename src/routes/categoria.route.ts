@@ -41,7 +41,6 @@ CategoriaRouter.put("/:id", async (req, res) => {
   let conversao = Object.assign(new Categoria(), categoria);
   let listaCategoria: any = await fachada.alterar(conversao as Categoria);
 
-  console.log("jjdj", listaCategoria.msgn)
   if (listaCategoria.msgn != null) {
     res.status(400).json({ status: 0, message: listaCategoria.msgn });
   }

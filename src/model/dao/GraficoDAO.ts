@@ -24,7 +24,7 @@ export default class FiltroDAO implements IDAO {
                 return filtro as Filtro;
             }));
         });
-        console.log("result", result)
+       
 
         return result;
 
@@ -96,7 +96,7 @@ export default class FiltroDAO implements IDAO {
         if (filtro.status == 1) {
             switch (cat) {
                 case 1:
-                    filtros = db.query("SELECT categorias.id, categorias.descricao, DATE_PART('day', pedidos.data_cadastro) AS dia, to_char(pedidos.data_cadastro, 'DD/TMMonth/YYYY') AS completo, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY dia, completo, categorias.id, categorias.descricao ORDER BY dia, categorias.descricao", [
+                    filtros = db.query("SELECT categorias.id, categorias.descricao AS nome, DATE_PART('day', pedidos.data_cadastro) AS dia, to_char(pedidos.data_cadastro, 'DD/TMMonth/YYYY') AS completo, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY dia, completo, categorias.id, categorias.descricao ORDER BY dia, categorias.descricao", [
                         filtro.dataInicial,
                         filtro.dataFinal
                     ]);
@@ -109,7 +109,7 @@ export default class FiltroDAO implements IDAO {
                     ]);
                     break
                 case 3:
-                    filtros = db.query("SELECT categorias.id, categorias.descricao, DATE_PART('year', pedidos.data_cadastro) AS completo, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY completo, categorias.id, categorias.descricao ORDER BY completo, categorias.descricao", [
+                    filtros = db.query("SELECT categorias.id, categorias.descricao AS nome, DATE_PART('year', pedidos.data_cadastro) AS completo, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 GROUP BY completo, categorias.id, categorias.descricao ORDER BY completo, categorias.descricao", [
                         filtro.dataInicial,
                         filtro.dataFinal
                     ]);
@@ -218,17 +218,17 @@ export default class FiltroDAO implements IDAO {
     }
 
     validaDatas(dataI: Date, dataF: Date) {
-        console.log("i", dataI.getMonth(), "F", dataF.getMonth(), 'data I', dataI, 'data F', dataF)
+       
         if (dataI.getFullYear() == dataF.getFullYear() && dataI.getUTCMonth() == dataF.getUTCMonth()) {
             //pegar dias 
-            console.log("pegar dias ")
+           
             return 1;
         } else if (dataI.getFullYear() == dataF.getFullYear() && dataI.getUTCMonth() != dataF.getUTCMonth()) {
             //pegar mês
-            console.log("pegar mês ")
+           
             return 2;
         } else {
-            console.log("pegar ano ")
+           
             //pegar ano
             return 3
         }

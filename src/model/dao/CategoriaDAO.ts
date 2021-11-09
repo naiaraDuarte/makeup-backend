@@ -50,7 +50,7 @@ export default class CategoriaDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
         const produto = entidade as Produto;
-        console.log("dao",produto.categoria.id)
+        console.log(produto)
         let cat = db.query("SELECT * FROM categorias WHERE id = $1", [produto.categoria.id]);
         let result: Array<EntidadeDominio> = [];
 

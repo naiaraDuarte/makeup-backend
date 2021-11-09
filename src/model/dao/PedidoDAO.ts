@@ -85,7 +85,6 @@ export default class PedidoDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const pedido = entidade as Pedido;
-        console.log(pedido)
         await db.query(
             "UPDATE pedidos SET status=$1 WHERE id=$2",
             [

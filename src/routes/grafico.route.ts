@@ -16,8 +16,7 @@ let fachada = new Fachada();
 
 GraficoRouter.get("/", async (req, res) => {
   let listaFiltro: any = await fachada.consultar(new Filtro());
-  console.log("rota", listaFiltro)
-
+  
   res.status(200).json({ status: 0, dados: listaFiltro });
 });
 
@@ -26,9 +25,6 @@ GraficoRouter.post("/", async (req, res) => {
     status: req.body.status,
     fluxo: req.body.fluxo
   };
-
-  console.log(filtro)
-  
 
   let conversao = Object.assign(new Filtro(), filtro);
   let listaFiltro: any = await fachada.consultarPedido(conversao as Filtro, filtro.status);
@@ -45,8 +41,7 @@ GraficoRouter.post("/data", async (req, res) => {
     fluxo: req.body.fluxo
   };
 
-  console.log(filtro)
-  
+    
     var day = 86400000
     var date = new Date(filtro.dataInicial);
     var date1 = new Date(filtro.dataFinal);

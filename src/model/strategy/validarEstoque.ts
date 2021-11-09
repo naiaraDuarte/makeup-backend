@@ -12,15 +12,27 @@ export default class ValidarEstoque implements IStrategy {
         // let msgn = "";
 
         if (!alterar) {
+            console.log('if1')
             pedido.produtos.forEach(async pdt => {
                 let qntdeEstoque = await produtoDao.consultarComId(pdt);
                 let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);
-                    pedido.produtos.forEach(async pdt => {
-                        let qntdeEstoque = await produtoDao.alterarEstoque(pdt);  
+                pedido.produtos.forEach(async pdt => {
+                    let qntdeEstoque = await produtoDao.alterarEstoque(pdt);
+                });
             });
-        });
-        }
+            
+        } 
+        console.log(pedido)
+        if (pedido.produtos != null) {
+            console.log('if2', pedido.produtos[0])         
+                let qntdeEstoque = await produtoDao.consultarComId(pedido.produtos[0]);
+                let qtdeEstoque = Object.assign(new Produto(), qntdeEstoque[0]);
+                let estoque = await produtoDao.alterar(pedido.produtos[0]);
+                }            
+            
+        
         return null!
-
     }
+    
+
 }

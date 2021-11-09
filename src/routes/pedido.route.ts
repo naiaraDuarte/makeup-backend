@@ -7,6 +7,13 @@ import ProdutoPedido from "../model/entidade/produtoPedido";
 
 export const PedidoRouter = express.Router();
 
+// const multer = require('multer');
+
+// const upload = multer({
+//   dest: './files/',
+//   limits: { fieldSize: 50 * 1024 * 1024 },
+// });
+
 let fachada = new Fachada();
 
 PedidoRouter.get("/", async (req, res) => {
@@ -35,12 +42,12 @@ PedidoRouter.get("/:id", async (req, res) => {
   const pedido = {
     id: req.params.id,
   };
-  
+
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.consultarComId(conversao as Pedido);
 
   let todosOsPedidos: any = [];
- 
+
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
       todosOsPedidos.push({
@@ -52,7 +59,7 @@ PedidoRouter.get("/:id", async (req, res) => {
       if (i == listaPedido.length - 1) {
         res.json({ message: "OK", todosOsPedidos });
       }
-      
+
     });
   }
 });
@@ -108,15 +115,43 @@ PedidoRouter.post("/", async (req, res) => {
 });
 
 PedidoRouter.put("/status/:id", async (req, res) => {
+  // console.log("PELO AMOR DE DEUS", JSON.parse(req.body.data))
+  // if (req.body.data.troca.length > 0) {
+  //   //Troca
+  //   let arrayProduto: any = [];
+  //   arrayProduto.push({
+  //     id: req.body.fk_produto,
+  //     quantidade: 1,
+  //     cod: req.params.id
+  //   });
+  //   console.log("sss", arrayProduto)
+  // } else {
+  //   //cancelamento
+  //   arrayProduto.push({
+  //     id: req.body.,
+  //     quantidade: 1,
+  //     cod: req.params.id
+  //   });
+  // }
+  let arrayProduto: any = [];
+  arrayProduto.push({
+      id: req.body.fk_produto,
+      quantidade: 1,
+      cod: req.params.id     
+    });
+    console.log("sss", arrayProduto)
+
   let pedido = {
     id: req.params.id, 
-    status: req.body.status
+    status: req.body.status,
+    produtos: arrayProduto
   }  
+
   let produto={
     id: req.body.id_produto,   
     status: req.body.status,
   }
-  
+  console.log("jdjdjd")
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 
@@ -124,9 +159,9 @@ PedidoRouter.put("/status/:id", async (req, res) => {
     pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
     observacao: "Avaliada pelo administrador", 
-    
+
   };
- 
+
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
   let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
   if (!listaPedido.msgn) {
@@ -139,23 +174,23 @@ PedidoRouter.put("/status/:id", async (req, res) => {
 
 PedidoRouter.put("/troca/:id", async (req, res) => {
   let pedido = {
-    id: req.params.id, 
+    id: req.params.id,
     status: req.body.status
   }
   let produto = {
     id: req.body.produto.id,
-    status: req.body.status,    
+    status: req.body.status,
   }
-  console.log("id", produto.id)
+
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 
   const pedidoProduto = {
     pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
-    observacao: req.body.produto.observacao    
+    observacao: req.body.produto.observacao
   };
- 
+
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
   let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
   if (!listaPedido.msgn) {

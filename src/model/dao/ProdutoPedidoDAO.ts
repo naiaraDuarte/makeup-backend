@@ -6,7 +6,7 @@ import Produto from '../entidade/produto';
 
 export default class ProdutoPedidoDAO implements IDAO{
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        console.log("jdjdj")
+       
         let produtos = db.query("select * from produtos inner join produtos_pedidos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1",[id]);
         let result: any;
         
@@ -47,6 +47,7 @@ export default class ProdutoPedidoDAO implements IDAO{
                 produtoPedido.produto.id,               
                
             ]
+             
         );
         return entidade as ProdutoPedido;
     }
