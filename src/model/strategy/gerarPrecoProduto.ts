@@ -1,3 +1,4 @@
+import { createRegularExpressionLiteral } from "typescript";
 import Fachada from "../../control/Fachada";
 import CategoriaDAO from "../dao/CategoriaDAO";
 import Cartao from "../entidade/cartao.model";
@@ -8,47 +9,29 @@ import IStrategy from "./IStrategy";
 
 export default class GerarPrecoProduto implements IStrategy {
     async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
-        const produto = entidade as Produto;
-        console.log("gerer", produto)               
-        // const categoriaDao = new CategoriaDAO();        
-          
-        // let categoria = produto.categoria.gpPrecificacao
+        const produto = entidade as Produto;      
 
-        // let custo = produto.custo
-        // if (!altera)
-        // produto.preco = mgLucro * custo
+       if(!altera){
+        let custo = produto.custo
+        let mgLucro = produto.categoria.gpPrecificacao
 
-        // if (Object.keys(produto).length > 2){         
-        //     // let cat = produto.categoria.toString()       
+        produto.preco = (custo * mgLucro) + custo;
+        console.log(produto.preco)
+       }
+       else{
+           console.log("else")
+           let categoriaDao= new CategoriaDAO();
+           let cat: any;
 
-        //     switch (cat[0].id) {
-        //         case 1:
-        //             produto.preco = produto.custo * 3
-        //             return null!
-        //         case 2:
-        //             produto.preco = produto.custo * 4
-        //             return null!
-        //         case 3:
-        //             produto.preco = produto.custo * 3
-        //             return null!
-        //         case 4:
-        //             produto.preco = produto.custo * 2
-        //             return null!
-        //         case 5:
-        //             produto.preco = produto.custo * 5
-        //             return null!
-        //         case 6:
-        //             produto.preco = produto.custo * 5
-        //             return null!
-        //         case 7:
-        //             produto.preco = produto.custo * 7
-                    
-        //             return null!
-        //         default:
-        //             return "Categoria inválida!!! "
-        //     }
+           let categoria = await categoriaDao.consultarComId(produto)
+           cat = categoria[0]            
+           produto.preco = (cat.gp_precificacao * produto.custo)+ produto.custo
+           console.log(produto.preco)
+                   
 
-        // }
+
+       }
+        
         return null!
 
     }

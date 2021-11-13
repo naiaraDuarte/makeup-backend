@@ -14,12 +14,13 @@ ProdutoRouter.get("/", async (req, res) => {
 
 ProdutoRouter.put("/:id", async (req, res) => {
   // let categoria = {
-  //   descricao: req.body.descricao,
-  //   gpPrecificacao: req.body.gpPrecificacao
-  // } 
-  let pdt = req.body;  
+  //   id: req.body.categoriaProduto.id,
+  //   descricao: req.body.categoriaProduto.nome,
+  //   gpPrecificacao: req.body.categoriaProduto.mgLucro
+  //   }
+
+  let pdt = req.body
   const produto = {
-    id: req.params.id,
     cod: pdt.codigoProduto,
     nome: pdt.nomeProduto,
     marca: pdt.marcaProduto,
@@ -33,20 +34,9 @@ ProdutoRouter.put("/:id", async (req, res) => {
     diametro: pdt.diametroProduto,
     categoria: pdt.categoriaProduto,
     custo: pdt.custoProduto,
-    preco: pdt.precoProduto,
     descricao: pdt.descProduto,
   };
-
-  console.log("1", produto.categoria.id )
-
-  // produto.categoria.id = produto.categoria.id
-  // produto.categoria.descricao = produto.categoria.nome
-  // produto.categoria.gpPrecificacao = produto.categoria.mgLucro
-  
-  // console.log("1", produto)
-  console.log("2", produto.categoria.nome)
-  console.log("3", produto.categoria.mgLucro)  
-
+ 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });
@@ -81,12 +71,11 @@ ProdutoRouter.delete("/:id", async (req, res) => {
 });
 
 ProdutoRouter.post("/", async (req, res) => {
-  let categoria = {
-    id: req.body.categoria.id,
-    descricao: req.body.categoria.nome,
-    gpPrecificacao: req.body.categoria.gpPrecificacao
-  }
-  
+    let categoria = {
+    id: req.body.categoriaProduto.id,
+    descricao: req.body.categoriaProduto.nome,
+    gpPrecificacao: req.body.categoriaProduto.mgLucro
+    }
   
   let pdt = req.body
   const produto = {
@@ -105,12 +94,18 @@ ProdutoRouter.post("/", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
+  console.log(produto.categoria)
   
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
 
-  res.json({ message: "OK", dados: listaProduto });
+  if (listaProduto.msgn.length > 0) {
+    res.status(400).json({ status: 1 });
+  }
+  else {
+    res.status(200).json({ status: 0, dados: listaProduto });
+  }
 });
 
 
