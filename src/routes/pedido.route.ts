@@ -13,6 +13,8 @@ PedidoRouter.get("/", async (req, res) => {
     new Pedido()
   ));
 
+  console.log("BBBBBBBBBB")
+
   let todosOsPedidos: any = [];
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
@@ -34,7 +36,7 @@ PedidoRouter.get("/:id", async (req, res) => {
   const pedido = {
     id: req.params.id,
   };
-  
+  console.log("AAAAAAAAAA")
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.consultarComId(conversao as Pedido);
 
