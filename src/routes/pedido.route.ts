@@ -158,8 +158,7 @@ PedidoRouter.put("/status/:id", async (req, res) => {
   const pedidoProduto = {
     pedido: Object.assign(new Pedido(), pedido),
     produto: Object.assign(new Produto(), produto),
-    observacao: "Avaliada pelo administrador", 
-
+    observacao: req.body.status, 
   };
 
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);

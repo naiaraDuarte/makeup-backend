@@ -39,16 +39,31 @@ export default class ProdutoPedidoDAO implements IDAO{
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produtoPedido = entidade as ProdutoPedido;
               
-        await db.query(
-            "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE id=$3",
-            [
-                produtoPedido.produto.status, 
-                produtoPedido.observacao,
-                produtoPedido.produto.id,               
-               
-            ]
-             
-        );
+        if (produtoPedido.observacao == "CANCELAMENTO EFETUADO"){
+            await db.query(
+                "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE fk_pedido=$3",
+                [
+                    produtoPedido.produto.status, 
+                    produtoPedido.observacao,
+                    produtoPedido.pedido.id,              
+                   
+                ]                 
+            );       
+        }else{
+            await db.query(
+                "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE id=$3",
+                [
+                    produtoPedido.produto.status, 
+                    produtoPedido.observacao,
+                    produtoPedido.produto.id,         
+                   
+                ]
+                 
+            );
+
+        }
+            
+       
         return entidade as ProdutoPedido;
     }
     excluir(entidade: EntidadeDominio): boolean {
