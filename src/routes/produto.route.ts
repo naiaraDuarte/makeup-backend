@@ -13,11 +13,15 @@ ProdutoRouter.get("/", async (req, res) => {
 });
 
 ProdutoRouter.put("/:id", async (req, res) => {
-  let pdt = req.body;
-  
+  // let categoria = {
+  //   id: req.body.categoriaProduto.id,
+  //   descricao: req.body.categoriaProduto.nome,
+  //   gpPrecificacao: req.body.categoriaProduto.mgLucro
+  //   }
+
+  let pdt = req.body
   const produto = {
-    id: req.params.id,
-    codigo: pdt.codigoProduto,
+    cod: pdt.codigoProduto,
     nome: pdt.nomeProduto,
     marca: pdt.marcaProduto,
     tipo: pdt.tipoProduto,
@@ -30,11 +34,9 @@ ProdutoRouter.put("/:id", async (req, res) => {
     diametro: pdt.diametroProduto,
     categoria: pdt.categoriaProduto,
     custo: pdt.custoProduto,
-    preco: pdt.precoProduto,
     descricao: pdt.descProduto,
   };
-  
-
+ 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });
@@ -69,6 +71,12 @@ ProdutoRouter.delete("/:id", async (req, res) => {
 });
 
 ProdutoRouter.post("/", async (req, res) => {
+    let categoria = {
+    id: req.body.categoriaProduto.id,
+    descricao: req.body.categoriaProduto.nome,
+    gpPrecificacao: req.body.categoriaProduto.mgLucro
+    }
+  
   let pdt = req.body
   const produto = {
     cod: pdt.codigoProduto,
@@ -82,15 +90,22 @@ ProdutoRouter.post("/", async (req, res) => {
     imagem: pdt.imagem,
     largura: pdt.larguraProduto,
     diametro: pdt.diametroProduto,
-    categoria: pdt.categoriaProduto,
+    categoria: categoria,
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
+  console.log(produto.categoria)
+  
 
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
 
-  res.json({ message: "OK", dados: listaProduto });
+  if (listaProduto.msgn.length > 0) {
+    res.status(400).json({ status: 1 });
+  }
+  else {
+    res.status(200).json({ status: 0, dados: listaProduto });
+  }
 });
 
 

@@ -89,13 +89,12 @@ export default class PedidoDAO implements IDAO {
             "UPDATE pedidos SET status=$1 WHERE id=$2",
             [
               pedido.status,
-              pedido.id
-              
+              pedido.id              
             ]
           );   
         // if (pedido.status == "TROCA SOLICITADA"){
         //     let produtoPedidoDao = new ProdutoPedidoDAO();
-        //     let obs = await produtoPedidoDao.alterar
+        //     let obs = await produtoPedidoDao.alterar(pedido as Pedido)
         // }
     
         return entidade as Pedido;

@@ -24,7 +24,7 @@ export default class FiltroDAO implements IDAO {
                 return filtro as Filtro;
             }));
         });
-        console.log("result", result)
+       
 
         return result;
 
@@ -218,17 +218,17 @@ export default class FiltroDAO implements IDAO {
     }
 
     validaDatas(dataI: Date, dataF: Date) {
-        console.log("i", dataI.getMonth(), "F", dataF.getMonth(), 'data I', dataI, 'data F', dataF)
+       
         if (dataI.getFullYear() == dataF.getFullYear() && dataI.getUTCMonth() == dataF.getUTCMonth()) {
             //pegar dias 
-            console.log("pegar dias ")
+           
             return 1;
         } else if (dataI.getFullYear() == dataF.getFullYear() && dataI.getUTCMonth() != dataF.getUTCMonth()) {
             //pegar mês
-            console.log("pegar mês ")
+           
             return 2;
         } else {
-            console.log("pegar ano ")
+           
             //pegar ano
             return 3
         }

@@ -109,7 +109,8 @@ export default class Fachada implements IFachada {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade, true);    
+    let msg = await this.processarStrategys(entidade, true); 
+      
     
     if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
