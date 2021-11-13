@@ -152,7 +152,7 @@ PedidoRouter.put("/status/:id", async (req, res) => {
     id: req.body.id_produto,   
     status: req.body.status,
   }
-  console.log("jdjdjd")
+  
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 

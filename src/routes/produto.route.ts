@@ -6,9 +6,10 @@ export const ProdutoRouter = express.Router();
 
 let fachada = new Fachada();
 
-ProdutoRouter.get("/", async (req, res) => {
+ProdutoRouter.get("/", async (req, res) => {  
   let listaProduto: Array<Produto> = (await fachada.consultar(
     new Produto())) as Array<Produto>;
+    
   res.json({ message: "OK", dados: listaProduto });
 });
 
@@ -41,6 +42,7 @@ ProdutoRouter.put("/:id", async (req, res) => {
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });
 });
+
 ProdutoRouter.patch("/:id", async (req, res) => {
   let pdt = req.body;
   const produto = {
@@ -59,11 +61,23 @@ ProdutoRouter.patch("/:id", async (req, res) => {
   }
 });
 
-ProdutoRouter.delete("/:id", async (req, res) => {
-  const produto = {
-    id: req.params.id,
-  };
+// ProdutoRouter.delete("/:id", async (req, res) => {
+//   const produto = {
+//     id: req.params.id,
+//   };
 
+//   let conversao = Object.assign(new Produto(), produto);
+//   let prod: boolean = await fachada.excluir(conversao as Produto);
+
+//   res.json({ message: "OK", dados: prod });
+// });
+ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
+  let produto = {
+    id: req.params.id,
+    observacao: req.body.observacao,
+    catInativacao: req.body.categoriaInativacao,
+  };
+ 
   let conversao = Object.assign(new Produto(), produto);
   let prod: boolean = await fachada.excluir(conversao as Produto);
 
@@ -76,7 +90,7 @@ ProdutoRouter.post("/", async (req, res) => {
     descricao: req.body.categoriaProduto.nome,
     gpPrecificacao: req.body.categoriaProduto.mgLucro
     }
-  
+      
   let pdt = req.body
   const produto = {
     cod: pdt.codigoProduto,
@@ -94,9 +108,7 @@ ProdutoRouter.post("/", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
-  console.log(produto.categoria)
   
-
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.cadastrar(conversao as Produto);
 
@@ -108,8 +120,7 @@ ProdutoRouter.post("/", async (req, res) => {
   }
 });
 
-
-ProdutoRouter.get("/:id", async (req, res) => {
+ProdutoRouter.get("/:id", async (req, res) => {  
   const produto = {
     id: req.params.id,
   };

@@ -1,5 +1,6 @@
 import EntidadeDominio from "./entidadeDominio";
 import Categoria from "./categoria";
+import Inativacao from "./inativacao";
 
 export default class Produto extends EntidadeDominio{
     cod!: string;
@@ -18,4 +19,6 @@ export default class Produto extends EntidadeDominio{
     descricao!:string; 
     preco!: number;
     status!: string;
+    observacao!:string;
+    catInativacao!: Inativacao;
 }

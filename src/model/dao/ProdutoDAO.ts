@@ -7,7 +7,6 @@ import EntidadeDominio from "../entidade/entidadeDominio";
 export default class ProdutoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;
-        console.log(produto.categoria.id)
         
         let idProduto = await db.query(
             "INSERT INTO produtos (cod, nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao, preco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id",
@@ -67,10 +66,16 @@ export default class ProdutoDAO implements IDAO {
     }
     excluir(entidade: EntidadeDominio): boolean {
         const produto = entidade as Produto;
-        db.query("DELETE FROM produtos WHERE id=$1", [produto.id]);
+        db.query("UPDATE produtos SET ativo=false, observacao=$1, fk_inativacao=$2 WHERE id=$3", 
+        [
+            produto.observacao,
+            produto.catInativacao.id,
+            produto.id
+        ]);
         return true;
     }
     async consultar(): Promise<entidadeModel[]> {
+        
         let produtos = db.query("select * from produtos ORDER BY random()");
         let result: Array<EntidadeDominio> = [];
 
@@ -79,7 +84,7 @@ export default class ProdutoDAO implements IDAO {
                 return produto as Produto;
             }));
         });
-
+    
         return result;
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
@@ -112,7 +117,7 @@ export default class ProdutoDAO implements IDAO {
 
     async alterarEstoque(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const produto = entidade as Produto;
-        console.log("daoo", produto.id)
+        
         let pdt = db.query("UPDATE produtos SET quantidade=(quantidade-$1) WHERE id=$2", [
             produto.quantidade,
             produto.id

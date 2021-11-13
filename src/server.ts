@@ -10,6 +10,7 @@ import { PedidoRouter } from './routes/pedido.route';
 import { CashbackRouter } from './routes/cashback.route';
 import { CategoriaRouter } from './routes/categoria.route';
 import { GraficoRouter } from './routes/grafico.route';
+import { InativacaoRouter } from './routes/inativacao.route';
 
 
 const cors = require('cors');
@@ -39,6 +40,7 @@ app.use('/pedido', PedidoRouter);
 app.use('/cashback', CashbackRouter);
 app.use('/categoria', CategoriaRouter);
 app.use('/grafico', GraficoRouter);
+app.use('/inativacao', InativacaoRouter);
 
 app.listen(port, () => {
     console.log(`Listening on: http://localhost:${port}`);
