@@ -108,24 +108,19 @@ PedidoRouter.post("/", async (req, res) => {
 
 PedidoRouter.put("/status/:id", async (req, res) => {
   let arrayProduto: any = [];
-  arrayProduto.push({
-      id: req.body.fk_produto,
-      quantidade: 1,
-      cod: req.params.id     
-    });
-    console.log("sss", arrayProduto)
+  let produto={
+    id: req.body.id_produto,   
+    status: req.body.status,
+  }
+  arrayProduto.push(produto);   
 
   let pedido = {
     id: req.params.id, 
     status: req.body.status,
     produtos: arrayProduto
-  }  
+  } 
 
-  let produto={
-    id: req.body.id_produto,   
-    status: req.body.status,
-  }
-  
+  console.log("rota",pedido)
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 
@@ -154,7 +149,7 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
     id: req.body.produto.id,
     status: req.body.status,
   }
-
+console.log ("troca")
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 
@@ -172,4 +167,5 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
   else {
     res.status(400).json({ status: 1, dados: listaPedido.msgn });
   }
+  
 });

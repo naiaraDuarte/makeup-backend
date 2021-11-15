@@ -80,7 +80,7 @@ export default class ClienteDAO implements IDAO {
         return pedido as Pedido;
       }));
     });
-    console.log("rsrs", result)
+    
     return result
   }
   async consultar(): Promise<Array<EntidadeDominio>> {

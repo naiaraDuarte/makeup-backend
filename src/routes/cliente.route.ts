@@ -34,8 +34,7 @@ else{
 
 ClienteRouter.get("/", async (req, res) => {
   let listaCliente: Array<Cliente> = (await fachada.consultar(new Cliente())) as Array<Cliente>;
-  console.log("rota", listaCliente)
-  res.json({ message: "OK", dados: listaCliente });
+   res.json({ message: "OK", dados: listaCliente });
 });
 
 ClienteRouter.post("/senha/:id", async (req, res) => {

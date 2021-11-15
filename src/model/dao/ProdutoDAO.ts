@@ -54,8 +54,9 @@ export default class ProdutoDAO implements IDAO {
                     produto.id
                 ]
             );
-        } else {            
-            await db.query("UPDATE produtos SET quantidade = (quantidade + 1) WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.fk_pedido = $1)", 
+        } else {
+            console.log("daopdt")
+            await db.query("UPDATE produtos SET quantidade = quantidade + 1 WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.id = $1)", 
             [produto.id]);
         }
         return entidade as Produto;
