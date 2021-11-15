@@ -42,19 +42,6 @@ export default class FiltroDAO implements IDAO {
 
         return result;
     }
-
-    async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
-        const filtro = entidade as Filtro;
-        let result: Array<EntidadeDominio>;
-        if (filtro.fluxo == null) {
-            result = await this.grafico1(entidade)
-        }else{
-            result = await this.grafico1(entidade)
-        }
-
-        return result;
-    }
-
     async grafico1Inicial(entidade: EntidadeDominio, id: Number): Promise<Array<EntidadeDominio>> {
         let filtros;
         if (id == 1) {
@@ -87,6 +74,18 @@ export default class FiltroDAO implements IDAO {
             }));
         });
         return result
+    }
+
+    async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const filtro = entidade as Filtro;
+        let result: Array<EntidadeDominio>;
+        if (filtro.fluxo == null) {
+            result = await this.grafico1(entidade)
+        }else{
+            result = await this.grafico1(entidade)
+        }
+
+        return result;
     }
 
     async grafico1(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
@@ -281,6 +280,50 @@ export default class FiltroDAO implements IDAO {
         });
 
         return result.concat(resultTodos);
+    }
+
+    async graficoEmPizza(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const filtro = entidade as Filtro;
+        let troca;
+        let cancelamento;
+        if (filtro.dataInicial == null) {
+            troca = db.query('SELECT produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE substring(produtos_pedidos.status, 1, 5) = $1 GROUP BY produtos_pedidos.status ORDER BY produtos_pedidos.status', [
+                'TROCA'
+            ]);
+            cancelamento =  db.query('SELECT produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE substring(produtos_pedidos.status, 1, 5) = $1 GROUP BY produtos_pedidos.status ORDER BY produtos_pedidos.status', [
+                'CANCE'
+            ]);
+        }else{
+            troca = db.query('SELECT produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 AND substring(produtos_pedidos.status, 1, 5) = $3 GROUP BY produtos_pedidos.status ORDER BY produtos_pedidos.status', [
+                filtro.dataInicial,
+                filtro.dataFinal,
+                'TROCA'
+            ]);
+            cancelamento = db.query("SELECT produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id WHERE pedidos.data_cadastro between $1 and $2 AND substring(produtos_pedidos.status, 1, 5) = $3 GROUP BY produtos_pedidos.status ORDER BY produtos_pedidos.status", [
+                filtro.dataInicial,
+                filtro.dataFinal,
+                'CANCE'
+            ]);
+        }
+        
+        let result: any; 
+        let resultCancelamento: any;  
+        let final: any = {};
+
+        resultCancelamento = await cancelamento.then((dados) => {
+            return (result = dados.rows.map((pedido) => {
+                return pedido;
+            }));
+        });
+        result = await troca.then((dados) => {
+            return (result = dados.rows.map((pedido) => {
+                return pedido as Pedido;
+            }));
+        });    
+        
+        final.troca = result;
+        final.cancelamento = resultCancelamento
+        return final;
     }
 
 }

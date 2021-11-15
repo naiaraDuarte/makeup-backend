@@ -166,4 +166,9 @@ export default class Fachada implements IFachada {
     const graficoDao = new GraficoDAO()
     return await graficoDao.consultarMarcadores(entidade) ?? [];
   } 
+
+  async graficoEmPizza(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
+    const graficoDao = new GraficoDAO()
+    return await graficoDao.graficoEmPizza(entidade) ?? [];
+  } 
 }
