@@ -1,18 +1,10 @@
 import express from "express";
 import Fachada from "../control/Fachada";
 import Pedido from "../model/entidade/pedido";
-import produto from "../model/entidade/produto";
 import Produto from "../model/entidade/produto";
 import ProdutoPedido from "../model/entidade/produtoPedido";
 
 export const PedidoRouter = express.Router();
-
-// const multer = require('multer');
-
-// const upload = multer({
-//   dest: './files/',
-//   limits: { fieldSize: 50 * 1024 * 1024 },
-// });
 
 let fachada = new Fachada();
 
@@ -20,9 +12,7 @@ PedidoRouter.get("/", async (req, res) => {
   let listaPedido: any = (await fachada.consultar(
     new Pedido()
   ));
-
-  console.log("BBBBBBBBBB")
-
+  
   let todosOsPedidos: any = [];
   for (let i = 0; i < listaPedido.length; i++) {
     listaPedido[i].then((ped: any) => {
@@ -72,6 +62,7 @@ PedidoRouter.post("/", async (req, res) => {
     arrayProduto.push({
       id: pdt.id,
       quantidade: pdt.quantidade,
+      preco: pdt.preco
     });
   });
 
@@ -116,24 +107,6 @@ PedidoRouter.post("/", async (req, res) => {
 });
 
 PedidoRouter.put("/status/:id", async (req, res) => {
-  // console.log("PELO AMOR DE DEUS", JSON.parse(req.body.data))
-  // if (req.body.data.troca.length > 0) {
-  //   //Troca
-  //   let arrayProduto: any = [];
-  //   arrayProduto.push({
-  //     id: req.body.fk_produto,
-  //     quantidade: 1,
-  //     cod: req.params.id
-  //   });
-  //   console.log("sss", arrayProduto)
-  // } else {
-  //   //cancelamento
-  //   arrayProduto.push({
-  //     id: req.body.,
-  //     quantidade: 1,
-  //     cod: req.params.id
-  //   });
-  // }
   let arrayProduto: any = [];
   arrayProduto.push({
       id: req.body.fk_produto,

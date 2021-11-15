@@ -58,25 +58,28 @@ export default class ProdutoDAO implements IDAO {
                 ]
             );
         } else {            
-            await db.query("UPDATE produtos SET quantidade = (quantidade + 1) WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.fk_pedido = $1 GROUP BY produtos.id)", 
-            [produto.cod]);
+            await db.query("UPDATE produtos SET quantidade = (quantidade + 1) WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.fk_pedido = $1)", 
+            [produto.id]);
         }
         return entidade as Produto;
 
     }
     excluir(entidade: EntidadeDominio): boolean {
         const produto = entidade as Produto;
-        db.query("UPDATE produtos SET ativo=false, observacao=$1, fk_inativacao=$2 WHERE id=$3", 
+        db.query("UPDATE produtos SET ativo=$1, observacao=$2, fk_inativacao=$3 WHERE id=$4", 
         [
+            produto.status,
             produto.observacao,
             produto.catInativacao.id,
             produto.id
         ]);
         return true;
     }
-    async consultar(): Promise<entidadeModel[]> {
+    async consultar(): Promise<entidadeModel[]> { 
+        let produtos = db.query("SELECT * FROM produtos  ORDER BY random()");  
+// se eu puxo a quantidade e ativo não renderiza no adm os inativos...
         
-        let produtos = db.query("select * from produtos ORDER BY random()");
+// let produtos = db.query("SELECT * FROM produtos WHERE quantidade > 10 AND ativo=true ORDER BY random()");
         let result: Array<EntidadeDominio> = [];
 
         result = await produtos.then((dados) => {
@@ -100,20 +103,16 @@ export default class ProdutoDAO implements IDAO {
         return result;
     }
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-
         let produto = db.query("select * from produtos inner join produtos_pedidos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1", [
             id
         ])
         let result: any;
-
         result = await produto.then((dados) => {
             return (result = dados.rows.map((cupom) => {
                 return cupom as Produto;
             }));
         });
-
-        return result;
-    }
+        return result;    }
 
     async alterarEstoque(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const produto = entidade as Produto;
@@ -123,9 +122,7 @@ export default class ProdutoDAO implements IDAO {
             produto.id
 
         ]);
-
         let result: Array<EntidadeDominio> = [];
-
         result = await pdt.then((dados) => {
             return (result = dados.rows.map((produto) => {
                 return produto;
@@ -133,6 +130,4 @@ export default class ProdutoDAO implements IDAO {
         });
         return result;
     }
-
-
 }

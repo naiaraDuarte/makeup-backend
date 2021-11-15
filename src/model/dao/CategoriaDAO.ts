@@ -31,7 +31,7 @@ export default class CategoriaDAO implements IDAO {
     }
     excluir(entidade: EntidadeDominio): boolean {
         const categoria = entidade as Categoria;
-        db.query("DELETE FROM categorias WHERE id=$1", [categoria.id]);
+        db.query("UPDATE categorias SET ativo = false WHERE id=$1", [categoria.id]);
         return true;
 
     }

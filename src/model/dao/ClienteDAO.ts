@@ -7,6 +7,8 @@ import Endereco from "../entidade/endereco";
 import Cartao from "../entidade/cartao.model";
 import CartaoDAO from "./CartaoDAO";
 import { Encrypt } from "../../utils/encrypt";
+import Pedido from "../entidade/pedido";
+import Fachada from "../../control/Fachada";
 
 
 export default class ClienteDAO implements IDAO {
@@ -68,13 +70,26 @@ export default class ClienteDAO implements IDAO {
     ]);
     return true;
   }
+  async consultarRanking(entidade: EntidadeDominio, id: number): Promise<EntidadeDominio[]> {
+    let pedidos = db.query("SELECT COUNT(*) as Compras from pedidos where fk_cliente=$1", [entidade.id]);
+
+    let result: any;
+
+    result = await pedidos.then((dados) => {
+      return (result = dados.rows.map((pedido) => {
+        return pedido as Pedido;
+      }));
+    });
+    console.log("rsrs", result)
+    return result
+  }
   async consultar(): Promise<Array<EntidadeDominio>> {
     let clientes = db.query("SELECT * FROM clientes WHERE ativo = true");
-    let result: Array<EntidadeDominio> = [];
+    let result: any
+    let fachada = new Fachada();
 
     result = await clientes.then((dados) => {
-      return (result = dados.rows.map((cliente) => {
-
+      return (result = dados.rows.map(async (cliente) => {
         return cliente as Cliente;
       }));
     });
@@ -103,7 +118,7 @@ export default class ClienteDAO implements IDAO {
       if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {
         mensagem.push("Senha não confere");
         result.msgn = mensagem
-            
+
         return result
       }
 
@@ -117,7 +132,7 @@ export default class ClienteDAO implements IDAO {
     let cartao = Object.assign(new Cartao());
     cartao.idCliente = result[0].id;
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
-    
+
     return result;
   }
   async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio> {
@@ -131,17 +146,15 @@ export default class ClienteDAO implements IDAO {
       }));
     });
     return result;
-
   }
-
   async consultarLogin(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
     let mensagem = [];
 
     let clientes = db.query("SELECT * FROM clientes WHERE email = $1", [
       cliente.email,
-      ]);
-    
+    ]);
+
     let result: any;
     let clienteCompleto: any;
 
@@ -160,7 +173,6 @@ export default class ClienteDAO implements IDAO {
 
     let senhaBD = result[0].senha
 
-
     if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
       let enderecoDAO = new EnderecoDAO();
       let endereco = Object.assign(new Endereco());
@@ -173,7 +185,6 @@ export default class ClienteDAO implements IDAO {
       result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
       return result;
     }
-
 
     mensagem.push("Dados não conferem");
     result.msgn = mensagem
@@ -191,8 +202,6 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
-
     return result;
   }
-  
 }

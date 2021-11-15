@@ -1,6 +1,7 @@
 import { db } from "../../db.config";
 import EntidadeDominio from "../entidade/entidadeDominio";
 import Filtro from "../entidade/filtro";
+import Pedido from "../entidade/pedido";
 import IDAO from "./IDAO";
 
 
@@ -215,6 +216,18 @@ export default class FiltroDAO implements IDAO {
         });
 
         return result;
+    }
+    
+    async consultaCliente(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        let pedidos = db.query("SELECT COUNT(*) as Compras, nome, clientes.id from clientes inner join pedidos on clientes.id = fk_cliente group by clientes.id order by Compras desc")
+        let result: any;        
+
+    result = await pedidos.then((dados) => {
+        return (result = dados.rows.map((pedido) => {
+            return pedido as Pedido;
+        }));
+    });    
+    return result
     }
 
     validaDatas(dataI: Date, dataF: Date) {

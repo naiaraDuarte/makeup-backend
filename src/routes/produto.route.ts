@@ -44,16 +44,14 @@ ProdutoRouter.put("/:id", async (req, res) => {
 });
 
 ProdutoRouter.patch("/:id", async (req, res) => {
-  let pdt = req.body;
-  const produto = {
+    const produto = {
     id: req.params.id,
-    quantidade: pdt.quantidadeProduto,
+    quantidade: 1,
   };
   
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   if (listaProduto.length < 1) {
-
     res.status(400).json({ status: 1 });
   }
   else {
@@ -76,8 +74,9 @@ ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
     id: req.params.id,
     observacao: req.body.observacao,
     catInativacao: req.body.categoriaInativacao,
-  };
- 
+    status: req.body.ativo
+  }; 
+  console.log(produto)
   let conversao = Object.assign(new Produto(), produto);
   let prod: boolean = await fachada.excluir(conversao as Produto);
 
