@@ -73,7 +73,7 @@ ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
     catInativacao: req.body.categoriaInativacao,
     status: req.body.ativo
   }; 
-  console.log(produto)
+
   let conversao = Object.assign(new Produto(), produto);
   let prod: boolean = await fachada.excluir(conversao as Produto);
 

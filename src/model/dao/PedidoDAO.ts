@@ -5,7 +5,6 @@ import Cliente from "../entidade/cliente.model";
 import Cupom from "../entidade/cupom";
 import Endereco from "../entidade/endereco";
 import EntidadeDominio from "../entidade/entidadeDominio";
-import entidadeModel from "../entidade/entidadeDominio";
 import Pagamento from "../entidade/pagamento";
 import PagamentoCartao from "../entidade/pagamentoCartao";
 import Pedido from "../entidade/pedido";
@@ -17,10 +16,10 @@ import PagamentoDAO from "./PagamentoDAO";
 import ProdutoPedidoDAO from "./ProdutoPedidoDAO";
 
 export default class PedidoDAO implements IDAO {
-    consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
+    consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
         throw new Error("Method not implemented.");
     }
-    async salvar(entidade: entidadeModel): Promise<entidadeModel> {
+    async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const pedido = entidade as Pedido;
 
         // outras formas de pagamento
@@ -80,7 +79,7 @@ export default class PedidoDAO implements IDAO {
     }
 
 
-    async alterar(entidade: entidadeModel): Promise<entidadeModel> {
+    async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const pedido = entidade as Pedido;
         await db.query(
             "UPDATE pedidos SET status=$1 WHERE id=$2",
@@ -96,10 +95,10 @@ export default class PedidoDAO implements IDAO {
 
         return entidade as Pedido;
     }
-    excluir(entidade: entidadeModel): boolean {
+    excluir(entidade: EntidadeDominio): boolean {
         throw new Error("Method not implemented.");
     }
-    async consultar(): Promise<entidadeModel[]> {
+    async consultar(): Promise<EntidadeDominio[]> {
         let pedidos = db.query("SELECT* from pedidos ORDER BY id");
 
         let result: any;
@@ -124,7 +123,7 @@ export default class PedidoDAO implements IDAO {
         return result;
     }
 
-    async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
+    async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
         const cliente = entidade as Cliente;
         let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1 ORDER BY id", [
             cliente.id,

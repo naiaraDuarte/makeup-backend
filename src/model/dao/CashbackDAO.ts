@@ -50,6 +50,7 @@ export default class CashbackDAO implements IDAO {
     }
     async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
         const cashback = entidade as Cashback;
+        
         let cash = db.query("SELECT * FROM cashback WHERE fk_cliente = $1", [cashback.idCliente]);
         let result: Array<EntidadeDominio> = [];
 
@@ -61,7 +62,7 @@ export default class CashbackDAO implements IDAO {
         return result;
     }
     async alterarQtde(entidade: entidadeModel): Promise<entidadeModel> {
-        const cashback= entidade as Cashback;
+        const cashback= entidade as Cashback;       
         await db.query(
           "UPDATE cashback SET valor=(valor-$1) WHERE id=$2",
     
