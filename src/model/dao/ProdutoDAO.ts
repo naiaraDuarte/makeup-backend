@@ -1,4 +1,3 @@
-import entidadeModel from "../entidade/entidadeDominio";
 import Produto from "../entidade/produto";
 import IDAO from "./IDAO";
 import { db } from '../../db.config';
@@ -26,13 +25,11 @@ export default class ProdutoDAO implements IDAO {
                 produto.custo,
                 produto.descricao,
                 produto.preco
-
             ],
         );
         entidade.id = idProduto.rows[0].id;
         return entidade as Produto;
     }
-
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;           
         if (Object.keys(produto).length > 3) {            
@@ -62,7 +59,6 @@ export default class ProdutoDAO implements IDAO {
             [produto.id]);
         }
         return entidade as Produto;
-
     }
     excluir(entidade: EntidadeDominio): boolean {
         const produto = entidade as Produto;
@@ -75,19 +71,28 @@ export default class ProdutoDAO implements IDAO {
         ]);
         return true;
     }
-    async consultar(): Promise<entidadeModel[]> { 
-        let produtos = db.query("SELECT * FROM produtos  ORDER BY random()");  
-// se eu puxo a quantidade e ativo não renderiza no adm os inativos...
-        
-// let produtos = db.query("SELECT * FROM produtos WHERE quantidade > 10 AND ativo=true ORDER BY random()");
+
+    async consultarAdm(): Promise<EntidadeDominio[]> { 
+        let produtos = db.query("SELECT * FROM produtos");  
         let result: Array<EntidadeDominio> = [];
 
         result = await produtos.then((dados) => {
             return (result = dados.rows.map((produto) => {
                 return produto as Produto;
             }));
-        });
-    
+        });    
+        return result;
+    }
+
+    async consultar(): Promise<EntidadeDominio[]> { 
+       let produtos = db.query("SELECT * FROM produtos WHERE quantidade > 10 AND ativo=true ORDER BY random()");
+        let result: Array<EntidadeDominio> = [];
+
+        result = await produtos.then((dados) => {
+            return (result = dados.rows.map((produto) => {
+                return produto as Produto;
+            }));
+        });    
         return result;
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
@@ -112,8 +117,8 @@ export default class ProdutoDAO implements IDAO {
                 return cupom as Produto;
             }));
         });
-        return result;    }
-
+        return result;    
+    }
     async alterarEstoque(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const produto = entidade as Produto;
         

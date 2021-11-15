@@ -86,10 +86,10 @@ export default class ClienteDAO implements IDAO {
   async consultar(): Promise<Array<EntidadeDominio>> {
     let clientes = db.query("SELECT * FROM clientes WHERE ativo = true");
     let result: any
-    let fachada = new Fachada();
+    // let fachada = new Fachada();
 
     result = await clientes.then((dados) => {
-      return (result = dados.rows.map(async (cliente) => {
+      return (result = dados.rows.map((cliente) => {
         return cliente as Cliente;
       }));
     });

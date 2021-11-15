@@ -6,6 +6,13 @@ export const ProdutoRouter = express.Router();
 
 let fachada = new Fachada();
 
+ProdutoRouter.get("/adm", async (req, res) => {  
+  let listaProduto: Array<Produto> = (await fachada.consultarAdm(
+    new Produto())) as Array<Produto>;
+    
+  res.json({ message: "OK", dados: listaProduto });
+});
+
 ProdutoRouter.get("/", async (req, res) => {  
   let listaProduto: Array<Produto> = (await fachada.consultar(
     new Produto())) as Array<Produto>;
@@ -59,16 +66,6 @@ ProdutoRouter.patch("/:id", async (req, res) => {
   }
 });
 
-// ProdutoRouter.delete("/:id", async (req, res) => {
-//   const produto = {
-//     id: req.params.id,
-//   };
-
-//   let conversao = Object.assign(new Produto(), produto);
-//   let prod: boolean = await fachada.excluir(conversao as Produto);
-
-//   res.json({ message: "OK", dados: prod });
-// });
 ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
   let produto = {
     id: req.params.id,

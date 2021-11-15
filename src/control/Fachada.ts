@@ -157,5 +157,9 @@ export default class Fachada implements IFachada {
   async consultarCliente(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
     const graficoDao = new GraficoDAO()
     return await graficoDao.consultaCliente(entidade) ?? [];
-  }  
+  } 
+  async consultarAdm(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
+    const produtoDao = new ProdutoDAO()
+    return await produtoDao.consultarAdm() ?? [];
+  } 
 }
