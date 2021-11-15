@@ -2,6 +2,7 @@ import { db } from "../../db.config";
 import EntidadeDominio from "../entidade/entidadeDominio";
 import Filtro from "../entidade/filtro";
 import Pedido from "../entidade/pedido";
+import Produto from "../entidade/produto";
 import IDAO from "./IDAO";
 
 
@@ -246,5 +247,41 @@ export default class FiltroDAO implements IDAO {
             return 3
         }
     }
+
+    async consultarMarcadores(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
+        const filtro = entidade as Filtro;
+        let produtos;
+        let todos;
+        if (filtro.dataInicial == null) {
+            todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos');
+            produtos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id group by produtos.id order by Produtos desc LIMIT 1")
+        }else{
+            todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id WHERE pedidos.data_cadastro between $1 and $2', [
+                filtro.dataInicial,
+                filtro.dataFinal
+            ]);
+            produtos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id WHERE pedidos.data_cadastro between $1 and $2 group by produtos.id order by Produtos desc LIMIT 1", [
+                filtro.dataInicial,
+                filtro.dataFinal
+            ]);
+        }
+        
+        let result: any; 
+        let resultTodos: any;       
+        
+        result = await produtos.then((dados) => {
+            return (result = dados.rows.map((produto) => {
+                return produto as Produto;
+            }));
+        });    
+        resultTodos = await todos.then((dados) => {
+            return (resultTodos = dados.rows.map((produto) => {
+                return produto;
+            }));
+        });
+
+        return result.concat(resultTodos);
+    }
+
 }
 
