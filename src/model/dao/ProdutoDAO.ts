@@ -31,7 +31,8 @@ export default class ProdutoDAO implements IDAO {
         return entidade as Produto;
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-        const produto = entidade as Produto;           
+        const produto = entidade as Produto;  
+        console.log("prodit", produto)         
         if (Object.keys(produto).length > 3) {            
             await db.query(
                 "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",

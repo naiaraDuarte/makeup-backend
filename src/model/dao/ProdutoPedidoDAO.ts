@@ -38,8 +38,11 @@ export default class ProdutoPedidoDAO implements IDAO{
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produtoPedido = entidade as ProdutoPedido;
+        const obs = produtoPedido.observacao
+        const opcoes = ['EM TRANSPORTE','EM PROCESSAMENTO','CANCELAMENTO SOLICITADO','CANCELAMENTO EFETUADO', 'CANCELAMENTO REJEITADO','ENTREGA REALIZADA','PAGAMENTO REALIZADO']
               
-        if (produtoPedido.observacao == "CANCELAMENTO EFETUADO"){
+        if (opcoes.includes(obs)){
+            produtoPedido.observacao=""
             await db.query(
                 "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE fk_pedido=$3",
                 [

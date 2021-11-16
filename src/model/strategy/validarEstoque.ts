@@ -12,11 +12,10 @@ export default class ValidarEstoque implements IStrategy {
 
         if (!alterar) {
             console.log("ataa")
-            pedido.produtos.forEach(async pdt => {
-                pedido.produtos.forEach(async pdt => {
+            pedido.produtos.forEach(async pdt => {               
                     let qntdeEstoque = await produtoDao.alterarEstoque(pdt);
                 });
-            });
+        
             return null!;
         }
         // if (pedido.status == "TROCA EFETUADA" || pedido.status == "CANCELAMENTO EFETUADO"){
