@@ -36,7 +36,7 @@ export default class PedidoDAO implements IDAO {
             }
             pgmtoCartaoDao.salvar(pgmentoCartao as PagamentoCartao);
         });
-
+        let data = new Date()
         let idPedido = await db.query(
             "INSERT INTO pedidos (fk_cliente, fk_endereco, fk_pagamento, valor, frete, status, data_cadastro) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
             [
@@ -46,7 +46,7 @@ export default class PedidoDAO implements IDAO {
                 pedido.valor,
                 pedido.frete,
                 pedido.status,
-                pedido.dataCadastro
+                data
 
             ]
 
