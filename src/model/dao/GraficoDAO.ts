@@ -251,9 +251,11 @@ export default class FiltroDAO implements IDAO {
         const filtro = entidade as Filtro;
         let produtos;
         let todos;
+        let menos;
         if (filtro.dataInicial == null) {
             todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos');
             produtos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id group by produtos.id order by Produtos desc LIMIT 1")
+            menos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id group by produtos.id order by Produtos asc LIMIT 1")
         }else{
             todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id WHERE pedidos.data_cadastro between $1 and $2', [
                 filtro.dataInicial,
@@ -263,10 +265,16 @@ export default class FiltroDAO implements IDAO {
                 filtro.dataInicial,
                 filtro.dataFinal
             ]);
+            menos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id WHERE pedidos.data_cadastro between $1 and $2 group by produtos.id order by Produtos asc LIMIT 1", [
+                filtro.dataInicial,
+                filtro.dataFinal
+            ])
         }
         
         let result: any; 
-        let resultTodos: any;       
+        let resultTodos: any;
+        let resultMenos: any; 
+        let final: any = {};      
         
         result = await produtos.then((dados) => {
             return (result = dados.rows.map((produto) => {
@@ -278,8 +286,19 @@ export default class FiltroDAO implements IDAO {
                 return produto;
             }));
         });
+        resultMenos = await menos.then((dados) => {
+            return (resultMenos = dados.rows.map((produto) => {
+                return produto;
+            }));
+        });
 
-        return result.concat(resultTodos);
+        final = {
+            total: resultTodos[0],
+            mais: result[0],
+            menos: resultMenos[0],
+        }
+
+        return final;
     }
 
     async graficoEmPizza(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
