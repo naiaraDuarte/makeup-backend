@@ -252,10 +252,12 @@ export default class FiltroDAO implements IDAO {
         let produtos;
         let todos;
         let menos;
+        let pedidos;
         if (filtro.dataInicial == null) {
             todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos');
             produtos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id group by produtos.id order by Produtos desc LIMIT 1")
             menos = db.query("SELECT COUNT(*) as Produtos, nome from produtos_pedidos inner join produtos on produtos_pedidos.fk_produto = produtos.id group by produtos.id order by Produtos asc LIMIT 1")
+            pedidos = db.query("SELECT COUNT(*) as Produtos from pedidos");
         }else{
             todos = db.query('SELECT COUNT(*) as Produtos from produtos_pedidos INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id WHERE pedidos.data_cadastro between $1 and $2', [
                 filtro.dataInicial,
@@ -269,11 +271,16 @@ export default class FiltroDAO implements IDAO {
                 filtro.dataInicial,
                 filtro.dataFinal
             ])
+            pedidos = db.query("SELECT COUNT(*) as Produtos from pedidos WHERE pedidos.data_cadastro between $1 and $2",[
+                filtro.dataInicial,
+                filtro.dataFinal
+            ]);
         }
         
         let result: any; 
         let resultTodos: any;
         let resultMenos: any; 
+        let resultPedidos: any;
         let final: any = {};      
         
         result = await produtos.then((dados) => {
@@ -291,11 +298,17 @@ export default class FiltroDAO implements IDAO {
                 return produto;
             }));
         });
+        resultPedidos = await pedidos.then((dados) => {
+            return (resultPedidos = dados.rows.map((produto) => {
+                return produto;
+            }));
+        });
 
         final = {
             total: resultTodos[0],
             mais: result[0],
             menos: resultMenos[0],
+            pedidos: resultPedidos[0]
         }
 
         return final;
