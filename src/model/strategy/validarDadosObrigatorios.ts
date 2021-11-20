@@ -6,10 +6,7 @@ import ValidarEndereco from "./validarEndereco";
 
 export default class ValidarDadosObrigatorios implements IStrategy {
     async processar(entidade: EntidadeDominio): Promise<string> {
-        const cliente = entidade as Cliente;
-        // let validarEndereco = new ValidarEndereco();
-        let msgn =  "";
-        
+        const cliente = entidade as Cliente;                
         let nome = cliente.nome;
         let dataNasc = cliente.dataNasc;
         let cpf = cliente.cpf;
@@ -18,7 +15,10 @@ export default class ValidarDadosObrigatorios implements IStrategy {
         let sexo = cliente.sexo;
         let email = cliente.email;
         let senha = cliente.senha;
-
+        
+        if(Object.values(cliente).length > 2){
+            return null!
+        }       
         if (nome == "" ||
             dataNasc == null ||
             cpf == "" ||
@@ -27,22 +27,9 @@ export default class ValidarDadosObrigatorios implements IStrategy {
             email == "" ||
             senha == "" ||
             sexo == null) {
-                return "Todos os dados são obrigatorios! ";               
+                return "Todos os dados são obrigatorios! ";             
                         
-        }
-        // let valida = false;
-        // cliente.endereco.forEach(e => {   
-        //     let msg;         
-        //     let conversao = Object.assign(new Endereco(), e);
-        //     msg = validarEndereco.processar(conversao)
-        //     if(msg != "")
-        //        valida = true;     
-        // });
-        // if (valida) {
-        //     return "Todos os dados do endereço são obrigatorios"
-        // }
+        }        
         return null!
-
     }
-
 }

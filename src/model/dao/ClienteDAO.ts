@@ -35,7 +35,7 @@ export default class ClienteDAO implements IDAO {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    const cliente = entidade as Cliente;
+    const cliente = entidade as Cliente;    
 
     if (Object.keys(cliente).length > 2) {
       await db.query(
@@ -54,11 +54,11 @@ export default class ClienteDAO implements IDAO {
         ]
       );
     } else {
+      console.log("dadada", cliente)
       let key = Object.keys(cliente);
       let values = Object.values(cliente);
       await db.query(
         "UPDATE clientes SET " + key[1] + "=$1 WHERE id=$2", [values[1], values[0]]);
-
     }
 
     return entidade as Cliente;

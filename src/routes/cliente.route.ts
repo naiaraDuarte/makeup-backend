@@ -147,7 +147,7 @@ if (listaCliente.msgn.length>1){
 
 
 ClienteRouter.patch("/:id", async (req, res) => {
-  let cliente = {};
+  let cliente = {}; 
 
   if (req.body.email) {
     cliente = {
@@ -160,6 +160,7 @@ ClienteRouter.patch("/:id", async (req, res) => {
       senha: req.body.senha
     }
   }
+  console.log(cliente)
 
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
