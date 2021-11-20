@@ -23,9 +23,6 @@ import ProdutoPedidoDAO from "../model/dao/ProdutoPedidoDAO";
 import GerarPrecoProduto from "../model/strategy/gerarPrecoProduto";
 import GraficoDAO from "../model/dao/GraficoDAO";
 import InativacaoDAO from "../model/dao/InativacaoDAO";
-// import ValidarCashback from "../model/strategy/ValidarCashback";
-
-// import ValidarExistencia from "../model/strategy/validarExistencia";
 
 
 export default class Fachada implements IFachada {
@@ -64,7 +61,6 @@ export default class Fachada implements IFachada {
     let validarCupom = new ValidarCupom();
     let validarCupomPedido = new ValidarCupomPedido();
     let gerarPrecoProduto = new GerarPrecoProduto();
-    // let validarCashback = new ValidarCashback();
 
     this.rns.set("Cliente",
       [
@@ -121,10 +117,6 @@ export default class Fachada implements IFachada {
       }
       entidade.msgn   
     return entidade;
-    // let nomeClasse: string = entidade.constructor.name;
-    // let retorno = await this.daos.get(nomeClasse)?.alterar(entidade);
-    // return retorno as EntidadeDominio;
-
   }
   excluir(entidade: EntidadeDominio): boolean {
     let nomeClasse: string = entidade.constructor.name;

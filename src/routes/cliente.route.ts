@@ -53,10 +53,6 @@ else{
     }
 });
 
-
-
-
-
 ClienteRouter.post("/", async (req, res) => {
   let endereco = req.body.endereco;
   let arrayEndereco: any = [];

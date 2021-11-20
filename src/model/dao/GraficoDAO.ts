@@ -32,40 +32,17 @@ export default class FiltroDAO implements IDAO {
 
     }
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        const filtro = entidade as Filtro;
         let result: Array<EntidadeDominio>;
-        if (filtro.fluxo == null) {
-            result = await this.grafico1Inicial(entidade, id)
-        }else{
-            result = await this.grafico1Inicial(entidade, id)
-        }
-
+            result = await this.graficoInicial(entidade, id);
         return result;
     }
-    async grafico1Inicial(entidade: EntidadeDominio, id: Number): Promise<Array<EntidadeDominio>> {
+    async graficoInicial(entidade: EntidadeDominio, id: Number): Promise<Array<EntidadeDominio>> {
         let filtros;
         if (id == 1) {
             filtros = db.query("SELECT DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS completo,  categorias.descricao AS nome, categorias.id, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, completo, categorias.id, categorias.descricao ORDER BY mes, categorias.descricao")
         }
         else {
             filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS completo, categorias.descricao, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, completo, produtos.nome, produtos.id, categorias.descricao ORDER BY mes, produtos.nome")
-        }
-        let result: Array<EntidadeDominio>;
-        result = await filtros.then((dados) => {
-            return (result = dados.rows.map((filtro) => {
-                return filtro;
-            }));
-        });
-        return result
-    }
-
-    async grafico2Inicial(entidade: EntidadeDominio,  id: Number): Promise<Array<EntidadeDominio>> {
-        let filtros;
-        if (id == 1) {
-            filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao, produtos_pedidos.status ORDER BY mes, produtos.nome, produtos_pedidos.status")
-        }
-        else {
-            filtros = db.query("SELECT produtos.id, produtos.nome, DATE_PART('month', pedidos.data_cadastro) AS mes, to_char(pedidos.data_cadastro, 'TMMonth/YYYY') AS mes_completo, categorias.descricao, produtos_pedidos.status, SUM(produtos_pedidos.qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.fk_produto = produtos.id INNER JOIN pedidos ON produtos_pedidos.fk_pedido = pedidos.id INNER JOIN categorias ON produtos.fk_categoria = categorias.id GROUP BY mes, mes_completo, produtos.nome, produtos.id, categorias.descricao, produtos_pedidos.status ORDER BY mes, produtos.nome, produtos_pedidos.status")
         }
         let result: Array<EntidadeDominio>;
         result = await filtros.then((dados) => {
