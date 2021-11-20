@@ -33,7 +33,7 @@ export default class CashbackDAO implements IDAO {
         ]);
         return entidade as Cashback
     }
-    excluir(entidade: entidadeModel): boolean {
+    inativar(entidade: entidadeModel): boolean {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<entidadeModel[]> {

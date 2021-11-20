@@ -62,7 +62,7 @@ export default class ClienteDAO implements IDAO {
     }
     return entidade as Cliente;
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     const cliente = entidade as Cliente;
     let clientes = db.query("UPDATE clientes SET ativo = false WHERE id=$1", [
       cliente.id,

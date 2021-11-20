@@ -127,9 +127,9 @@ export default class Fachada implements IFachada {
     // return retorno as EntidadeDominio;
 
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     let nomeClasse: string = entidade.constructor.name;
-    this.daos.get(nomeClasse)?.excluir(entidade);
+    this.daos.get(nomeClasse)?.inativar(entidade);
     return true;
   }
   async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {

@@ -81,7 +81,7 @@ CartaoRouter.patch("/:id", async (req, res) => {
     id: req.params.id,
   };
   let conversao = Object.assign(new Cartao(), cartaoCredito);;
-  let listaCliente: boolean = await fachada.excluir(conversao as Cartao);
+  let listaCliente: boolean = await fachada.inativar(conversao as Cartao);
 
   res.json({ message: "OK", dados: listaCliente });
 });

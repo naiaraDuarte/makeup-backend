@@ -95,7 +95,7 @@ export default class PedidoDAO implements IDAO {
 
         return entidade as Pedido;
     }
-    excluir(entidade: EntidadeDominio): boolean {
+    inativar(entidade: EntidadeDominio): boolean {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<EntidadeDominio[]> {

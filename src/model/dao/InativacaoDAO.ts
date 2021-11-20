@@ -13,7 +13,7 @@ export default class InativacaoDAO implements IDAO {
     alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         throw new Error("Method not implemented.");
     }
-    excluir(entidade: EntidadeDominio): boolean {
+    inativar(entidade: EntidadeDominio): boolean {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<EntidadeDominio[]> {

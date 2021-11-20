@@ -40,7 +40,7 @@ export default class CartaoDAO implements IDAO {
         return entidade as Cartao;
 
     }
-    excluir(entidade: EntidadeDominio): boolean {
+    inativar(entidade: EntidadeDominio): boolean {
         const cartao = entidade as Cartao;
         db.query("UPDATE cartoes SET ativo = false WHERE id=$1", [cartao.id]);
         return true;

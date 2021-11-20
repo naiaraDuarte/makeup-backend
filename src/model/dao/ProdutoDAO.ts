@@ -35,7 +35,7 @@ export default class ProdutoDAO implements IDAO {
               
         if (Object.keys(produto).length > 3) {            
             await db.query(
-                "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
+                "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, peso=$7, quantidade=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
                 [
                     produto.cod,
                     produto.nome,
@@ -62,7 +62,7 @@ export default class ProdutoDAO implements IDAO {
         }
         return entidade as Produto;
     }
-    excluir(entidade: EntidadeDominio): boolean {
+    inativar(entidade: EntidadeDominio): boolean {
         const produto = entidade as Produto;
         db.query("UPDATE produtos SET ativo=$1, observacao=$2, fk_inativacao=$3 WHERE id=$4", 
         [

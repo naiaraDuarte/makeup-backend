@@ -12,7 +12,6 @@ CategoriaRouter.get("/", async (req, res) => {
   )) as Array<Categoria>;
   res.json({ message: "OK", dados: listaCategoria });
 });
-
 CategoriaRouter.post("/", async (req, res) => {
   let cat = req.body;
   const categoria = {
@@ -48,12 +47,12 @@ CategoriaRouter.put("/:id", async (req, res) => {
     res.status(200).json({ status: 1, dados: listaCategoria });
   }
 });
-CategoriaRouter.delete("/:id", async (req, res) => {
+CategoriaRouter.patch("/:id", async (req, res) => {
   const categoria = {
     id: req.params.id,
   };
   let conversao = Object.assign(new Categoria(), categoria);
-  let cat: boolean = await fachada.excluir(conversao as Categoria);
+  let cat: boolean = await fachada.inativar(conversao as Categoria);
 
   if (cat){
     res.status(200).json({ message: "OK", dados: cat });

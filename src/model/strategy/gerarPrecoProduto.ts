@@ -10,25 +10,26 @@ import IStrategy from "./IStrategy";
 export default class GerarPrecoProduto implements IStrategy {
     async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const produto = entidade as Produto;
+        console.log("else", produto.observacao)
 
-        if (produto.observacao != null)
-            if (!altera) {
-                let custo = produto.custo
-                let mgLucro = produto.categoria.gpPrecificacao
-
-                produto.preco = (custo * mgLucro) + custo;                
-            }
-            else {
+        if (!altera) {
+            let custo = produto.custo
+            let mgLucro = produto.categoria.gpPrecificacao
+            produto.preco = (custo * mgLucro) + custo;
+            console.log("ss", produto.preco);
+        }
+        else {
+            if (produto.observacao == null) {
+                console.log("elseeejsj");
                 let categoriaDao = new CategoriaDAO();
                 let cat: any;
-
                 let categoria = await categoriaDao.consultarComId(produto)
                 cat = categoria[0]
-                produto.preco = (cat.gp_precificacao * produto.custo) + produto.custo                
+                produto.preco = (cat.gp_precificacao * produto.custo) + produto.custo
+                console.log("ss", categoria);
+
             }
-
+        }
         return null!
-
     }
-
 }
