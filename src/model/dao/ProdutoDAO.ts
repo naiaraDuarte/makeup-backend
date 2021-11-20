@@ -32,7 +32,7 @@ export default class ProdutoDAO implements IDAO {
     }
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const produto = entidade as Produto;  
-        console.log("prodit", produto)         
+              
         if (Object.keys(produto).length > 3) {            
             await db.query(
                 "UPDATE produtos SET cod=$1, nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, quantidade=$7, peso=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
@@ -56,7 +56,7 @@ export default class ProdutoDAO implements IDAO {
                 ]
             );
         } else {
-            console.log("daopdt")
+         
             await db.query("UPDATE produtos SET quantidade = quantidade + 1 WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.id = $1)", 
             [produto.id]);
         }

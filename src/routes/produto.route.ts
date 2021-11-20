@@ -45,7 +45,7 @@ ProdutoRouter.put("/:id", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
- console.log("rotaaaa",produto)
+
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });

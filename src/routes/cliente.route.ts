@@ -160,7 +160,6 @@ ClienteRouter.patch("/:id", async (req, res) => {
       senha: req.body.senha
     }
   }
-  console.log(cliente)
 
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.alterar(conversao as Cliente);
