@@ -3,10 +3,11 @@ import EntidadeDominio from "../entidade/entidadeDominio";
 import IStrategy from "./IStrategy";
 
 export default class ValidarCPF implements IStrategy {
-    async processar(entidade: EntidadeDominio): Promise<string> {
+    async processar(entidade: EntidadeDominio, altera: boolean): Promise<string> {
         const cliente = entidade as Cliente;
         let cpf = cliente.cpf;
-        
+
+        if(!altera){        
             if (typeof cpf !== "string") return "Cpf invalido"
             cpf = cpf.replace(/[\s.-]*/igm, '')
             if (
@@ -41,6 +42,7 @@ export default class ValidarCPF implements IStrategy {
             if (resto != parseInt(cpf.substring(10, 11))){
                 return "Cpf invalido";
             } 
+        }
             
             return null!;
         

@@ -29,7 +29,7 @@ export default class CategoriaDAO implements IDAO {
 
         return entidade as Categoria;
     }
-    excluir(entidade: EntidadeDominio): boolean {
+    inativar(entidade: EntidadeDominio): boolean {
         const categoria = entidade as Categoria;
         db.query("UPDATE categorias SET ativo = false WHERE id=$1", [categoria.id]);
         return true;

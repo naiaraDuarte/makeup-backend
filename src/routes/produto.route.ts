@@ -26,7 +26,6 @@ ProdutoRouter.put("/:id", async (req, res) => {
   //   descricao: req.body.categoriaProduto.nome,
   //   gpPrecificacao: req.body.categoriaProduto.mgLucro
   //   }
-
   let pdt = req.body
   const produto = {
     id: req.params.id,
@@ -45,7 +44,9 @@ ProdutoRouter.put("/:id", async (req, res) => {
     custo: pdt.custoProduto,
     descricao: pdt.descProduto,
   };
- console.log("rotaaaa",produto)
+  console.log("pdt", produto)
+  
+
   let conversao = Object.assign(new Produto(), produto);
   let listaProduto: any = await fachada.alterar(conversao as Produto);
   res.json({ message: "OK", dados: listaProduto });
@@ -66,7 +67,6 @@ ProdutoRouter.patch("/:id", async (req, res) => {
     res.status(200).json({ status: 0, dados: listaProduto });
   }
 });
-
 ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
   let produto = {
     id: req.params.id,
@@ -74,13 +74,10 @@ ProdutoRouter.put("/inativacao/:id", async (req, res) =>{
     catInativacao: req.body.categoriaInativacao,
     status: req.body.ativo
   }; 
-
   let conversao = Object.assign(new Produto(), produto);
-  let prod: boolean = await fachada.excluir(conversao as Produto);
-
+  let prod: boolean = await fachada.inativar(conversao as Produto);
   res.json({ message: "OK", dados: prod });
 });
-
 ProdutoRouter.post("/", async (req, res) => {
     let categoria = {
     id: req.body.categoriaProduto.id,

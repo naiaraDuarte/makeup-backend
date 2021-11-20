@@ -50,13 +50,5 @@ CashbackRouter.put("/:id", async (req, res) => {
         
 });
 
-// CashbackRouter.delete("/:id", async (req, res) => {
-//     const cashback = {
-//       id: req.params.id,
-//     };
-//     let conversao = Object.assign(new Cashback(), cashback);
-//     let cash: boolean = await fachada.excluir(conversao as Cashback);
 
-//   res.json({ message: "OK", dados: cash});
-// });
 

@@ -35,7 +35,7 @@ export default class CupomDAO implements IDAO {
 
     return entidade as Cupom;
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     const cupom = entidade as Cupom;
     db.query("UPDATE cupons SET ativo = false WHERE id=$1", [cupom.id]);
     return true;

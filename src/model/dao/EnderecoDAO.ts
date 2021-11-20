@@ -65,7 +65,7 @@ export default class EnderecoDAO implements IDAO {
     );
     return entidade as Endereco;
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     const endereco = entidade as Endereco;
     db.query("UPDATE enderecos SET ativo = false WHERE id=$1", [endereco.id]);
     return true;

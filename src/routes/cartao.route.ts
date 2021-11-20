@@ -45,7 +45,7 @@ CartaoRouter.post("/:id", async (req, res) => {
  
   let conversao = Object.assign(new Cartao(), cartaoCredito);
   let listaCartao: any = await fachada.cadastrar(conversao as Cartao);
-
+  
   if (listaCartao.msgn.length > 0) {
     res.status(400).json({ status: 1, mensagem: listaCartao.msgn });
   }
@@ -76,12 +76,12 @@ CartaoRouter.put("/:id", async (req, res) => {
   }
 });
 
-CartaoRouter.delete("/:id", async (req, res) => {
+CartaoRouter.patch("/:id", async (req, res) => {
   const cartaoCredito = {
     id: req.params.id,
   };
   let conversao = Object.assign(new Cartao(), cartaoCredito);;
-  let listaCliente: boolean = await fachada.excluir(conversao as Cartao);
+  let listaCliente: boolean = await fachada.inativar(conversao as Cartao);
 
   res.json({ message: "OK", dados: listaCliente });
 });

@@ -88,7 +88,7 @@ CupomRouter.delete("/:id", async (req, res) => {
     id: req.params.id,
   };
   let conversao = Object.assign(new Cupom(), cupom);
-  let cup: boolean = await fachada.excluir(conversao as Cupom);
+  let cup: boolean = await fachada.inativar(conversao as Cupom);
 
   res.json({ message: "OK", dados: cup });
 });

@@ -58,7 +58,7 @@ PedidoRouter.get("/:id", async (req, res) => {
 PedidoRouter.post("/", async (req, res) => {
   let produto = req.body.produto;
   let arrayProduto: any = [];
-  console.log("pdt", produto)
+  
   produto.forEach(async (pdt: any) => {
     arrayProduto.push({
       id: pdt.id,
@@ -121,7 +121,7 @@ PedidoRouter.put("/status/:id", async (req, res) => {
     produtos: arrayProduto
   } 
 
-  console.log("rota",pedido)
+  
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 
@@ -150,7 +150,7 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
     id: req.body.produto.id,
     status: req.body.status,
   }
-console.log ("troca")
+
   let convert = Object.assign(new Pedido(), pedido);
   let lista: any = await fachada.alterar(convert as Pedido);
 

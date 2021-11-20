@@ -91,6 +91,7 @@ export default class Fachada implements IFachada {
       
       entidade.msgn = mensagem; 
     } 
+    
     return (mensagem.length > 0) ? final_msg: "";
   }
 
@@ -102,14 +103,14 @@ export default class Fachada implements IFachada {
       let retorno = await this.daos.get(nomeClasse)?.salvar(entidade);
       return retorno as EntidadeDominio;
       }
+      
       entidade.msgn   
     return entidade;
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    let msg = await this.processarStrategys(entidade, true); 
-      
-    
+    let msg = await this.processarStrategys(entidade, true);  
+        
     if (msg == "") {
       let nomeClasse: string = entidade.constructor.name;
       let retorno = await this.daos.get(nomeClasse)?.alterar(entidade,);
@@ -118,9 +119,9 @@ export default class Fachada implements IFachada {
       entidade.msgn   
     return entidade;
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     let nomeClasse: string = entidade.constructor.name;
-    this.daos.get(nomeClasse)?.excluir(entidade);
+    this.daos.get(nomeClasse)?.inativar(entidade);
     return true;
   }
   async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {

@@ -14,6 +14,7 @@ import Fachada from "../../control/Fachada";
 export default class ClienteDAO implements IDAO {
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
+    
     cliente.senha = await Encrypt.cryptPassword(cliente.senha!);
     let idCliente = await db.query(
       "INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha, apelido) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
@@ -35,9 +36,9 @@ export default class ClienteDAO implements IDAO {
   }
 
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
-    const cliente = entidade as Cliente;
-
-    if (Object.keys(cliente).length > 2) {
+    const cliente = entidade as Cliente;  
+    
+    if (Object.keys(cliente).length > 3) {
       await db.query(
         "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8, apelido=$9 WHERE id=$10",
         [
@@ -58,12 +59,10 @@ export default class ClienteDAO implements IDAO {
       let values = Object.values(cliente);
       await db.query(
         "UPDATE clientes SET " + key[1] + "=$1 WHERE id=$2", [values[1], values[0]]);
-
     }
-
     return entidade as Cliente;
   }
-  excluir(entidade: EntidadeDominio): boolean {
+  inativar(entidade: EntidadeDominio): boolean {
     const cliente = entidade as Cliente;
     let clientes = db.query("UPDATE clientes SET ativo = false WHERE id=$1", [
       cliente.id,
@@ -114,8 +113,8 @@ export default class ClienteDAO implements IDAO {
       }));
     });
     if (cliente.senha != null) {
-      let senhaBD: string = result[0].senha;
-      if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {
+      let senhaBD: string = result[0].senha;      
+      if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {        
         mensagem.push("Senha não confere");
         result.msgn = mensagem
 
@@ -172,8 +171,8 @@ export default class ClienteDAO implements IDAO {
     }
 
     let senhaBD = result[0].senha
-
-    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {
+    
+    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {      
       let enderecoDAO = new EnderecoDAO();
       let endereco = Object.assign(new Endereco());
       endereco.idCliente = result[0].id;
