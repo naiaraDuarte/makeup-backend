@@ -85,6 +85,7 @@ ClienteRouter.post("/", async (req, res) => {
     endereco: arrayEndereco,
     apelido: req.body.apelido,
   };
+  console.log("rota", cliente)
 
   let conversao = Object.assign(new Cliente(), cliente);
   let cli = await fachada.cadastrar(conversao);

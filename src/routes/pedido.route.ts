@@ -58,7 +58,7 @@ PedidoRouter.get("/:id", async (req, res) => {
 PedidoRouter.post("/", async (req, res) => {
   let produto = req.body.produto;
   let arrayProduto: any = [];
-  
+    
   produto.forEach(async (pdt: any) => {
     arrayProduto.push({
       id: pdt.id,
@@ -96,6 +96,7 @@ PedidoRouter.post("/", async (req, res) => {
     frete: ped.frete,
     dataCadastro: ped.dataCadastro
   };
+  console.log(pedido.produtos)
   let conversao = Object.assign(new Pedido(), pedido);
   let listaPedido: any = await fachada.cadastrar(conversao as Pedido);
 

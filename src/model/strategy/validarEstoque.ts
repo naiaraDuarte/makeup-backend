@@ -11,18 +11,12 @@ export default class ValidarEstoque implements IStrategy {
         // let msgn = "";
 
         if (!alterar) {
-         
-            pedido.produtos.forEach(async pdt => {               
-                    let qntdeEstoque = await produtoDao.alterarEstoque(pdt);
-                });
-        
+            pedido.produtos.forEach(async pdt => {
+                let qntdeEstoque = await produtoDao.alterarEstoque(pdt);
+            });
             return null!;
         }
-        // if (pedido.status == "TROCA EFETUADA" || pedido.status == "CANCELAMENTO EFETUADO"){
-        //     let estoque = await produtoDao.alterar(pedido.produtos[0]);
-        // }
         return null!
-        
     }
 
 

@@ -15,7 +15,7 @@ export default class GerarPrecoProduto implements IStrategy {
         if (!altera) {
             let custo = produto.custo
             let mgLucro = produto.categoria.gpPrecificacao
-            produto.preco = (custo * mgLucro) + custo;
+            produto.preco = (custo + (mgLucro/10)) + custo;
             console.log("ss", produto.preco);
         }
         else {
@@ -25,8 +25,9 @@ export default class GerarPrecoProduto implements IStrategy {
                 let cat: any;
                 let categoria = await categoriaDao.consultarComId(produto)
                 cat = categoria[0]
-                produto.preco = (cat.gp_precificacao * produto.custo) + produto.custo
-                console.log("ss", categoria);
+                produto.preco = ((cat.gp_precificacao/10) + produto.custo) + produto.custo                
+                produto.categoria =  Object.assign(new Categoria(), cat);
+                console.log("ss", produto.categoria);
 
             }
         }

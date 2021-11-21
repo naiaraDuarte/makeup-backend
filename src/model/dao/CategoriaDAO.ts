@@ -36,7 +36,7 @@ export default class CategoriaDAO implements IDAO {
 
     }
     async consultar(): Promise<EntidadeDominio[]> {
-        let categorias = db.query("SELECT * FROM categorias");
+        let categorias = db.query("SELECT * FROM categorias Order by id");
         let result: Array<EntidadeDominio> = [];
 
         result = await categorias.then((dados) => {

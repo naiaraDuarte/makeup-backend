@@ -15,8 +15,7 @@ export default class ValidarCupomPedido implements IStrategy {
         if (!altera) {
             let cupom= {
                 id: pedido.pagamento.cupom.id,             
-            }
-            
+            }            
             let alterarQtde = cupomDao.alterarQtde(cupom as Cupom);
         }
         return null!
