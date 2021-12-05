@@ -8,7 +8,7 @@ export default class CartaoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const cartao = entidade as Cartao;
         let idCartao = await db.query(
-            "INSERT INTO cartoes(numero, nome, data_validade, cvv, fk_cliente, bandeira) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+            "INSERT INTO CARTOES (cart_numero, cart_nome, cart_data_validade, cart_cvv, cart_cli_id, cart_bandeira) VALUES ($1, $2, $3, $4, $5, $6) RETURNING cart_id",
             [
                 cartao.numero,
                 cartao.nome,
@@ -26,7 +26,7 @@ export default class CartaoDAO implements IDAO {
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const cartao = entidade as Cartao;
         await db.query(
-            "UPDATE cartoes SET numero=$1, nome=$2, data_validade=$3, cvv=$4, bandeira=$5 WHERE id=$6",
+            "UPDATE CARTOES SET cart_numero=$1, cart_nome=$2, cart_data_validade=$3, cart_cvv=$4, cart_bandeira=$5 WHERE cart_id=$6",
             [
                 cartao.numero,
                 cartao.nome,
@@ -42,7 +42,7 @@ export default class CartaoDAO implements IDAO {
     }
     inativar(entidade: EntidadeDominio): boolean {
         const cartao = entidade as Cartao;
-        db.query("UPDATE cartoes SET ativo = false WHERE id=$1", [cartao.id]);
+        db.query("UPDATE CARTOES SET cart_ativo = false WHERE cart_id=$1", [cartao.id]);
         return true;
     };
 
@@ -52,7 +52,7 @@ export default class CartaoDAO implements IDAO {
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const cartao = entidade as Cartao;
        
-        let cart = db.query("SELECT * FROM cartoes WHERE fk_cliente = $1 AND ativo = true", [cartao.idCliente]);
+        let cart = db.query("SELECT * FROM CARTOES WHERE cart_cli_id = $1 AND cart_ativo = true", [cartao.idCliente]);
         let result: Array<EntidadeDominio> = [];
 
         result = await cart.then((dados) => {
@@ -66,7 +66,7 @@ export default class CartaoDAO implements IDAO {
     async consultarPedido(entidade: EntidadeDominio, fk: Number): Promise<Array<EntidadeDominio>> {
         const pedido = entidade as Pedido
 
-        let cartoes = db.query("SELECT * FROM cartoes WHERE id IN (SELECT fk_cartoes FROM pagamento_cartoes WHERE fk_pagamentos IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+        let cartoes = db.query("SELECT * FROM CARTOES WHERE cart_id IN (SELECT pcar_cart_id FROM PAGAMENTO_CARTOES WHERE pcar_pgt_id IN (SELECT pcar_pgt_id FROM PEDIDOS WHERE ped_id = $1))", [
             fk
         ])
         let result: any;
