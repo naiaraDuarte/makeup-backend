@@ -2,12 +2,11 @@ import IDAO from "./IDAO";
 import EntidadeDominio from "../entidade/entidadeDominio";
 import { db } from "../../db.config";
 import Endereco from "../entidade/endereco";
-import Cliente from "../entidade/cliente.model";
 
 export default class EnderecoDAO implements IDAO {
   async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
     
-    let endereco = db.query("SELECT * from enderecos WHERE id = $1",[id]);
+    let endereco = db.query("SELECT * from ENDERECOS WHERE end_id = $1",[id]);
     let result: any;
     
     result = await endereco.then((dados) => {
@@ -22,7 +21,7 @@ export default class EnderecoDAO implements IDAO {
     const endereco = entidade as Endereco;
 
     let idEndereco = await db.query(
-      "INSERT INTO enderecos(nome, cep, logradouro, numero, complemento, bairro, cidade, uf, pais, tipo_residencia, tipo_logradouro, tipo_endereco, fk_cliente) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id",
+      "INSERT INTO ENDERECOS(end_nome, end_cep, end_logradouro, end_numero, end_complemento, end_bairro, end_cidade, end_uf, end_pais, end_tip_res_id, end_tip_log_id, end_tip_end_id, end_cli_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING end_id",
       [
         endereco.nome,
         endereco.cep,
@@ -45,7 +44,7 @@ export default class EnderecoDAO implements IDAO {
   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const endereco = entidade as Endereco;
     await db.query(
-      "UPDATE enderecos SET nome=$1, cep=$2, logradouro=$3, numero=$4, complemento=$5, bairro=$6, cidade=$7, uf=$8, pais=$9, tipo_residencia=$10, tipo_logradouro=$11, tipo_endereco=$12, fk_cliente=$13 WHERE id= $14",
+      "UPDATE ENDERECOS SET end_nome=$1, end_cep=$2, end_logradouro=$3, end_numero=$4, end_complemento=$5, end_bairro=$6, end_cidade=$7, end_uf=$8, end_pais=$9, end_tip_res_id=$10, end_tip_log_id=$11, end_tip_end_id=$12, end_cli_id=$13 WHERE end_id= $14",
       [
         endereco.nome,
         endereco.cep,
@@ -67,7 +66,7 @@ export default class EnderecoDAO implements IDAO {
   }
   inativar(entidade: EntidadeDominio): boolean {
     const endereco = entidade as Endereco;
-    db.query("UPDATE enderecos SET ativo = false WHERE id=$1", [endereco.id]);
+    db.query("UPDATE ENDERECOS SET end_ativo = false WHERE end_id=$1", [endereco.id]);
     return true;
   }
   consultar(): Promise<EntidadeDominio[]> {
@@ -75,7 +74,7 @@ export default class EnderecoDAO implements IDAO {
   }
   async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const endereco = entidade as Endereco;
-    let end = db.query("SELECT * FROM enderecos WHERE fk_cliente = $1 AND ativo = true", [endereco.idCliente]);
+    let end = db.query("SELECT * FROM ENDERECOS WHERE end_cli_id = $1 AND end_ativo = true", [endereco.idCliente]);
     let result: Array<EntidadeDominio> = [];
 
     result = await end.then((dados) => {

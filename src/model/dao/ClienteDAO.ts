@@ -7,17 +7,13 @@ import Endereco from "../entidade/endereco";
 import Cartao from "../entidade/cartao.model";
 import CartaoDAO from "./CartaoDAO";
 import { Encrypt } from "../../utils/encrypt";
-import Pedido from "../entidade/pedido";
-import Fachada from "../../control/Fachada";
-
-
 export default class ClienteDAO implements IDAO {
   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
     
     cliente.senha = await Encrypt.cryptPassword(cliente.senha!);
     let idCliente = await db.query(
-      "INSERT INTO clientes (nome, data_nasc, cpf, tipo_telefone, telefone, sexo, email, senha, apelido) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
+      "INSERT INTO CLIENTES (cli_nome, cli_data_nasc, cli_cpf, cli_tip_tel_id, cli_telefone, cli_sexo, cli_email, cli_senha, cli_apelido) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING cli_id",
       [
         cliente.nome,
         cliente.dataNasc,
@@ -40,7 +36,7 @@ export default class ClienteDAO implements IDAO {
     
     if (Object.keys(cliente).length > 3) {
       await db.query(
-        "UPDATE clientes SET nome=$1, data_nasc=$2, cpf=$3, tipo_telefone=$4, telefone=$5, sexo=$6, email=$7, senha=$8, apelido=$9 WHERE id=$10",
+        "UPDATE CLIENTES SET cli_nome=$1, cli_data_nasc=$2, cli_cpf=$3, cli_tip_tel_id=$4, cli_telefone=$5, cli_sexo=$6, cli_email=$7, cli_senha=$8, cli_apelido=$9 WHERE cli_id=$10",
         [
           cliente.nome,
           cliente.dataNasc,
@@ -58,34 +54,20 @@ export default class ClienteDAO implements IDAO {
       let key = Object.keys(cliente);
       let values = Object.values(cliente);
       await db.query(
-        "UPDATE clientes SET " + key[1] + "=$1 WHERE id=$2", [values[1], values[0]]);
+        "UPDATE CLIENTES SET " + key[1] + "=$1 WHERE cli_id=$2", [values[1], values[0]]);
     }
     return entidade as Cliente;
   }
   inativar(entidade: EntidadeDominio): boolean {
     const cliente = entidade as Cliente;
-    let clientes = db.query("UPDATE clientes SET ativo = false WHERE id=$1", [
+    db.query("UPDATE CLIENTES SET cli_ativo = false WHERE cli_id=$1", [
       cliente.id,
     ]);
     return true;
   }
-  async consultarRanking(entidade: EntidadeDominio, id: number): Promise<EntidadeDominio[]> {
-    let pedidos = db.query("SELECT COUNT(*) as Compras from pedidos where fk_cliente=$1", [entidade.id]);
-
-    let result: any;
-
-    result = await pedidos.then((dados) => {
-      return (result = dados.rows.map((pedido) => {
-        return pedido as Pedido;
-      }));
-    });
-    
-    return result
-  }
   async consultar(): Promise<Array<EntidadeDominio>> {
-    let clientes = db.query("SELECT * FROM clientes WHERE ativo = true");
-    let result: any
-    // let fachada = new Fachada();
+    let clientes = db.query("SELECT * FROM CLIENTES WHERE cli_ativo = true");
+    let result: any;
 
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
@@ -99,13 +81,10 @@ export default class ClienteDAO implements IDAO {
   async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
     let mensagem = [];
-    let clientes = db.query("SELECT * FROM clientes WHERE id = $1", [
+    let clientes = db.query("SELECT * FROM CLIENTES WHERE cli_id = $1", [
       cliente.id,
     ]);
     let result: any;
-    let enderecos: any = [];
-    let clienteCompleto: any;
-
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
 
@@ -136,7 +115,7 @@ export default class ClienteDAO implements IDAO {
   }
   async consultarCpf(entidade: EntidadeDominio): Promise<EntidadeDominio> {
     const cliente = entidade as Cliente;
-    let clientes = db.query("SELECT * FROM clientes WHERE cpf = $1", [cliente.cpf]);
+    let clientes = db.query("SELECT * FROM CLIENTES WHERE cli_cpf = $1", [cliente.cpf]);
     let result: any;
 
     result = await clientes.then((dados) => {
@@ -150,12 +129,11 @@ export default class ClienteDAO implements IDAO {
     const cliente = entidade as Cliente;
     let mensagem = [];
 
-    let clientes = db.query("SELECT * FROM clientes WHERE email = $1", [
+    let clientes = db.query("SELECT * FROM CLIENTES WHERE cli_email = $1", [
       cliente.email,
     ]);
 
     let result: any;
-    let clienteCompleto: any;
 
     result = await clientes.then((dados) => {
       return (result = dados.rows.map((cliente) => {
@@ -191,7 +169,7 @@ export default class ClienteDAO implements IDAO {
     return result;
   }
   async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-    let clientes = db.query("SELECT * from clientes WHERE id = $1", [
+    let clientes = db.query("SELECT * from CLIENTES WHERE cli_id = $1", [
       id
     ])
     let result: any;

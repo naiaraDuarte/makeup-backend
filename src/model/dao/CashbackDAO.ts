@@ -12,7 +12,7 @@ export default class CashbackDAO implements IDAO {
         const cashback = entidade as Cashback;
                
         let idCashback = await db.query(
-            "INSERT INTO cashback (valor, fk_cliente) VALUES ($1, $2) RETURNING id",
+            "INSERT INTO CASHBACK (cash_valor, cash_cli_id) VALUES ($1, $2) RETURNING cash_id",
             [
                 cashback.valor,
                 cashback.idCliente
@@ -25,7 +25,7 @@ export default class CashbackDAO implements IDAO {
 
     async alterar(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback = entidade as Cashback;
-        await db.query("UPDATE cashback SET valor=$1 WHERE fk_cliente=$2",
+        await db.query("UPDATE CASHBACK SET cash_valor=$1 WHERE cash_cli_id=$2",
         [
             cashback.valor,
             cashback.idCliente,            
@@ -37,7 +37,7 @@ export default class CashbackDAO implements IDAO {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<entidadeModel[]> {
-        let cashback = db.query("SELECT * FROM cashback");
+        let cashback = db.query("SELECT * FROM CASHBACK");
         let result: Array<EntidadeDominio> = [];
 
         result = await cashback.then((dados) => {
@@ -51,7 +51,7 @@ export default class CashbackDAO implements IDAO {
     async consultarComId(entidade: entidadeModel): Promise<entidadeModel[]> {
         const cashback = entidade as Cashback;
         
-        let cash = db.query("SELECT * FROM cashback WHERE fk_cliente = $1", [cashback.idCliente]);
+        let cash = db.query("SELECT * FROM CASHBACK WHERE cash_cli_id = $1", [cashback.idCliente]);
         let result: Array<EntidadeDominio> = [];
 
         result = await cash.then((dados) => {
@@ -64,7 +64,7 @@ export default class CashbackDAO implements IDAO {
     async alterarQtde(entidade: entidadeModel): Promise<entidadeModel> {
         const cashback= entidade as Cashback;       
         await db.query(
-          "UPDATE cashback SET valor=(valor-$1) WHERE id=$2",
+          "UPDATE CASHBACK SET cash_valor=(cash_valor-$1) WHERE cash_cli_id=$2",
     
           [ cashback.valor,
               cashback.id]

@@ -148,13 +148,13 @@ ClienteRouter.patch("/:id", async (req, res) => {
 
   if (req.body.email) {
     cliente = {
-      id: req.params.id,
-      email: req.body.email
+      cli_id: req.params.id,
+      cli_email: req.body.email
     }
   } else if (req.body.senha) {
     cliente = {
-      id: req.params.id,
-      senha: req.body.senha
+      cli_id: req.params.id,
+      cli_email: req.body.senha
     }
   }
 
