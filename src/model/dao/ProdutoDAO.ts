@@ -8,7 +8,7 @@ export default class ProdutoDAO implements IDAO {
         const produto = entidade as Produto;
         
         let idProduto = await db.query(
-            "INSERT INTO PRODUTOS (pdt_cod, pdt_nome, marca, tipo, altura, comprimento, quantidade, peso, imagem, largura, diametro, fk_categoria, custo, descricao, preco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id",
+            "INSERT INTO PRODUTOS (pdt_cod, pdt_nome, pdt_marca, pdt_tipo, pdt_altura, pdt_comprimento, pdt_quantidade, pdt_peso, pdt_imagem, pdt_largura, pdt_diametro, pdt_cat_id, pdt_custo, pdt_descricao, pdt_preco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING pdt_id",
             [
                 produto.cod,
                 produto.nome,
@@ -35,7 +35,7 @@ export default class ProdutoDAO implements IDAO {
               
         if (Object.keys(produto).length > 3) {            
             await db.query(
-                "UPDATE PRODUTOS SET pdt_cod=$1, pdt_nome=$2, marca=$3, tipo=$4, altura=$5, comprimento=$6, peso=$7, quantidade=$8, imagem=$9, largura=$10, diametro=$11, fk_categoria=$12, custo=$13, descricao=$14, preco=$15 WHERE id=$16",
+                "UPDATE PRODUTOS SET pdt_cod=$1, pdt_nome=$2, pdt_marca=$3, pdt_tipo=$4, pdt_altura=$5, pdt_comprimento=$6, pdt_peso=$7, pdt_quantidade=$8, pdt_imagem=$9, pdt_largura=$10, pdt_diametro=$11, pdt_cat_id=$12, pdt_custo=$13, pdt_descricao=$14, pdt_preco=$15 WHERE pdt_id=$16",
                 [
                     produto.cod,
                     produto.nome,
@@ -57,14 +57,14 @@ export default class ProdutoDAO implements IDAO {
             );
         } else {
          
-            await db.query("UPDATE PRODUTOS SET quantidade = quantidade + 1 WHERE id IN (SELECT produtos.id FROM produtos_pedidos INNER JOIN produtos ON produtos.id = produtos_pedidos.fk_produto WHERE produtos_pedidos.id = $1)", 
+            await db.query("UPDATE PRODUTOS SET pdt_quantidade = pdt_quantidade + 1 WHERE id IN (SELECT PRODUTOS.pdt_id FROM PRODUTOS_PEDIDOS INNER JOIN PRODUTOS ON PRODUTOS.pdt_id = PRODUTOS_PEDIDOS.ppd_pdt_id WHERE PRODUTOS_PEDIDOS.ppd_id = $1)", 
             [produto.id]);
         }
         return entidade as Produto;
     }
     inativar(entidade: EntidadeDominio): boolean {
         const produto = entidade as Produto;
-        db.query("UPDATE PRODUTOS SET ativo=$1, observacao=$2, fk_inativacao=$3 WHERE id=$4", 
+        db.query("UPDATE PRODUTOS SET pdt_ativo=$1, pdt_observacao=$2, pdt_ina_id=$3 WHERE pdt_id=$4", 
         [
             produto.status,
             produto.observacao,
@@ -87,7 +87,7 @@ export default class ProdutoDAO implements IDAO {
     }
 
     async consultar(): Promise<EntidadeDominio[]> { 
-       let produtos = db.query("SELECT * FROM PRODUTOS WHERE ativo=true ORDER BY random()");
+       let produtos = db.query("SELECT * FROM PRODUTOS WHERE pdt_ativo=true ORDER BY random()");
         let result: Array<EntidadeDominio> = [];
 
         result = await produtos.then((dados) => {
@@ -99,7 +99,7 @@ export default class ProdutoDAO implements IDAO {
     }
     async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const produto = entidade as Produto;
-        let pdt = db.query("SELECT * FROM PRODUTOS WHERE id = $1", [produto.id]);
+        let pdt = db.query("SELECT * FROM PRODUTOS WHERE pdt_id = $1", [produto.id]);
         let result: Array<EntidadeDominio> = [];
 
         result = await pdt.then((dados) => {
@@ -110,7 +110,7 @@ export default class ProdutoDAO implements IDAO {
         return result;
     }
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        let produto = db.query("select * from PRODUTOS inner join produtos_pedidos on produtos.id = fk_produto where produtos_pedidos.fk_pedido=$1", [
+        let produto = db.query("select * from PRODUTOS inner join produtos_pedidos on produtos.pdt_id = ppd_pdt_id where produtos_pedidos.ppd_ped_id=$1", [
             id
         ])
         let result: any;
@@ -124,7 +124,7 @@ export default class ProdutoDAO implements IDAO {
     async alterarEstoque(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
         const produto = entidade as Produto;
         
-        let pdt = db.query("UPDATE PRODUTOS SET quantidade=(quantidade-$1) WHERE id=$2", [
+        let pdt = db.query("UPDATE PRODUTOS SET pdt_quantidade=(pdt_quantidade-$1) WHERE pdt_id=$2", [
             produto.quantidade,
             produto.id
 
