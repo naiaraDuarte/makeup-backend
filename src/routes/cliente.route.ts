@@ -9,6 +9,7 @@ import { BandeiraCartao } from "../model/entidade/bandeiraCartao";
 import Endereco from "../model/entidade/endereco";
 import EntidadeDominio from "../model/entidade/entidadeDominio";
 import Cashback from "../model/entidade/cashback";
+import { TipoTelefone } from "../model/entidade/tipoTelefone";
 
 export const ClienteRouter = express.Router();
 
@@ -77,7 +78,7 @@ ClienteRouter.post("/", async (req, res) => {
     nome: req.body.nome,
     dataNasc: req.body.data_nasc,
     cpf: req.body.cpf,
-    tipoTelefone: req.body.tipo_telefone,
+    tipoTelefone: TipoTelefone[req.body.tipo_telefone],
     telefone: req.body.telefone,
     sexo: req.body.sexo,
     email: req.body.email,
@@ -121,7 +122,7 @@ ClienteRouter.put("/:id", async (req, res) => {
     nome: req.body.nome,
     dataNasc: req.body.data_nasc,
     cpf: req.body.cpf,
-    tipoTelefone: req.body.tipo_telefone,
+    tipoTelefone: TipoTelefone[req.body.tipo_telefone],
     telefone: req.body.telefone,
     sexo: req.body.sexo,
     email: req.body.email,

@@ -196,7 +196,7 @@ export default class FiltroDAO implements IDAO {
     }
     
     async consultaCliente(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
-        let pedidos = db.query("SELECT COUNT(*) as Compras, nome, clientes.id from clientes inner join pedidos on clientes.id = fk_cliente group by clientes.id order by Compras desc")
+        let pedidos = db.query("SELECT COUNT(*) as Compras, nome, CLIENTES.cli_id from CLIENTES inner join pedidos on CLIENTES.cli_id = ped_cli_id group by CLIENTES.cli_id order by Compras desc")
         let result: any;        
 
     result = await pedidos.then((dados) => {
