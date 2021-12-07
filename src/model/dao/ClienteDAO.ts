@@ -93,7 +93,6 @@ export default class ClienteDAO implements IDAO {
       }));
     });
 
-    console.log("e", result);
     if (cliente.senha != null) {
       let senhaBD: string = result[0].senha;      
       if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {        
@@ -106,12 +105,13 @@ export default class ClienteDAO implements IDAO {
     }
     let enderecoDAO = new EnderecoDAO();
     let endereco = Object.assign(new Endereco());
-    endereco.idCliente = result[0].id;
+    endereco.idCliente = result[0].cli_id;
+    
     result.endereco = await enderecoDAO.consultarComId(endereco as Endereco);
 
     let cartaoDAO = new CartaoDAO();
     let cartao = Object.assign(new Cartao());
-    cartao.idCliente = result[0].id;
+    cartao.idCliente = result[0].cli_id;
     result.cartao = await cartaoDAO.consultarComId(cartao as Cartao);
 
     return result;
