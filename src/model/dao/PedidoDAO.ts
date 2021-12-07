@@ -101,11 +101,11 @@ export default class PedidoDAO implements IDAO {
                 let cupom = Object.assign(new Cupom());
                 let cartao = Object.assign(new Cartao(), pedido.cartoes);
                 let produto = Object.assign(new Produto(), pedido.produtos);
-                pedido.cliente = await fachada.consultarPedido(cliente, pedido.fk_cliente);
-                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
-                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+                pedido.cliente = await fachada.consultarPedido(cliente, pedido.ped_cli_id);
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.ped_end_id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.ped_id);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.ped_id);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.ped_id)
                 return pedido as Pedido;
             }));
         });
@@ -127,13 +127,14 @@ export default class PedidoDAO implements IDAO {
                 let cupom = Object.assign(new Cupom());
                 let cartao = Object.assign(new Cartao(), pedido.cartoes);
                 let produto = Object.assign(new Produto(), pedido.produtos);
-                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
-                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.ped_end_id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.ped_id);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.ped_id);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.ped_id)
                 return pedido as Pedido;
             }));
         });
+
 
         return result
     }

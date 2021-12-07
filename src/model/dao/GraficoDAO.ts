@@ -17,7 +17,7 @@ export default class FiltroDAO implements IDAO {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<EntidadeDominio[]> {
-        let filtros = db.query("SELECT produtos.ped_id, produtos.ped_nome, DATE_PART('month', pedidos.ped_data_cadastro) AS mes, to_char(pedidos.ped_data_cadastro, 'TMMonth/YYYY') AS completo, categorias.cat_descricao, SUM(produtos_pedidos.ppd_qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.ppd_pdt_id = produtos.pdt_id INNER JOIN pedidos ON produtos_pedidos.ppd_ped_id = pedidos.ped_id INNER JOIN categorias ON produtos.pdt_cat_id = categorias.cat_id GROUP BY mes, completo, produtos.pdt_nome, produtos.pdt_id, categorias.cat_descricao ORDER BY mes, produtos.pdt_nome");
+        let filtros = db.query("SELECT produtos.pdt_id, produtos.pdt_nome, DATE_PART('month', pedidos.ped_data_cadastro) AS mes, to_char(pedidos.ped_data_cadastro, 'TMMonth/YYYY') AS completo, categorias.cat_descricao, SUM(produtos_pedidos.ppd_qtde_comprada) AS total FROM produtos_pedidos INNER JOIN produtos ON produtos_pedidos.ppd_pdt_id = produtos.pdt_id INNER JOIN pedidos ON produtos_pedidos.ppd_ped_id = pedidos.ped_id INNER JOIN categorias ON produtos.pdt_cat_id = categorias.cat_id GROUP BY mes, completo, produtos.pdt_nome, produtos.pdt_id, categorias.cat_descricao ORDER BY mes, produtos.pdt_nome");
         let result: Array<EntidadeDominio> = [];
 
         result = await filtros.then((dados) => {
