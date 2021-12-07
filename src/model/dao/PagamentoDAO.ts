@@ -7,7 +7,7 @@ import Cupom from '../entidade/cupom';
 
 export default class PagamentoDAO implements IDAO {
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+        let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT pgt_cup_id FROM pagamentos WHERE id IN (SELECT ped_pgt_id FROM pedidos WHERE ped_id = $1))", [
             id
           ])
           let result: any;
@@ -35,7 +35,7 @@ export default class PagamentoDAO implements IDAO {
     async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
             const pagamento = entidade as Pagamento;
             let idPagamento = await db.query(
-                "INSERT INTO pagamentos (fk_cupom, fk_cashback) VALUES ($1, $2) RETURNING id",
+                "INSERT INTO pagamentos (pgt_cup_id, pgt_cash_id) VALUES ($1, $2) RETURNING pgt_id",
                 [
                     pagamento.cupom.id,
                     pagamento.cashback.id

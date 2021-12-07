@@ -44,7 +44,7 @@ export default class ProdutoPedidoDAO implements IDAO{
         if (opcoes.includes(obs)){
             produtoPedido.observacao=""
             await db.query(
-                "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE fk_pedido=$3",
+                "UPDATE produtos_pedidos SET ppd_status=$1, ppd_observacao=$2 WHERE ppd_ped_id=$3",
                 [
                     produtoPedido.produto.status, 
                     produtoPedido.observacao,
@@ -54,7 +54,7 @@ export default class ProdutoPedidoDAO implements IDAO{
             );       
         }else{
             await db.query(
-                "UPDATE produtos_pedidos SET status=$1, observacao=$2 WHERE id=$3",
+                "UPDATE produtos_pedidos SET ppd_status=$1, ppd_observacao=$2 WHERE ppd_id=$3",
                 [
                     produtoPedido.produto.status, 
                     produtoPedido.observacao,
