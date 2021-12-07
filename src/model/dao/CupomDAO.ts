@@ -9,7 +9,7 @@ export default class CupomDAO implements IDAO {
   async salvar(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
     let idCupom = await db.query(
-      "INSERT INTO cupons (porcen, quant, tipo, cod) VALUES ($1, $2, $3, $4) RETURNING id",
+      "INSERT INTO cupons (cup_porcen, cup_quant, cup_tipo, cup_cod) VALUES ($1, $2, $3, $4) RETURNING cup_id",
       [cupom.porcen, cupom.quant, cupom.tipo, cupom.cod]
     );
     entidade.id = idCupom.rows[0].id;
@@ -20,7 +20,7 @@ export default class CupomDAO implements IDAO {
    
     if (Object.keys(cupom).length > 3) {
       await db.query(
-        "UPDATE cupons SET porcen=$1, quant=$2, tipo=$3, cod=$4 WHERE id=$5",
+        "UPDATE cupons SET cup_porcen=$1, cup_quant=$2, cup_tipo=$3, cup_cod=$4 WHERE cup_id=$5",
 
         [cupom.porcen, cupom.quant, cupom.tipo, cupom.cod, cupom.id]
       );
@@ -37,12 +37,12 @@ export default class CupomDAO implements IDAO {
   }
   inativar(entidade: EntidadeDominio): boolean {
     const cupom = entidade as Cupom;
-    db.query("UPDATE cupons SET ativo = false WHERE id=$1", [cupom.id]);
+    db.query("UPDATE cupons SET cup_ativo = false WHERE cup_id=$1", [cupom.id]);
     return true;
   }
 
   async consultar(): Promise<entidadeModel[]> {
-    let cupons = db.query("SELECT * FROM cupons WHERE ativo= true ");
+    let cupons = db.query("SELECT * FROM cupons WHERE cup_ativo= true ");
     let result: Array<EntidadeDominio> = [];
 
     result = await cupons.then((dados) => {
@@ -57,7 +57,7 @@ export default class CupomDAO implements IDAO {
     entidade: EntidadeDominio
   ): Promise<Array<EntidadeDominio>> {
     const cupom = entidade as Cupom;
-    let cup = db.query("SELECT * FROM cupons WHERE cod = $1 AND ativo = true AND quant > 0", [
+    let cup = db.query("SELECT * FROM cupons WHERE cup_cod = $1 AND cup_ativo = true AND cup_quant > 0", [
       cupom.cod,
     ]);
     let result: Array<EntidadeDominio> = [];
@@ -71,7 +71,7 @@ export default class CupomDAO implements IDAO {
   }
   async consultarPedido(entidade: entidadeModel, id: Number): Promise<entidadeModel[]> {
 
-    let cupons = db.query("SELECT * from cupons WHERE id IN (SELECT fk_cupom FROM pagamentos WHERE id IN (SELECT fk_pagamento FROM pedidos WHERE id = $1))", [
+    let cupons = db.query("SELECT * from cupons WHERE cup_id IN (SELECT pgt_cup_id FROM pagamentos WHERE pgt_id IN (SELECT ped_pgt_id FROM pedidos WHERE ped_id = $1))", [
       id
     ])
     let result: any;
@@ -87,7 +87,7 @@ export default class CupomDAO implements IDAO {
   async alterarQtde(entidade: entidadeModel): Promise<entidadeModel> {
     const cupom = entidade as Cupom;
     await db.query(
-      "UPDATE cupons SET quant=(quant-1) WHERE id=$1",
+      "UPDATE cupons SET cup_quant=(cup_quant-1) WHERE cup_id=$1",
 
       [cupom.id]
     );

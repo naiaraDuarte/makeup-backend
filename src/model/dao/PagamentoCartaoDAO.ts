@@ -5,7 +5,7 @@ import PagamentoCartao from '../entidade/pagamentoCartao';
 
 export default class PagamentoCartaoDAO implements IDAO {
     async consultarPedido(entidade: EntidadeDominio, id: Number): Promise<EntidadeDominio[]> {
-        let pagamentoCartao = db.query("SELECT * from pagamento_cartoes WHERE id = $1",[id]);
+        let pagamentoCartao = db.query("SELECT * from pagamento_cartoes WHERE pcar_id = $1",[id]);
 
         let result : any;
         result = await pagamentoCartao.then((dados) => {
@@ -20,7 +20,7 @@ export default class PagamentoCartaoDAO implements IDAO {
         const pagamentoCartao = entidade as PagamentoCartao;
                     
         let idPagamentoCartao = await db.query(
-            "INSERT INTO pagamento_cartoes (fk_pagamentos, fk_cartoes) VALUES ($1, $2) RETURNING ID",
+            "INSERT INTO pagamento_cartoes (pcar_pgt_id, pcar_cart_id) VALUES ($1, $2) RETURNING pcar_id",
             [
                 pagamentoCartao.pagamento.id,
                 pagamentoCartao.cartao.id                

@@ -38,7 +38,7 @@ export default class PedidoDAO implements IDAO {
         });
         let data = new Date()
         let idPedido = await db.query(
-            "INSERT INTO pedidos (fk_cliente, fk_endereco, fk_pagamento, valor, frete, status, data_cadastro) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+            "INSERT INTO pedidos (ped_cli_id, ped_end_id, ped_pgt_id, ped_valor, ped_frete, ped_status, ped_data_cadastro) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING ped_id",
             [
                 pedido.cliente,
                 pedido.endereco,
@@ -65,13 +65,6 @@ export default class PedidoDAO implements IDAO {
             }
             produtoPedidoDao.salvar(produtoPedido as ProdutoPedido);
         });
-        // let cashback = {
-        //     id: pedido.pagamento.cashback.id,
-        //     valor: pedido.pagamento.cashback.valor
-        // }
-
-        // let cashbackDao = new CashbackDAO();
-        // let alterarQtde = cashbackDao.alterarQtde(cashback as Cashback);
 
         entidade.id = idPedido.rows[0].id;
 
@@ -82,16 +75,12 @@ export default class PedidoDAO implements IDAO {
     async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
         const pedido = entidade as Pedido;
         await db.query(
-            "UPDATE pedidos SET status=$1 WHERE id=$2",
+            "UPDATE pedidos SET ped_status=$1 WHERE ped_id=$2",
             [
                 pedido.status,
                 pedido.id
             ]
         );
-        // if (pedido.status == "TROCA SOLICITADA"){
-        //     let produtoPedidoDao = new ProdutoPedidoDAO();
-        //     let obs = await produtoPedidoDao.alterar(pedido as Pedido)
-        // }
 
         return entidade as Pedido;
     }
@@ -99,7 +88,7 @@ export default class PedidoDAO implements IDAO {
         throw new Error("Method not implemented.");
     }
     async consultar(): Promise<EntidadeDominio[]> {
-        let pedidos = db.query("SELECT* from pedidos ORDER BY id");
+        let pedidos = db.query("SELECT* from pedidos ORDER BY ped_id");
 
         let result: any;
         let fachada = new Fachada();
@@ -112,11 +101,11 @@ export default class PedidoDAO implements IDAO {
                 let cupom = Object.assign(new Cupom());
                 let cartao = Object.assign(new Cartao(), pedido.cartoes);
                 let produto = Object.assign(new Produto(), pedido.produtos);
-                pedido.cliente = await fachada.consultarPedido(cliente, pedido.fk_cliente);
-                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
-                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+                pedido.cliente = await fachada.consultarPedido(cliente, pedido.ped_cli_id);
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.ped_end_id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.ped_id);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.ped_id);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.ped_id)
                 return pedido as Pedido;
             }));
         });
@@ -125,7 +114,7 @@ export default class PedidoDAO implements IDAO {
 
     async consultarComId(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
         const cliente = entidade as Cliente;
-        let pedidos = db.query("SELECT * FROM pedidos WHERE fk_cliente = $1 ORDER BY id", [
+        let pedidos = db.query("SELECT * FROM pedidos WHERE ped_cli_id = $1 ORDER BY ped_id", [
             cliente.id,
         ]);
         let result: any;
@@ -138,13 +127,14 @@ export default class PedidoDAO implements IDAO {
                 let cupom = Object.assign(new Cupom());
                 let cartao = Object.assign(new Cartao(), pedido.cartoes);
                 let produto = Object.assign(new Produto(), pedido.produtos);
-                pedido.endereco = await fachada.consultarPedido(endereco, pedido.fk_endereco);
-                pedido.cupom = await fachada.consultarPedido(cupom, pedido.id);
-                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.id);
-                pedido.produtos = await fachada.consultarPedido(produto, pedido.id)
+                pedido.endereco = await fachada.consultarPedido(endereco, pedido.ped_end_id);
+                pedido.cupom = await fachada.consultarPedido(cupom, pedido.ped_id);
+                pedido.cartoes = await fachada.consultarPedido(cartao, pedido.ped_id);
+                pedido.produtos = await fachada.consultarPedido(produto, pedido.ped_id)
                 return pedido as Pedido;
             }));
         });
+
 
         return result
     }

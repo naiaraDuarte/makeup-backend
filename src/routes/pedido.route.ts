@@ -160,6 +160,7 @@ PedidoRouter.put("/troca/:id", async (req, res) => {
     produto: Object.assign(new Produto(), produto),
     observacao: req.body.produto.observacao
   };
+  console.log(pedidoProduto)
 
   let conversao = Object.assign(new ProdutoPedido(), pedidoProduto);
   let listaPedido: any = await fachada.alterar(conversao as ProdutoPedido);
