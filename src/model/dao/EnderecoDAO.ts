@@ -82,6 +82,7 @@ export default class EnderecoDAO implements IDAO {
         return cliente as Endereco;
       }));
     });
+    console.log(result)
 
     return result;
   }  

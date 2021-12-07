@@ -153,7 +153,8 @@ export default class ClienteDAO implements IDAO {
 
     let senhaBD = result[0].senha
     
-    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {      
+    if (await Encrypt.comparePassword(cliente.senha!, senhaBD)) {   
+      console.log("ksksk")   
       let enderecoDAO = new EnderecoDAO();
       let endereco = Object.assign(new Endereco());
       endereco.idCliente = result[0].id;
