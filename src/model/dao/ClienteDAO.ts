@@ -80,6 +80,7 @@ export default class ClienteDAO implements IDAO {
 
   async consultarComId(entidade: EntidadeDominio): Promise<Array<EntidadeDominio>> {
     const cliente = entidade as Cliente;
+    
     let mensagem = [];
     let clientes = db.query("SELECT * FROM CLIENTES WHERE cli_id = $1", [
       cliente.id,
@@ -91,6 +92,8 @@ export default class ClienteDAO implements IDAO {
         return cliente as Cliente;
       }));
     });
+
+    console.log("e", result);
     if (cliente.senha != null) {
       let senhaBD: string = result[0].senha;      
       if (!await Encrypt.comparePassword(cliente.senha, senhaBD)) {        

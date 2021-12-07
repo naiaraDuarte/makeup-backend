@@ -170,6 +170,7 @@ ClienteRouter.get("/:id", async (req, res) => {
   const cliente = {
     id: req.params.id,
   };
+  console.log("MERDAAAAAAAAAAAAAAAAAAAAAAA", cliente)
   let conversao = Object.assign(new Cliente(), cliente);
   let listaCliente: any = await fachada.consultarComId(conversao as Cliente);
 
